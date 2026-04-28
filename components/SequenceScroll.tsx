@@ -7,6 +7,8 @@ import MagneticButton from "./MagneticButton";
 
 const TOTAL_FRAMES = 240;
 const MOBILE_BREAKPOINT = 768;
+const MOBILE_IMAGE_SCALE = 0.58;
+const MOBILE_IMAGE_MIN_WIDTH = 0.9;
 const FRAME_PATH = (i: number) =>
   `/sequence/ezgif-frame-${String(i + 1).padStart(3, "0")}.jpg`;
 
@@ -166,18 +168,32 @@ export default function SequenceScroll() {
 
         let drawWidth;
         let drawHeight;
+        let offsetX;
+        let offsetY;
 
-        if (canvasRatio > imgRatio) {
+        if (isMobile) {
+          drawHeight = canvasHeight * MOBILE_IMAGE_SCALE;
+          drawWidth = drawHeight * imgRatio;
+
+          const minWidth = canvasWidth * MOBILE_IMAGE_MIN_WIDTH;
+          if (drawWidth < minWidth) {
+            drawWidth = minWidth;
+            drawHeight = drawWidth / imgRatio;
+          }
+
+          offsetX = (canvasWidth - drawWidth) / 2;
+          offsetY = (canvasHeight - drawHeight) * 0.52;
+        } else if (canvasRatio > imgRatio) {
           drawWidth = canvasWidth;
           drawHeight = canvasWidth / imgRatio;
+          offsetX = 0;
+          offsetY = (canvasHeight - drawHeight) * 0.5;
         } else {
           drawHeight = canvasHeight;
           drawWidth = canvasHeight * imgRatio;
+          offsetX = (canvasWidth - drawWidth) * 0.5;
+          offsetY = 0;
         }
-
-        const focalX = isMobile ? 0.42 : 0.5;
-        const offsetX = (canvasWidth - drawWidth) * focalX;
-        const offsetY = (canvasHeight - drawHeight) * 0.5;
 
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
         ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
