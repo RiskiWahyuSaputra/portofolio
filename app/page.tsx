@@ -17,7 +17,7 @@ export default function Home() {
       <SequenceScroll />
 
       {/* Content sections overlap the hero */}
-      <div className="-mt-[100vh] relative z-10 bg-[#050505]">
+      <div className="-mt-[100svh] relative z-10 bg-[#050505]">
         <About />
         <Skills />
         <Projects />

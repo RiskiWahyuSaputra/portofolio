@@ -1,11 +1,12 @@
 "use client";
 
-import { useRef, useEffect, useState, useCallback } from "react";
+import { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import Preloader from "./Preloader";
 import MagneticButton from "./MagneticButton";
 
 const TOTAL_FRAMES = 240;
+const MOBILE_BREAKPOINT = 768;
 const FRAME_PATH = (i: number) =>
   `/sequence/ezgif-frame-${String(i + 1).padStart(3, "0")}.jpg`;
 
@@ -59,6 +60,7 @@ export default function SequenceScroll() {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imagesRef = useRef<HTMLImageElement[]>([]);
+  const canvasSizeRef = useRef({ width: 0, height: 0, isMobile: false });
   const [progress, setProgress] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
   const frameRef = useRef({ current: 0, target: 0 });
@@ -104,55 +106,6 @@ export default function SequenceScroll() {
     };
   }, []);
 
-  // Canvas rendering loop
-  const renderFrame = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas || imagesRef.current.length === 0) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const { current, target } = frameRef.current;
-    const diff = target - current;
-
-    if (Math.abs(diff) > 0.05) {
-      frameRef.current.current = current + diff * 0.15;
-    } else {
-      frameRef.current.current = target;
-    }
-
-    const frameIndex = Math.min(
-      TOTAL_FRAMES - 1,
-      Math.max(0, Math.floor(frameRef.current.current)),
-    );
-    const img = imagesRef.current[frameIndex];
-
-    if (img && img.complete && img.naturalWidth > 0) {
-      const canvasWidth = canvas.width;
-      const canvasHeight = canvas.height;
-      const imgRatio = img.naturalWidth / img.naturalHeight;
-      const canvasRatio = canvasWidth / canvasHeight;
-
-      let drawWidth, drawHeight, offsetX, offsetY;
-
-      if (canvasRatio > imgRatio) {
-        drawWidth = canvasWidth;
-        drawHeight = canvasWidth / imgRatio;
-        offsetX = 0;
-        offsetY = (canvasHeight - drawHeight) / 2;
-      } else {
-        drawHeight = canvasHeight;
-        drawWidth = canvasHeight * imgRatio;
-        offsetX = (canvasWidth - drawWidth) / 2;
-        offsetY = 0;
-      }
-
-      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-      ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
-    }
-
-    rafRef.current = requestAnimationFrame(renderFrame);
-  }, []);
-
   useEffect(() => {
     if (!isLoaded) return;
 
@@ -160,13 +113,77 @@ export default function SequenceScroll() {
     if (!canvas) return;
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio, 2);
-      canvas.width = window.innerWidth * dpr;
-      canvas.height = window.innerHeight * dpr;
-      canvas.style.width = `${window.innerWidth}px`;
-      canvas.style.height = `${window.innerHeight}px`;
+      const rect = canvas.getBoundingClientRect();
+      const width = Math.max(1, Math.round(rect.width));
+      const height = Math.max(1, Math.round(rect.height));
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+
       const ctx = canvas.getContext("2d");
-      if (ctx) ctx.scale(dpr, dpr);
+      if (ctx) {
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      canvasSizeRef.current = {
+        width,
+        height,
+        isMobile: window.innerWidth < MOBILE_BREAKPOINT,
+      };
+    };
+
+    const renderFrame = () => {
+      const ctx = canvas.getContext("2d");
+      if (!ctx || imagesRef.current.length === 0) return;
+
+      const { current, target } = frameRef.current;
+      const diff = target - current;
+
+      if (Math.abs(diff) > 0.05) {
+        frameRef.current.current = current + diff * 0.15;
+      } else {
+        frameRef.current.current = target;
+      }
+
+      const frameIndex = Math.min(
+        TOTAL_FRAMES - 1,
+        Math.max(0, Math.floor(frameRef.current.current)),
+      );
+      const img = imagesRef.current[frameIndex];
+      const { width: canvasWidth, height: canvasHeight, isMobile } =
+        canvasSizeRef.current;
+
+      if (
+        img &&
+        img.complete &&
+        img.naturalWidth > 0 &&
+        canvasWidth &&
+        canvasHeight
+      ) {
+        const imgRatio = img.naturalWidth / img.naturalHeight;
+        const canvasRatio = canvasWidth / canvasHeight;
+
+        let drawWidth;
+        let drawHeight;
+
+        if (canvasRatio > imgRatio) {
+          drawWidth = canvasWidth;
+          drawHeight = canvasWidth / imgRatio;
+        } else {
+          drawHeight = canvasHeight;
+          drawWidth = canvasHeight * imgRatio;
+        }
+
+        const focalX = isMobile ? 0.42 : 0.5;
+        const offsetX = (canvasWidth - drawWidth) * focalX;
+        const offsetY = (canvasHeight - drawHeight) * 0.5;
+
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+        ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+      }
+
+      rafRef.current = requestAnimationFrame(renderFrame);
     };
 
     resize();
@@ -177,7 +194,7 @@ export default function SequenceScroll() {
       window.removeEventListener("resize", resize);
       cancelAnimationFrame(rafRef.current);
     };
-  }, [isLoaded, renderFrame]);
+  }, [isLoaded]);
 
   // Sync scroll progress to frame target
   useEffect(() => {
@@ -191,8 +208,8 @@ export default function SequenceScroll() {
     <>
       <Preloader progress={progress} isComplete={isLoaded} />
 
-      <div ref={containerRef} className="relative h-[400vh]">
-        <div className="sticky top-0 h-screen w-full overflow-hidden">
+      <div ref={containerRef} className="relative h-[400svh]">
+        <div className="sticky top-0 h-[100svh] w-full overflow-hidden">
           <canvas
             ref={canvasRef}
             className="absolute inset-0 w-full h-full sequence-canvas"
