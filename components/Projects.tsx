@@ -24,7 +24,7 @@ const projects = [
     title: "School Management System",
     description:
       "Comprehensive school management solution handling student enrollment, attendance tracking, academic records, and a dedicated parent portal.",
-    tech: ["CodeIgniter", "PHP", "MySQL"],
+    tech: ["CodeIgniter", "PHP", "MySQL", "Bootstrap"],
     features: [
       "Student system",
       "Attendance",
