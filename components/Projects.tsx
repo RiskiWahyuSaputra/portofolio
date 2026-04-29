@@ -45,6 +45,49 @@ const projects = [
       "REST API",
     ],
   },
+  {
+    number: "04",
+    title: "Practicum Payment Application",
+    description:
+      "Development of a substitute practicum payment application using QRIS for the Information Technology Department of Lampung State Polytechnic.",
+    tech: ["CodeIgniter", "PHP", "MySQL", "Bootstrap"],
+    features: [
+      "QRIS payment flow",
+      "Practicum billing",
+      "Payment verification",
+      "Admin management",
+    ],
+  },
+  {
+    number: "05",
+    title: "Customer Support Chat System",
+    description:
+      "Implementation of a customer support chat system with queue management, AI chatbot automation, real-time live chat, analytics dashboard, and WhatsApp integration.",
+    tech: [
+      "Laravel 12",
+      "PHP 8.2",
+      "Blade",
+      "Tailwind CSS 4",
+      "JavaScript",
+      "Alpine.js",
+      "Chart.js",
+      "Laravel Reverb",
+      "Laravel Echo",
+      "Pusher JS",
+      "MySQL",
+      "Gemini API",
+      "Groq API",
+      "OpenClaw",
+      "Webhook API",
+    ],
+    features: [
+      "Queue management",
+      "AI chatbot",
+      "WhatsApp integration",
+      "Realtime live chat",
+      "Analytics dashboard",
+    ],
+  },
 ];
 
 export default function Projects() {
@@ -65,7 +108,7 @@ export default function Projects() {
           className="mb-20"
         >
           <span className="text-sm font-mono text-white/40 tracking-widest uppercase">
-            03 / Projects
+            05 / Projects
           </span>
           <h2 className="mt-4 text-3xl md:text-5xl font-semibold text-white">
             Featured Work
