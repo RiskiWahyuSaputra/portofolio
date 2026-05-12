@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import About from "@/components/About";
 import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
+import Certificates from "@/components/Certificates";
 import Stats from "@/components/Stats";
 import Testimonials from "@/components/Testimonials";
 import CTA from "@/components/CTA";
@@ -21,6 +22,7 @@ export default function Home() {
         <About />
         <Skills />
         <Projects />
+        <Certificates />
         <Stats />
         <Testimonials />
         <CTA />

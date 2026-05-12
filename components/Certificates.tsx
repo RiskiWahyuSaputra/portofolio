@@ -1,0 +1,269 @@
+"use client";
+
+import { useRef, useState } from "react";
+import Image from "next/image";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import { X, Award } from "lucide-react";
+
+type Certificate = {
+  id: string;
+  title: string;
+  issuer: string;
+  date: string;
+  image: string;
+  credentialUrl?: string;
+};
+
+const certificates: Certificate[] = [
+  {
+    id: "01",
+    title: "Programming Fundamental - Nasional (Digital Talent Academy)",
+    issuer: "Digital Talent Scholarship",
+    date: "2026",
+    image: "/certificates/cert-01.png",
+    credentialUrl: "#",
+  },
+  {
+    id: "02",
+    title: "Front-End & Back-End Development (Digital Talent Academy)",
+    issuer: "Digital Talent Scholarship",
+    date: "2026",
+    image: "/certificates/cert-02.png",
+    credentialUrl: "#",
+  },
+  {
+    id: "03",
+    title: "Full Stack Developer (Digital Talent Academy)",
+    issuer: "Digital Talent Scholarship",
+    date: "2026",
+    image: "/certificates/cert-03.png",
+    credentialUrl: "#",
+  },
+  {
+    id: "04",
+    title: "Belajar Membuat Front-End Web untuk Pemula",
+    issuer: "Dicoding Indonesia",
+    date: "2026",
+    image: "/certificates/cert-04.png",
+    credentialUrl: "https://www.dicoding.com/certificates/6RPN7Y388X2M",
+  },
+  {
+    id: "05",
+    title: "Belajar Membuat Aplikasi Web dengan React",
+    issuer: "Dicoding Indonesia",
+    date: "2026",
+    image: "/certificates/cert-05.png",
+    credentialUrl: "https://www.dicoding.com/certificates/L4PQ95R22PO1",
+  },
+  {
+    id: "06",
+    title: "Belajar Dasar AI",
+    issuer: "Dicoding Indonesia",
+    date: "2026",
+    image: "/certificates/cert-06.png",
+    credentialUrl: "https://www.dicoding.com/certificates/81P25VEVYPOY",
+  },
+  {
+    id: "07",
+    title: "Code Generation and Optimization Using IBM Granite",
+    issuer: "IBM",
+    date: "2025",
+    image: "/certificates/cert-07.png",
+    credentialUrl:
+      "https://www.credly.com/earner/earned/badge/99cc880c-b787-4a31-af12-89b68ad83da4",
+  },
+];
+
+const PER_PAGE = 6;
+
+function CertModal({
+  cert,
+  onClose,
+}: {
+  cert: Certificate;
+  onClose: () => void;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8"
+      onClick={onClose}
+    >
+      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 20 }}
+        transition={{ duration: 0.3, ease: [0.33, 1, 0.68, 1] }}
+        className="relative w-full max-w-2xl rounded-2xl bg-[#111] border border-white/10 overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          onClick={onClose}
+          aria-label="Close"
+          className="absolute top-4 right-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white/70 hover:bg-white/20 hover:text-white transition-colors"
+        >
+          <X size={16} />
+        </button>
+
+        <div className="relative w-full aspect-[800/560] overflow-hidden">
+          <Image
+            src={cert.image}
+            alt={cert.title}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 672px"
+          />
+        </div>
+
+        <div className="p-6 flex items-start justify-between gap-4">
+          <div>
+            <h3 className="text-xl font-semibold text-white">{cert.title}</h3>
+            <p className="mt-1 text-sm text-white/40">
+              {cert.issuer} · {cert.date}
+            </p>
+          </div>
+          {cert.credentialUrl && cert.credentialUrl !== "#" && (
+            <a
+              href={cert.credentialUrl}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="flex-shrink-0 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-medium uppercase tracking-widest text-white/70 hover:border-white/20 hover:bg-white/10 hover:text-white transition-all"
+            >
+              Verify
+            </a>
+          )}
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+export default function Certificates() {
+  const ref = useRef<HTMLElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
+  const [selected, setSelected] = useState<Certificate | null>(null);
+  const [page, setPage] = useState(0);
+
+  const totalPages = Math.ceil(certificates.length / PER_PAGE);
+  const paginated = certificates.slice(
+    page * PER_PAGE,
+    page * PER_PAGE + PER_PAGE,
+  );
+
+  return (
+    <section
+      ref={ref}
+      id="certificates"
+      className="relative py-32 md:py-48 px-6 md:px-12 lg:px-24 bg-[#050505]"
+    >
+      <div className="max-w-6xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
+          className="mb-20"
+        >
+          <span className="text-sm font-mono text-white/40 tracking-widest uppercase">
+            07 / Certificates
+          </span>
+          <h2 className="mt-4 text-3xl md:text-5xl font-semibold text-white">
+            Certifications
+          </h2>
+        </motion.div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {paginated.map((cert, index) => (
+            <motion.article
+              key={cert.id}
+              initial={{ opacity: 0, y: 40 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{
+                duration: 0.7,
+                delay: index * 0.1,
+                ease: [0.33, 1, 0.68, 1],
+              }}
+              className="group cursor-pointer rounded-2xl overflow-hidden bg-[#111] border border-white/5 hover:border-white/15 transition-all duration-300"
+              onClick={() => setSelected(cert)}
+            >
+              {/* Image */}
+              <div className="relative w-full aspect-[800/560] overflow-hidden">
+                <Image
+                  src={cert.image}
+                  alt={cert.title}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                />
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <span className="text-xs font-mono text-white/80 uppercase tracking-widest border border-white/30 rounded-full px-4 py-2">
+                    View Certificate
+                  </span>
+                </div>
+              </div>
+
+              {/* Card body */}
+              <div className="p-5 flex items-center gap-3">
+                <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-white/5 border border-white/10">
+                  <Award size={14} className="text-white/40" />
+                </div>
+                <div className="min-w-0">
+                  <h3 className="text-sm font-semibold text-white group-hover:text-white/80 transition-colors truncate">
+                    {cert.title}
+                  </h3>
+                  <p className="text-xs text-white/40 mt-0.5">
+                    {cert.issuer} · {cert.date}
+                  </p>
+                </div>
+              </div>
+            </motion.article>
+          ))}
+        </div>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="mt-12 flex items-center justify-center gap-3">
+            <button
+              onClick={() => setPage((p) => Math.max(0, p - 1))}
+              disabled={page === 0}
+              aria-label="Previous page"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-white/50 hover:border-white/20 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+            >
+              ←
+            </button>
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i}
+                onClick={() => setPage(i)}
+                aria-label={`Page ${i + 1}`}
+                className={`flex h-9 w-9 items-center justify-center rounded-full border text-xs font-mono transition-all ${
+                  page === i
+                    ? "border-white/30 bg-white/10 text-white"
+                    : "border-white/10 text-white/40 hover:border-white/20 hover:text-white/70"
+                }`}
+              >
+                {i + 1}
+              </button>
+            ))}
+            <button
+              onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+              disabled={page === totalPages - 1}
+              aria-label="Next page"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-white/50 hover:border-white/20 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+            >
+              →
+            </button>
+          </div>
+        )}
+      </div>
+
+      <AnimatePresence>
+        {selected && (
+          <CertModal cert={selected} onClose={() => setSelected(null)} />
+        )}
+      </AnimatePresence>
+    </section>
+  );
+}
