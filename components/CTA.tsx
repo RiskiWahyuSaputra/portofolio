@@ -4,10 +4,30 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import MagneticButton from "./MagneticButton";
 import { ArrowUpRight } from "lucide-react";
+import { useLang } from "./LangContext";
+
+const t = {
+  EN: {
+    label: "Get In Touch",
+    heading: "Let's work\ntogether",
+    sub: "I'm open for opportunities & freelance projects",
+    cta: "Contact Me",
+    github: "View GitHub",
+  },
+  ID: {
+    label: "Hubungi Saya",
+    heading: "Mari bekerja\nbersama",
+    sub: "Saya terbuka untuk peluang kerja & proyek freelance",
+    cta: "Hubungi Saya",
+    github: "Lihat GitHub",
+  },
+};
 
 export default function CTA() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
+  const { lang } = useLang();
+  const tx = t[lang];
 
   return (
     <section
@@ -22,7 +42,7 @@ export default function CTA() {
           transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
         >
           <span className="text-sm font-mono text-white/40 tracking-widest uppercase">
-            Get In Touch
+            {tx.label}
           </span>
         </motion.div>
 
@@ -30,11 +50,9 @@ export default function CTA() {
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.33, 1, 0.68, 1] }}
-          className="mt-6 text-4xl md:text-6xl lg:text-7xl font-semibold text-white leading-tight"
+          className="mt-6 text-4xl md:text-6xl lg:text-7xl font-semibold text-white leading-tight whitespace-pre-line"
         >
-          Let's work
-          <br />
-          together
+          {tx.heading}
         </motion.h2>
 
         <motion.p
@@ -43,7 +61,7 @@ export default function CTA() {
           transition={{ duration: 0.8, delay: 0.2, ease: [0.33, 1, 0.68, 1] }}
           className="mt-6 text-lg md:text-xl text-white/50 font-light"
         >
-          I'm open for opportunities & freelance projects
+          {tx.sub}
         </motion.p>
 
         <motion.div
@@ -54,11 +72,9 @@ export default function CTA() {
         >
           <MagneticButton
             className="px-8 py-4 bg-white text-black rounded-full text-sm font-medium tracking-wide hover:bg-white/90 transition-colors flex items-center gap-2"
-            onClick={() => {
-              window.location.href = "mailto:kiik37734@gmail.com";
-            }}
+            onClick={() => { window.location.href = "mailto:kiik37734@gmail.com"; }}
           >
-            Contact Me
+            {tx.cta}
             <ArrowUpRight size={16} />
           </MagneticButton>
 
@@ -68,7 +84,7 @@ export default function CTA() {
             rel="noopener noreferrer"
             className="px-8 py-4 border border-white/20 text-white rounded-full text-sm font-medium tracking-wide hover:bg-white/5 transition-colors"
           >
-            View GitHub
+            {tx.github}
           </a>
         </motion.div>
 

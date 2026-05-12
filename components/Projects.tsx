@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, X } from "lucide-react";
+import { useLang } from "./LangContext";
 
 type Project = {
   number: string;
@@ -149,9 +150,11 @@ const projects: Project[] = [
 function ProjectModal({
   project,
   onClose,
+  labels,
 }: {
   project: Project;
   onClose: () => void;
+  labels: { demo: string; techStack: string; keyFeatures: string };
 }) {
   return (
     <motion.div
@@ -214,7 +217,7 @@ function ProjectModal({
               }
               className="flex-shrink-0 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-medium uppercase tracking-widest text-white/70 hover:border-white/20 hover:bg-white/10 hover:text-white transition-all"
             >
-              Demo
+              {labels.demo}
               <ArrowUpRight size={12} />
             </a>
           </div>
@@ -226,7 +229,7 @@ function ProjectModal({
           {/* Tech stack */}
           <div className="mt-6">
             <h4 className="text-xs font-mono text-white/30 uppercase tracking-widest mb-3">
-              Tech Stack
+              {labels.techStack}
             </h4>
             <div className="flex flex-wrap gap-2">
               {project.tech.map((t) => (
@@ -243,7 +246,7 @@ function ProjectModal({
           {/* Features */}
           <div className="mt-6">
             <h4 className="text-xs font-mono text-white/30 uppercase tracking-widest mb-3">
-              Key Features
+              {labels.keyFeatures}
             </h4>
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {project.features.map((feature) => (
@@ -273,6 +276,13 @@ export default function Projects() {
   const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
   const [selected, setSelected] = useState<Project | null>(null);
   const [page, setPage] = useState(0);
+  const { lang } = useLang();
+
+  const labels = {
+    EN: { section: "06 / Projects", heading: "Featured Work", viewDetails: "View Details", demo: "Demo", techStack: "Tech Stack", keyFeatures: "Key Features" },
+    ID: { section: "06 / Proyek", heading: "Karya Unggulan", viewDetails: "Lihat Detail", demo: "Demo", techStack: "Teknologi", keyFeatures: "Fitur Utama" },
+  };
+  const lx = labels[lang];
 
   const totalPages = Math.ceil(projects.length / PER_PAGE);
   const paginated = projects.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE);
@@ -291,10 +301,10 @@ export default function Projects() {
           className="mb-20"
         >
           <span className="text-sm font-mono text-white/40 tracking-widest uppercase">
-            06 / Projects
+            {lx.section}
           </span>
           <h2 className="mt-4 text-3xl md:text-5xl font-semibold text-white">
-            Featured Work
+            {lx.heading}
           </h2>
         </motion.div>
 
@@ -325,7 +335,7 @@ export default function Projects() {
                 {/* Overlay on hover */}
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                   <span className="text-xs font-mono text-white/80 uppercase tracking-widest border border-white/30 rounded-full px-4 py-2">
-                    View Details
+                    {lx.viewDetails}
                   </span>
                 </div>
               </div>
@@ -414,7 +424,7 @@ export default function Projects() {
       {/* Modal */}
       <AnimatePresence>
         {selected && (
-          <ProjectModal project={selected} onClose={() => setSelected(null)} />
+          <ProjectModal project={selected} onClose={() => setSelected(null)} labels={lx} />
         )}
       </AnimatePresence>
     </section>

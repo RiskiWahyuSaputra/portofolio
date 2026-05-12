@@ -3,10 +3,26 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import TextReveal from "./TextReveal";
+import { useLang } from "./LangContext";
+
+const t = {
+  EN: {
+    label: "01 / About",
+    heading: "Who I Am",
+    bio: "Riski Wahyu Saputra is a Web Developer graduate from Politeknik Negeri Lampung, specializing in modern web application development. With experience at BEST CORPORATION SYARIAH, he builds scalable and efficient systems using modern technologies.",
+  },
+  ID: {
+    label: "01 / Tentang",
+    heading: "Tentang Saya",
+    bio: "Riski Wahyu Saputra adalah seorang Web Developer lulusan Politeknik Negeri Lampung, yang berspesialisasi dalam pengembangan aplikasi web modern. Dengan pengalaman di BEST CORPORATION SYARIAH, ia membangun sistem yang skalabel dan efisien menggunakan teknologi terkini.",
+  },
+};
 
 export default function About() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-15% 0px" });
+  const { lang } = useLang();
+  const tx = t[lang];
 
   return (
     <section
@@ -22,7 +38,7 @@ export default function About() {
           className="mb-16"
         >
           <span className="text-sm font-mono text-white/40 tracking-widest uppercase">
-            01 / About
+            {tx.label}
           </span>
         </motion.div>
 
@@ -34,17 +50,13 @@ export default function About() {
               transition={{ duration: 0.8, delay: 0.1 }}
               className="text-3xl md:text-4xl font-semibold text-white leading-tight"
             >
-              Who I Am
+              {tx.heading}
             </motion.h2>
           </div>
 
           <div className="lg:col-span-8">
             <div className="text-xl md:text-2xl lg:text-3xl font-light text-white/80 leading-relaxed">
-              <TextReveal
-                text="Riski Wahyu Saputra is a Web Developer graduate from Politeknik Negeri Lampung, specializing in modern web application development. With experience at BEST CORPORATION SYARIAH, he builds scalable and efficient systems using modern technologies."
-                delay={0.2}
-                stagger={0.015}
-              />
+              <TextReveal text={tx.bio} delay={0.2} stagger={0.015} />
             </div>
 
             <motion.div

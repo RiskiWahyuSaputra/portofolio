@@ -15,6 +15,7 @@ export const metadata: Metadata = {
 };
 
 import SmoothScroll from "@/components/SmoothScroll";
+import { LangProvider } from "@/components/LangContext";
 
 export default function RootLayout({
   children,
@@ -24,7 +25,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${outfit.variable} antialiased`}>
       <body className="min-h-full bg-[#050505] text-[#f5f5f5] font-sans">
-        <SmoothScroll>{children}</SmoothScroll>
+        <LangProvider>
+          <SmoothScroll>{children}</SmoothScroll>
+        </LangProvider>
       </body>
     </html>
   );

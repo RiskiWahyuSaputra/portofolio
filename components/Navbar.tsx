@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, Menu, X } from "lucide-react";
+import { useLang } from "./LangContext";
 
 const GithubIcon = ({ size = 18 }: { size?: number }) => (
   <svg
@@ -61,6 +62,7 @@ const socialLinks = [
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { lang, toggle } = useLang();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -111,18 +113,30 @@ export default function Navbar() {
             Riski Wahyu Saputra<span className="text-white/60">.</span>
           </a>
 
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="relative z-[60] flex items-center gap-3 text-white/90 hover:text-white transition-colors"
-            aria-label="Toggle menu"
-          >
-            <span className="text-sm font-medium tracking-widest uppercase hidden md:block">
-              {isOpen ? "Close" : "Menu"}
-            </span>
-            <div className="w-10 h-10 flex items-center justify-center">
-              {isOpen ? <X size={20} /> : <Menu size={20} />}
-            </div>
-          </button>
+          <div className="flex items-center gap-3">
+            {/* Language toggle */}
+            <button
+              onClick={toggle}
+              className="flex items-center gap-0.5 rounded-full border border-white/10 bg-white/5 p-0.5 text-xs font-mono"
+              aria-label="Toggle language"
+            >
+              <span className={`px-2.5 py-1 rounded-full transition-all ${lang === "EN" ? "bg-white text-black" : "text-white/40"}`}>EN</span>
+              <span className={`px-2.5 py-1 rounded-full transition-all ${lang === "ID" ? "bg-white text-black" : "text-white/40"}`}>ID</span>
+            </button>
+
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="relative z-[60] flex items-center gap-3 text-white/90 hover:text-white transition-colors"
+              aria-label="Toggle menu"
+            >
+              <span className="text-sm font-medium tracking-widest uppercase hidden md:block">
+                {isOpen ? "Close" : "Menu"}
+              </span>
+              <div className="w-10 h-10 flex items-center justify-center">
+                {isOpen ? <X size={20} /> : <Menu size={20} />}
+              </div>
+            </button>
+          </div>
         </div>
       </motion.nav>
 

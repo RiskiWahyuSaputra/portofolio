@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { X, Award } from "lucide-react";
+import { useLang } from "./LangContext";
 
 type Certificate = {
   id: string;
@@ -79,9 +80,11 @@ const PER_PAGE = 6;
 function CertModal({
   cert,
   onClose,
+  verifyLabel,
 }: {
   cert: Certificate;
   onClose: () => void;
+  verifyLabel: string;
 }) {
   return (
     <motion.div
@@ -132,7 +135,7 @@ function CertModal({
               rel="noreferrer noopener"
               className="flex-shrink-0 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-medium uppercase tracking-widest text-white/70 hover:border-white/20 hover:bg-white/10 hover:text-white transition-all"
             >
-              Verify
+              {verifyLabel}
             </a>
           )}
         </div>
@@ -146,6 +149,12 @@ export default function Certificates() {
   const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
   const [selected, setSelected] = useState<Certificate | null>(null);
   const [page, setPage] = useState(0);
+  const { lang } = useLang();
+
+  const lx = {
+    EN: { section: "07 / Certificates", heading: "Certifications", viewCert: "View Certificate", verify: "Verify" },
+    ID: { section: "07 / Sertifikat", heading: "Sertifikasi", viewCert: "Lihat Sertifikat", verify: "Verifikasi" },
+  }[lang];
 
   const totalPages = Math.ceil(certificates.length / PER_PAGE);
   const paginated = certificates.slice(
@@ -167,10 +176,10 @@ export default function Certificates() {
           className="mb-20"
         >
           <span className="text-sm font-mono text-white/40 tracking-widest uppercase">
-            07 / Certificates
+            {lx.section}
           </span>
           <h2 className="mt-4 text-3xl md:text-5xl font-semibold text-white">
-            Certifications
+            {lx.heading}
           </h2>
         </motion.div>
 
@@ -199,7 +208,7 @@ export default function Certificates() {
                 />
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                   <span className="text-xs font-mono text-white/80 uppercase tracking-widest border border-white/30 rounded-full px-4 py-2">
-                    View Certificate
+                    {lx.viewCert}
                   </span>
                 </div>
               </div>
@@ -261,7 +270,7 @@ export default function Certificates() {
 
       <AnimatePresence>
         {selected && (
-          <CertModal cert={selected} onClose={() => setSelected(null)} />
+          <CertModal cert={selected} onClose={() => setSelected(null)} verifyLabel={lx.verify} />
         )}
       </AnimatePresence>
     </section>

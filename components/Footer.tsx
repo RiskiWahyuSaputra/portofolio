@@ -1,9 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useLang } from "./LangContext";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const { lang } = useLang();
 
   return (
     <footer className="relative py-12 px-6 md:px-12 lg:px-24 bg-[#050505] border-t border-white/5">
@@ -17,7 +19,9 @@ export default function Footer() {
         >
           <span className="text-lg font-semibold text-white">Riski.</span>
           <span className="text-white/30 hidden md:inline">|</span>
-          <span className="text-sm text-white/40">Web Developer</span>
+          <span className="text-sm text-white/40">
+            {lang === "EN" ? "Web Developer" : "Pengembang Web"}
+          </span>
         </motion.div>
 
         <motion.div
@@ -27,28 +31,9 @@ export default function Footer() {
           viewport={{ once: true }}
           className="flex items-center gap-6"
         >
-          <a
-            href="https://github.com/RiskiWahyuSaputra"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm text-white/40 hover:text-white transition-colors"
-          >
-            GitHub
-          </a>
-          <a
-            href="https://www.linkedin.com/in/riski-wahyu-saputra-6a9078294/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm text-white/40 hover:text-white transition-colors"
-          >
-            LinkedIn
-          </a>
-          <a
-            href="mailto:kiik37734@gmail.com"
-            className="text-sm text-white/40 hover:text-white transition-colors"
-          >
-            Email
-          </a>
+          <a href="https://github.com/RiskiWahyuSaputra" target="_blank" rel="noopener noreferrer" className="text-sm text-white/40 hover:text-white transition-colors">GitHub</a>
+          <a href="https://www.linkedin.com/in/riski-wahyu-saputra-6a9078294/" target="_blank" rel="noopener noreferrer" className="text-sm text-white/40 hover:text-white transition-colors">LinkedIn</a>
+          <a href="mailto:kiik37734@gmail.com" className="text-sm text-white/40 hover:text-white transition-colors">Email</a>
         </motion.div>
 
         <motion.p
