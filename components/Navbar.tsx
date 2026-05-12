@@ -108,7 +108,7 @@ export default function Navbar() {
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
           >
-            Riski<span className="text-white/60">.</span>
+            Riski Wahyu Saputra<span className="text-white/60">.</span>
           </a>
 
           <button

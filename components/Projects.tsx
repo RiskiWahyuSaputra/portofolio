@@ -1,13 +1,26 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { useRef, useState } from "react";
+import Image from "next/image";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import { ArrowUpRight, X } from "lucide-react";
 
-const projects = [
+type Project = {
+  number: string;
+  title: string;
+  image: string;
+  demoUrl: string;
+  description: string;
+  tech: string[];
+  features: string[];
+};
+
+const projects: Project[] = [
   {
     number: "01",
     title: "StockFlow Commerce",
+    image: "/projects/project-01.png",
+    demoUrl: "#",
     description:
       "A full-featured E-Commerce platform with product catalog, shopping cart, Midtrans payment integration, admin dashboard, and real-time inventory tracking.",
     tech: ["Laravel", "MySQL", "Tailwind"],
@@ -22,6 +35,8 @@ const projects = [
   {
     number: "02",
     title: "School Management System",
+    image: "/projects/project-02.png",
+    demoUrl: "#",
     description:
       "Comprehensive school management solution handling student enrollment, attendance tracking, academic records, and a dedicated parent portal.",
     tech: ["CodeIgniter", "PHP", "MySQL", "Bootstrap"],
@@ -34,20 +49,36 @@ const projects = [
   },
   {
     number: "03",
-    title: "Inventory Management App",
+    title: "Smart Resource Optimizer",
+    image: "/projects/project-07.png",
+    demoUrl: "#",
     description:
-      "Modern inventory management with barcode scanning, multi-warehouse support, automated stock alerts, and a REST API for integrations.",
-    tech: ["Laravel", "JWT", "MySQL"],
+      "A web-based platform that connects restaurants/businesses with surplus food to communities in need. This application facilitates efficient food sharing through a real-time claim and verification system.",
+    tech: [
+      "Laravel 11",
+      "Laravel Reverb",
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "MySQL",
+      "React leaflet",
+      "Vite",
+    ],
     features: [
-      "Barcode scanning",
-      "Multi warehouse",
-      "Stock alerts",
-      "REST API",
+      "Manajemen user",
+      "Food posting",
+      "Food claiming",
+      "Real-time updates",
+      "Geolocation",
+      "Admin dashboard",
     ],
   },
   {
     number: "04",
-    title: "Practicum Payment Application",
+    title: "replacement practicum payment based on QRIS (POLINELA)",
+    image: "/projects/project-04.png",
+    demoUrl: "#",
     description:
       "Development of a substitute practicum payment application using QRIS for the Information Technology Department of Lampung State Polytechnic.",
     tech: ["CodeIgniter", "PHP", "MySQL", "Bootstrap"],
@@ -61,24 +92,18 @@ const projects = [
   {
     number: "05",
     title: "Customer Support Chat System",
+    image: "/projects/project-05.svg",
+    demoUrl: "#",
     description:
       "Implementation of a customer support chat system with queue management, AI chatbot automation, real-time live chat, analytics dashboard, and WhatsApp integration.",
     tech: [
       "Laravel 12",
       "PHP 8.2",
-      "Blade",
       "Tailwind CSS 4",
-      "JavaScript",
       "Alpine.js",
-      "Chart.js",
       "Laravel Reverb",
-      "Laravel Echo",
-      "Pusher JS",
       "MySQL",
       "Gemini API",
-      "Groq API",
-      "OpenClaw",
-      "Webhook API",
     ],
     features: [
       "Queue management",
@@ -88,11 +113,169 @@ const projects = [
       "Analytics dashboard",
     ],
   },
+  {
+    number: "06",
+    title: "Faste Coffee Shop Landing Page",
+    image: "/projects/project-06.png",
+    demoUrl: "#",
+    description:
+      "A modern landing page for Faste Coffee Shop focused on brand storytelling, smooth scrolling interactions, and a polished mobile-first browsing experience.",
+    tech: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Lenis"],
+    features: [
+      "Brand storytelling",
+      "Smooth scrolling",
+      "Responsive layout",
+      "Interactive sections",
+    ],
+  },
+
+  {
+    number: "07",
+    title: "Inventory Management App",
+    image: "/projects/project-03.svg",
+    demoUrl: "#",
+    description:
+      "Modern inventory management with barcode scanning, multi-warehouse support, automated stock alerts, and a REST API for integrations.",
+    tech: ["Laravel", "JWT", "MySQL"],
+    features: [
+      "Barcode scanning",
+      "Multi warehouse",
+      "Stock alerts",
+      "REST API",
+    ],
+  },
 ];
+
+function ProjectModal({
+  project,
+  onClose,
+}: {
+  project: Project;
+  onClose: () => void;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8"
+      onClick={onClose}
+    >
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+
+      {/* Modal */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 20 }}
+        transition={{ duration: 0.3, ease: [0.33, 1, 0.68, 1] }}
+        className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl bg-[#111] border border-white/10"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          aria-label="Close modal"
+          className="absolute top-4 right-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white/70 hover:bg-white/20 hover:text-white transition-colors"
+        >
+          <X size={16} />
+        </button>
+
+        {/* Project image */}
+        <div className="relative w-full aspect-video overflow-hidden rounded-t-2xl">
+          <Image
+            src={project.image}
+            alt={project.title}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 768px"
+          />
+        </div>
+
+        {/* Content */}
+        <div className="p-6 md:p-8">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <span className="text-xs font-mono text-white/30">
+                {project.number}
+              </span>
+              <h3 className="mt-1 text-2xl md:text-3xl font-semibold text-white">
+                {project.title}
+              </h3>
+            </div>
+            <a
+              href={project.demoUrl}
+              target={project.demoUrl.startsWith("http") ? "_blank" : undefined}
+              rel={
+                project.demoUrl.startsWith("http")
+                  ? "noreferrer noopener"
+                  : undefined
+              }
+              className="flex-shrink-0 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-medium uppercase tracking-widest text-white/70 hover:border-white/20 hover:bg-white/10 hover:text-white transition-all"
+            >
+              Demo
+              <ArrowUpRight size={12} />
+            </a>
+          </div>
+
+          <p className="mt-4 text-base text-white/60 leading-relaxed">
+            {project.description}
+          </p>
+
+          {/* Tech stack */}
+          <div className="mt-6">
+            <h4 className="text-xs font-mono text-white/30 uppercase tracking-widest mb-3">
+              Tech Stack
+            </h4>
+            <div className="flex flex-wrap gap-2">
+              {project.tech.map((t) => (
+                <span
+                  key={t}
+                  className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs text-white/60"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Features */}
+          <div className="mt-6">
+            <h4 className="text-xs font-mono text-white/30 uppercase tracking-widest mb-3">
+              Key Features
+            </h4>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {project.features.map((feature) => (
+                <li
+                  key={feature}
+                  className="flex items-center gap-2 text-sm text-white/60"
+                >
+                  <ArrowUpRight
+                    size={12}
+                    className="text-white/30 flex-shrink-0"
+                  />
+                  {feature}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+const PER_PAGE = 6;
 
 export default function Projects() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
+  const [selected, setSelected] = useState<Project | null>(null);
+  const [page, setPage] = useState(0);
+
+  const totalPages = Math.ceil(projects.length / PER_PAGE);
+  const paginated = projects.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE);
 
   return (
     <section
@@ -108,77 +291,132 @@ export default function Projects() {
           className="mb-20"
         >
           <span className="text-sm font-mono text-white/40 tracking-widest uppercase">
-            05 / Projects
+            06 / Projects
           </span>
           <h2 className="mt-4 text-3xl md:text-5xl font-semibold text-white">
             Featured Work
           </h2>
         </motion.div>
 
-        <div className="flex flex-col gap-16 md:gap-24">
-          {projects.map((project, index) => (
+        {/* Card grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {paginated.map((project, index) => (
             <motion.article
               key={project.number}
-              initial={{ opacity: 0, y: 50 }}
+              initial={{ opacity: 0, y: 40 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{
-                duration: 0.8,
-                delay: index * 0.15,
+                duration: 0.7,
+                delay: index * 0.1,
                 ease: [0.33, 1, 0.68, 1],
               }}
-              className="group grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start"
+              className="group cursor-pointer rounded-2xl overflow-hidden bg-[#111] border border-white/5 hover:border-white/15 transition-all duration-300"
+              onClick={() => setSelected(project)}
             >
-              <div className="lg:col-span-1">
-                <span className="text-sm font-mono text-white/30">
-                  {project.number}
-                </span>
+              {/* Image */}
+              <div className="relative w-full aspect-video overflow-hidden">
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                />
+                {/* Overlay on hover */}
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <span className="text-xs font-mono text-white/80 uppercase tracking-widest border border-white/30 rounded-full px-4 py-2">
+                    View Details
+                  </span>
+                </div>
               </div>
 
-              <div className="lg:col-span-7">
-                <h3 className="text-2xl md:text-4xl font-semibold text-white group-hover:text-white/80 transition-colors">
-                  {project.title}
-                </h3>
-                <p className="mt-4 text-base md:text-lg text-white/50 leading-relaxed">
+              {/* Card body */}
+              <div className="p-5">
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <span className="text-xs font-mono text-white/30">
+                      {project.number}
+                    </span>
+                    <h3 className="mt-1 text-base font-semibold text-white group-hover:text-white/80 transition-colors line-clamp-1">
+                      {project.title}
+                    </h3>
+                  </div>
+                  <ArrowUpRight
+                    size={16}
+                    className="flex-shrink-0 mt-1 text-white/20 group-hover:text-white/60 transition-colors"
+                  />
+                </div>
+
+                <p className="mt-2 text-sm text-white/40 leading-relaxed line-clamp-2">
                   {project.description}
                 </p>
 
-                <div className="mt-6 flex flex-wrap gap-2">
-                  {project.tech.map((t) => (
+                {/* Tech pills — show first 3 */}
+                <div className="mt-4 flex flex-wrap gap-1.5">
+                  {project.tech.slice(0, 3).map((t) => (
                     <span
                       key={t}
-                      className="px-4 py-1.5 bg-white/5 border border-white/10 rounded-full text-xs text-white/60"
+                      className="px-2.5 py-1 bg-white/5 border border-white/10 rounded-full text-[10px] text-white/50"
                     >
                       {t}
                     </span>
                   ))}
-                </div>
-              </div>
-
-              <div className="lg:col-span-4">
-                <div className="p-6 rounded-2xl bg-[#111] border border-white/5 group-hover:border-white/10 transition-colors">
-                  <h4 className="text-xs font-mono text-white/30 uppercase tracking-widest mb-4">
-                    Key Features
-                  </h4>
-                  <ul className="space-y-3">
-                    {project.features.map((feature) => (
-                      <li
-                        key={feature}
-                        className="flex items-center gap-3 text-sm text-white/60"
-                      >
-                        <ArrowUpRight
-                          size={14}
-                          className="text-white/30 flex-shrink-0"
-                        />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
+                  {project.tech.length > 3 && (
+                    <span className="px-2.5 py-1 bg-white/5 border border-white/10 rounded-full text-[10px] text-white/30">
+                      +{project.tech.length - 3}
+                    </span>
+                  )}
                 </div>
               </div>
             </motion.article>
           ))}
         </div>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="mt-12 flex items-center justify-center gap-3">
+            <button
+              onClick={() => setPage((p) => Math.max(0, p - 1))}
+              disabled={page === 0}
+              aria-label="Previous page"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-white/50 hover:border-white/20 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+            >
+              <ArrowUpRight size={14} className="rotate-[225deg]" />
+            </button>
+
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i}
+                onClick={() => setPage(i)}
+                aria-label={`Page ${i + 1}`}
+                className={`flex h-9 w-9 items-center justify-center rounded-full border text-xs font-mono transition-all ${
+                  page === i
+                    ? "border-white/30 bg-white/10 text-white"
+                    : "border-white/10 text-white/40 hover:border-white/20 hover:text-white/70"
+                }`}
+              >
+                {i + 1}
+              </button>
+            ))}
+
+            <button
+              onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+              disabled={page === totalPages - 1}
+              aria-label="Next page"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-white/50 hover:border-white/20 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+            >
+              <ArrowUpRight size={14} className="rotate-45" />
+            </button>
+          </div>
+        )}
       </div>
+
+      {/* Modal */}
+      <AnimatePresence>
+        {selected && (
+          <ProjectModal project={selected} onClose={() => setSelected(null)} />
+        )}
+      </AnimatePresence>
     </section>
   );
 }
