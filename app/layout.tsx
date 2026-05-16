@@ -8,7 +8,7 @@ const siteUrl = "https://portofolio-eosin-alpha.vercel.app";
 const siteTitle = "Riski Wahyu Saputra | Web Developer Portfolio";
 const siteDescription =
   "Portfolio Riski Wahyu Saputra, web developer yang membangun aplikasi web modern dengan Laravel, React, dan teknologi frontend interaktif.";
-const ogImage = "/sequence/ezgif-frame-001.jpg";
+const ogImage = "/og-image.png";
 
 const outfit = Outfit({
   variable: "--font-outfit",
