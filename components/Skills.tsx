@@ -22,6 +22,14 @@ const skills = [
     border: "hover:border-red-500/40",
   },
   {
+    name: "Next.js",
+    icon: Server,
+    description:
+      "Next.js is a JavaScript framework based on React that is used to build modern web applications",
+    color: "from-red-500/20 to-orange-500/20",
+    border: "hover:border-red-500/40",
+  },
+  {
     name: "CodeIgniter",
     icon: Server,
     description: "Lightweight framework for rapid development",
