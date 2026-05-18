@@ -75,21 +75,23 @@ const projects: Project[] = [
       "Admin dashboard",
     ],
   },
+
   {
     number: "04",
-    title: "replacement practicum payment based on QRIS (POLINELA)",
-    image: "/projects/project-04.png",
+    title: "TokoQ - UMKM E-Commerce Platform",
+    image: "/projects/project-08.png",
     demoUrl: "#",
     description:
-      "Development of a substitute practicum payment application using QRIS for the Information Technology Department of Lampung State Polytechnic.",
-    tech: ["CodeIgniter", "PHP", "MySQL", "Bootstrap"],
+      "TokoQ-UMKM is an e-commerce and digital store management platform specifically designed for MSMEs (Micro, Small, and Medium Enterprises) in Indonesia..",
+    tech: ["Laravel", "Vite ", "Tailwind CSS", "Vanilla JavaScript/ES Modules"],
     features: [
-      "QRIS payment flow",
-      "Practicum billing",
-      "Payment verification",
-      "Admin management",
+      "Barcode scanning",
+      "Multi warehouse",
+      "Stock alerts",
+      "REST API",
     ],
   },
+
   {
     number: "05",
     title: "Customer Support Chat System",
@@ -143,6 +145,22 @@ const projects: Project[] = [
       "Multi warehouse",
       "Stock alerts",
       "REST API",
+    ],
+  },
+
+  {
+    number: "08",
+    title: "replacement practicum payment based on QRIS (POLINELA)",
+    image: "/projects/project-04.png",
+    demoUrl: "#",
+    description:
+      "Development of a substitute practicum payment application using QRIS for the Information Technology Department of Lampung State Polytechnic.",
+    tech: ["CodeIgniter", "PHP", "MySQL", "Bootstrap"],
+    features: [
+      "QRIS payment flow",
+      "Practicum billing",
+      "Payment verification",
+      "Admin management",
     ],
   },
 ];
@@ -279,8 +297,22 @@ export default function Projects() {
   const { lang } = useLang();
 
   const labels = {
-    EN: { section: "06 / Projects", heading: "Featured Work", viewDetails: "View Details", demo: "Demo", techStack: "Tech Stack", keyFeatures: "Key Features" },
-    ID: { section: "06 / Proyek", heading: "Karya Unggulan", viewDetails: "Lihat Detail", demo: "Demo", techStack: "Teknologi", keyFeatures: "Fitur Utama" },
+    EN: {
+      section: "06 / Projects",
+      heading: "Featured Work",
+      viewDetails: "View Details",
+      demo: "Demo",
+      techStack: "Tech Stack",
+      keyFeatures: "Key Features",
+    },
+    ID: {
+      section: "06 / Proyek",
+      heading: "Karya Unggulan",
+      viewDetails: "Lihat Detail",
+      demo: "Demo",
+      techStack: "Teknologi",
+      keyFeatures: "Fitur Utama",
+    },
   };
   const lx = labels[lang];
 
@@ -424,7 +456,11 @@ export default function Projects() {
       {/* Modal */}
       <AnimatePresence>
         {selected && (
-          <ProjectModal project={selected} onClose={() => setSelected(null)} labels={lx} />
+          <ProjectModal
+            project={selected}
+            onClose={() => setSelected(null)}
+            labels={lx}
+          />
         )}
       </AnimatePresence>
     </section>
