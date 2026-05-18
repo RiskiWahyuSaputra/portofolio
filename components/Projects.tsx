@@ -91,31 +91,22 @@ const projects: Project[] = [
       "REST API",
     ],
   },
-
   {
     number: "05",
-    title: "Customer Support Chat System",
-    image: "/projects/project-05.svg",
+    title: "replacement practicum payment based on QRIS (POLINELA)",
+    image: "/projects/project-04.png",
     demoUrl: "#",
     description:
-      "Implementation of a customer support chat system with queue management, AI chatbot automation, real-time live chat, analytics dashboard, and WhatsApp integration.",
-    tech: [
-      "Laravel 12",
-      "PHP 8.2",
-      "Tailwind CSS 4",
-      "Alpine.js",
-      "Laravel Reverb",
-      "MySQL",
-      "Gemini API",
-    ],
+      "Development of a substitute practicum payment application using QRIS for the Information Technology Department of Lampung State Polytechnic.",
+    tech: ["CodeIgniter", "PHP", "MySQL", "Bootstrap"],
     features: [
-      "Queue management",
-      "AI chatbot",
-      "WhatsApp integration",
-      "Realtime live chat",
-      "Analytics dashboard",
+      "QRIS payment flow",
+      "Practicum billing",
+      "Payment verification",
+      "Admin management",
     ],
   },
+
   {
     number: "06",
     title: "Faste Coffee Shop Landing Page",
@@ -150,17 +141,26 @@ const projects: Project[] = [
 
   {
     number: "08",
-    title: "replacement practicum payment based on QRIS (POLINELA)",
-    image: "/projects/project-04.png",
+    title: "Customer Support Chat System",
+    image: "/projects/project-05.svg",
     demoUrl: "#",
     description:
-      "Development of a substitute practicum payment application using QRIS for the Information Technology Department of Lampung State Polytechnic.",
-    tech: ["CodeIgniter", "PHP", "MySQL", "Bootstrap"],
+      "Implementation of a customer support chat system with queue management, AI chatbot automation, real-time live chat, analytics dashboard, and WhatsApp integration.",
+    tech: [
+      "Laravel 12",
+      "PHP 8.2",
+      "Tailwind CSS 4",
+      "Alpine.js",
+      "Laravel Reverb",
+      "MySQL",
+      "Gemini API",
+    ],
     features: [
-      "QRIS payment flow",
-      "Practicum billing",
-      "Payment verification",
-      "Admin management",
+      "Queue management",
+      "AI chatbot",
+      "WhatsApp integration",
+      "Realtime live chat",
+      "Analytics dashboard",
     ],
   },
 ];
