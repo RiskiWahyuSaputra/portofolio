@@ -215,14 +215,14 @@ export default function Certificates() {
     <section
       ref={ref}
       id="certificates"
-      className="relative py-32 md:py-48 px-6 md:px-12 lg:px-24 bg-[#050505]"
+      className="relative py-24 md:py-48 px-6 md:px-12 lg:px-24 bg-[#050505]"
     >
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
-          className="mb-20"
+          className="mb-10 md:mb-20"
         >
           <span className="text-sm font-mono text-white/40 tracking-widest uppercase">
             {lx.section}
@@ -232,7 +232,55 @@ export default function Certificates() {
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Mobile horizontal gallery */}
+        <div
+          data-lenis-prevent
+          className="-mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-4 sm:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
+          {certificates.map((cert, index) => (
+            <motion.article
+              key={cert.id}
+              initial={{ opacity: 0, x: 30 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{
+                duration: 0.6,
+                delay: index * 0.05,
+                ease: [0.33, 1, 0.68, 1],
+              }}
+              className="group w-[82vw] max-w-[340px] flex-none snap-center cursor-pointer overflow-hidden rounded-lg border border-white/10 bg-[#111] transition-all duration-300"
+              onClick={() => setSelected(cert)}
+            >
+              <div className="relative w-full aspect-[800/560] overflow-hidden">
+                <Image
+                  src={cert.image}
+                  alt={cert.title}
+                  fill
+                  className="object-cover"
+                  sizes="82vw"
+                />
+              </div>
+
+              <div className="p-4">
+                <div className="mb-3 flex items-center justify-between gap-3">
+                  <span className="font-mono text-xs text-white/30">
+                    {cert.id}
+                  </span>
+                  <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] text-white/45">
+                    {cert.date}
+                  </span>
+                </div>
+                <h3 className="line-clamp-2 text-sm font-semibold leading-6 text-white">
+                  {cert.title}
+                </h3>
+                <p className="mt-1 truncate text-xs text-white/40">
+                  {cert.issuer}
+                </p>
+              </div>
+            </motion.article>
+          ))}
+        </div>
+
+        <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {paginated.map((cert, index) => (
             <motion.article
               key={cert.id}
@@ -282,7 +330,7 @@ export default function Certificates() {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="mt-12 flex items-center justify-center gap-3">
+          <div className="mt-12 hidden sm:flex items-center justify-center gap-3">
             <button
               onClick={() => setPage((p) => Math.max(0, p - 1))}
               disabled={page === 0}

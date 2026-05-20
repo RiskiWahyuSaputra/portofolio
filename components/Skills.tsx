@@ -40,7 +40,7 @@ const stackGroups = [
     accent: "from-sky-300/70 via-teal-400/30 to-transparent",
     glow: "from-sky-500/10 to-teal-500/5",
     iconColor: "text-sky-200",
-    items: ["MySQL", "Migration"],
+    items: ["MySQL", "Migration", "SQL Server"],
   },
   {
     title: "Tools & Integration",

@@ -288,12 +288,14 @@ function ProjectModal({
 }
 
 const PER_PAGE = 6;
+const MOBILE_INITIAL_COUNT = 3;
 
 export default function Projects() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
   const [selected, setSelected] = useState<Project | null>(null);
   const [page, setPage] = useState(0);
+  const [showAllMobile, setShowAllMobile] = useState(false);
   const { lang } = useLang();
 
   const labels = {
@@ -304,6 +306,8 @@ export default function Projects() {
       demo: "Demo",
       techStack: "Tech Stack",
       keyFeatures: "Key Features",
+      showAll: "View All Projects",
+      showLess: "Show Less",
     },
     ID: {
       section: "06 / Proyek",
@@ -312,25 +316,30 @@ export default function Projects() {
       demo: "Demo",
       techStack: "Teknologi",
       keyFeatures: "Fitur Utama",
+      showAll: "Lihat Semua Proyek",
+      showLess: "Tampilkan Lebih Sedikit",
     },
   };
   const lx = labels[lang];
 
   const totalPages = Math.ceil(projects.length / PER_PAGE);
   const paginated = projects.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE);
+  const mobileProjects = showAllMobile
+    ? projects
+    : projects.slice(0, MOBILE_INITIAL_COUNT);
 
   return (
     <section
       ref={ref}
       id="projects"
-      className="relative py-32 md:py-48 px-6 md:px-12 lg:px-24 bg-[#050505]"
+      className="relative py-24 md:py-48 px-6 md:px-12 lg:px-24 bg-[#050505]"
     >
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
-          className="mb-20"
+          className="mb-10 md:mb-20"
         >
           <span className="text-sm font-mono text-white/40 tracking-widest uppercase">
             {lx.section}
@@ -340,8 +349,85 @@ export default function Projects() {
           </h2>
         </motion.div>
 
-        {/* Card grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Mobile compact list */}
+        <div className="grid grid-cols-1 gap-4 sm:hidden">
+          {mobileProjects.map((project, index) => (
+            <motion.article
+              key={project.number}
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{
+                duration: 0.6,
+                delay: index * 0.08,
+                ease: [0.33, 1, 0.68, 1],
+              }}
+              className="group cursor-pointer overflow-hidden rounded-lg border border-white/10 bg-[#111] transition-all duration-300 hover:border-white/15"
+              onClick={() => setSelected(project)}
+            >
+              <div className="relative w-full aspect-[16/9] overflow-hidden">
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  sizes="100vw"
+                />
+              </div>
+
+              <div className="p-4">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <span className="text-xs font-mono text-white/30">
+                      {project.number}
+                    </span>
+                    <h3 className="mt-1 line-clamp-2 text-base font-semibold leading-6 text-white">
+                      {project.title}
+                    </h3>
+                  </div>
+                  <ArrowUpRight
+                    size={16}
+                    className="mt-1 flex-shrink-0 text-white/30"
+                  />
+                </div>
+
+                <p className="mt-2 line-clamp-2 text-sm leading-6 text-white/45">
+                  {project.description}
+                </p>
+
+                <div className="mt-4 flex flex-wrap gap-1.5">
+                  {project.tech.slice(0, 2).map((t) => (
+                    <span
+                      key={t}
+                      className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] text-white/55"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                  {project.tech.length > 2 && (
+                    <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] text-white/30">
+                      +{project.tech.length - 2}
+                    </span>
+                  )}
+                </div>
+              </div>
+            </motion.article>
+          ))}
+        </div>
+
+        {projects.length > MOBILE_INITIAL_COUNT && (
+          <div className="mt-8 flex justify-center sm:hidden">
+            <button
+              type="button"
+              onClick={() => setShowAllMobile((current) => !current)}
+              className="rounded-full border border-white/15 bg-white/[0.04] px-5 py-3 text-xs font-medium uppercase tracking-widest text-white/70 transition-colors hover:border-white/25 hover:bg-white/[0.08] hover:text-white"
+            >
+              {showAllMobile ? lx.showLess : lx.showAll}
+            </button>
+          </div>
+        )}
+
+        {/* Desktop/tablet card grid */}
+        <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {paginated.map((project, index) => (
             <motion.article
               key={project.number}
@@ -416,7 +502,7 @@ export default function Projects() {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="mt-12 flex items-center justify-center gap-3">
+          <div className="mt-12 hidden sm:flex items-center justify-center gap-3">
             <button
               onClick={() => setPage((p) => Math.max(0, p - 1))}
               disabled={page === 0}
