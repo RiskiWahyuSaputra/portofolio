@@ -8,6 +8,7 @@ import Stats from "@/components/Stats";
 import Testimonials from "@/components/Testimonials";
 import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
+import ChatFab from "@/components/ChatFab";
 
 export default function Home() {
   return (
@@ -28,6 +29,8 @@ export default function Home() {
         <CTA />
         <Footer />
       </div>
+
+      <ChatFab />
     </main>
   );
 }
