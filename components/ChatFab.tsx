@@ -137,7 +137,7 @@ export default function ChatFab() {
                   <h2 className="text-sm font-medium text-white">
                     Riski Assistant
                   </h2>
-                  <p className="text-xs text-white/40">Groq powered chat</p>
+                  <p className="text-xs text-white/40">Chat bot with BotQ</p>
                 </div>
               </div>
               <button
@@ -209,7 +209,7 @@ export default function ChatFab() {
                 rows={1}
                 maxLength={1200}
                 placeholder="Tulis pesan..."
-                className="max-h-28 min-h-10 flex-1 resize-none rounded-md border border-white/10 bg-white/[0.04] px-3 py-2 text-sm leading-6 text-white outline-none transition-colors placeholder:text-white/30 focus:border-white/25"
+                className="max-h-28 min-h-10 flex-1 resize-none rounded-md border border-white/10 bg-white/[0.04] px-3 py-2 text-base leading-6 text-white outline-none transition-colors placeholder:text-white/30 focus:border-white/25 sm:text-sm"
               />
               <button
                 type="submit"
