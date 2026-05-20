@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import {
   Code2,
+  CreditCard,
   Database,
   Palette,
   GitBranch,
@@ -19,6 +20,13 @@ const skills = [
     icon: Layers,
     description: "Modern PHP framework for robust applications",
     color: "from-red-500/20 to-orange-500/20",
+    border: "hover:border-red-500/40",
+  },
+  {
+    name: "Laravel Reverb",
+    icon: Server,
+    description: "Real-time WebSocket server for Laravel applications",
+    color: "from-red-500/20 to-rose-500/20",
     border: "hover:border-red-500/40",
   },
   {
@@ -44,6 +52,20 @@ const skills = [
     border: "hover:border-cyan-500/40",
   },
   {
+    name: "TypeScript",
+    icon: FileCode,
+    description: "Typed JavaScript for scalable web applications",
+    color: "from-blue-500/20 to-sky-500/20",
+    border: "hover:border-blue-500/40",
+  },
+  {
+    name: "Vite",
+    icon: Code2,
+    description: "Fast frontend build tool and development server",
+    color: "from-violet-500/20 to-amber-500/20",
+    border: "hover:border-violet-500/40",
+  },
+  {
     name: "Tailwind CSS",
     icon: Palette,
     description: "Utility-first CSS framework",
@@ -63,6 +85,13 @@ const skills = [
     description: "Relational database management",
     color: "from-blue-500/20 to-cyan-500/20",
     border: "hover:border-blue-500/40",
+  },
+  {
+    name: "Midtrans",
+    icon: CreditCard,
+    description: "Payment gateway integration for Indonesian transactions",
+    color: "from-emerald-500/20 to-cyan-500/20",
+    border: "hover:border-emerald-500/40",
   },
   {
     name: "GitHub",
