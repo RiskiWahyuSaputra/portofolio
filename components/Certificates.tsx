@@ -66,12 +66,51 @@ const certificates: Certificate[] = [
   },
   {
     id: "07",
-    title: "Code Generation and Optimization Using IBM Granite",
-    issuer: "IBM",
-    date: "2025",
+    title: "Belajar Penggunaan Generative AI",
+    issuer: "Dicoding Indonesia",
+    date: "2026",
     image: "/certificates/cert-07.png",
-    credentialUrl:
-      "https://www.credly.com/earner/earned/badge/99cc880c-b787-4a31-af12-89b68ad83da4",
+    credentialUrl: "https://www.dicoding.com/certificates/N9ZONNVO0XG5",
+  },
+  {
+    id: "08",
+    title: "Spec-Driven Development dengan Kiro",
+    issuer: "Dicoding Indonesia",
+    date: "2026",
+    image: "/certificates/cert-08.png",
+    credentialUrl: "https://www.dicoding.com/certificates/RVZK002L4ZD5",
+  },
+  {
+    id: "09",
+    title: "Belajar Dasar Cloud dan Gen AI di AWS",
+    issuer: "Dicoding Indonesia",
+    date: "2026",
+    image: "/certificates/cert-09.png",
+    credentialUrl: "https://www.dicoding.com/certificates/81P2OOY0JZOY",
+  },
+  {
+    id: "10",
+    title: "Memulai Pemrograman dengan Python",
+    issuer: "Dicoding Indonesia",
+    date: "2026",
+    image: "/certificates/cert-10.png",
+    credentialUrl: "https://www.dicoding.com/certificates/2VX30VW2VXYQ",
+  },
+  {
+    id: "11",
+    title: "Belajar Machine Learning untuk Pemula",
+    issuer: "Dicoding Indonesia",
+    date: "2026",
+    image: "/certificates/cert-11.png",
+    credentialUrl: "",
+  },
+  {
+    id: "12",
+    title: "Ai Praktis Untuk Produktivitas",
+    issuer: "Dicoding Indonesia",
+    date: "2026",
+    image: "/certificates/cert-12.png",
+    credentialUrl: "https://www.dicoding.com/certificates/4EXG11DN9PRL",
   },
 ];
 
@@ -152,8 +191,18 @@ export default function Certificates() {
   const { lang } = useLang();
 
   const lx = {
-    EN: { section: "07 / Certificates", heading: "Certifications", viewCert: "View Certificate", verify: "Verify" },
-    ID: { section: "07 / Sertifikat", heading: "Sertifikasi", viewCert: "Lihat Sertifikat", verify: "Verifikasi" },
+    EN: {
+      section: "07 / Certificates",
+      heading: "Certifications",
+      viewCert: "View Certificate",
+      verify: "Verify",
+    },
+    ID: {
+      section: "07 / Sertifikat",
+      heading: "Sertifikasi",
+      viewCert: "Lihat Sertifikat",
+      verify: "Verifikasi",
+    },
   }[lang];
 
   const totalPages = Math.ceil(certificates.length / PER_PAGE);
@@ -270,7 +319,11 @@ export default function Certificates() {
 
       <AnimatePresence>
         {selected && (
-          <CertModal cert={selected} onClose={() => setSelected(null)} verifyLabel={lx.verify} />
+          <CertModal
+            cert={selected}
+            onClose={() => setSelected(null)}
+            verifyLabel={lx.verify}
+          />
         )}
       </AnimatePresence>
     </section>
