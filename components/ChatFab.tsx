@@ -1,8 +1,9 @@
 "use client";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-import { Bot, Loader2, MessageCircle, Send, X } from "lucide-react";
+import { Loader2, Send, X } from "lucide-react";
 
 type ChatRole = "user" | "assistant";
 
@@ -123,8 +124,14 @@ export default function ChatFab() {
           >
             <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
               <div className="flex items-center gap-3">
-                <span className="flex h-9 w-9 items-center justify-center rounded-md border border-white/10 bg-white/[0.04] text-white">
-                  <Bot size={18} />
+                <span className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-md border border-white/15 bg-white p-1.5">
+                  <Image
+                    src="/images/icon-fab.png"
+                    alt=""
+                    width={36}
+                    height={36}
+                    className="h-9 w-9 rounded-full object-cover"
+                  />
                 </span>
                 <div>
                   <h2 className="text-sm font-medium text-white">
@@ -226,7 +233,7 @@ export default function ChatFab() {
         aria-label={isOpen ? "Close chat" : "Open chat"}
         aria-expanded={isOpen}
         onClick={() => setIsOpen((current) => !current)}
-        className="group flex h-14 w-14 items-center justify-center rounded-full border border-white/15 bg-white text-black shadow-2xl shadow-black/40 transition-all duration-300 hover:-translate-y-1 hover:bg-white/90"
+        className="group flex h-14 w-14 items-center justify-center overflow-hidden rounded-full border border-white/15 bg-white text-black shadow-2xl shadow-black/40 transition-all duration-300 hover:-translate-y-1 hover:bg-white/90"
       >
         <AnimatePresence mode="wait" initial={false}>
           <motion.span
@@ -236,7 +243,18 @@ export default function ChatFab() {
             exit={{ opacity: 0, rotate: 24, scale: 0.8 }}
             transition={{ duration: 0.18 }}
           >
-            {isOpen ? <X size={22} /> : <MessageCircle size={22} />}
+            {isOpen ? (
+              <X size={22} />
+            ) : (
+              <Image
+                src="/images/icon-fab.png"
+                alt=""
+                width={54}
+                height={54}
+                className="h-14 w-14 rounded-full object-cover"
+                priority
+              />
+            )}
           </motion.span>
         </AnimatePresence>
       </button>
