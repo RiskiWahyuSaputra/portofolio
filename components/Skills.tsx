@@ -2,12 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import {
-  Code2,
-  CreditCard,
-  Database,
-  Server,
-} from "lucide-react";
+import { Code2, CreditCard, Database, Server } from "lucide-react";
 
 const stackGroups = [
   {
@@ -41,21 +36,21 @@ const stackGroups = [
     title: "Database",
     icon: Database,
     description: "Relational data modeling and persistence",
-    count: "01",
+    count: "02",
     accent: "from-sky-300/70 via-teal-400/30 to-transparent",
     glow: "from-sky-500/10 to-teal-500/5",
     iconColor: "text-sky-200",
-    items: ["MySQL"],
+    items: ["MySQL", "Migration"],
   },
   {
     title: "Tools & Integration",
     icon: CreditCard,
     description: "Collaboration and production integrations",
-    count: "02",
+    count: "05",
     accent: "from-emerald-300/70 via-lime-400/30 to-transparent",
     glow: "from-emerald-500/10 to-lime-500/5",
     iconColor: "text-emerald-200",
-    items: ["GitHub", "Midtrans"],
+    items: ["GitHub", "Midtrans", "WhatsApp API", "Gemini API", "Groq API"],
   },
 ];
 
