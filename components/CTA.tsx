@@ -6,6 +6,9 @@ import MagneticButton from "./MagneticButton";
 import { ArrowUpRight } from "lucide-react";
 import { useLang } from "./LangContext";
 
+const phoneDisplay = "Contact me at: +62 857-8991-0963";
+const whatsappHref = "https://wa.me/6285789910963";
+
 const t = {
   EN: {
     label: "Get In Touch",
@@ -72,7 +75,9 @@ export default function CTA() {
         >
           <MagneticButton
             className="px-8 py-4 bg-white text-black rounded-full text-sm font-medium tracking-wide hover:bg-white/90 transition-colors flex items-center gap-2"
-            onClick={() => { window.location.href = "mailto:kiik37734@gmail.com"; }}
+            onClick={() => {
+              window.location.href = whatsappHref;
+            }}
           >
             {tx.cta}
             <ArrowUpRight size={16} />
@@ -94,7 +99,7 @@ export default function CTA() {
           transition={{ duration: 0.8, delay: 0.5 }}
           className="mt-16 pt-8 border-t border-white/5"
         >
-          <p className="text-white/30 text-sm">kiik37734@gmail.com</p>
+          <p className="text-white/30 text-sm">{phoneDisplay}</p>
         </motion.div>
       </div>
     </section>
