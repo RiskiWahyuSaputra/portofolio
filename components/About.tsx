@@ -65,7 +65,7 @@ export default function About() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.8 }}
+              transition={{ duration: 0.3, delay: 0.4 }}
               className="mt-12 flex max-w-2xl flex-wrap gap-4"
             >
               <div className="px-6 py-3 border border-white/10 rounded-full text-sm text-white/60">
@@ -83,15 +83,34 @@ export default function About() {
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.9, delay: 0.25, ease: [0.33, 1, 0.68, 1] }}
-            className="lg:col-span-6 lg:-my-24"
+            transition={{
+              duration: 0.4,
+              delay: 0.25,
+              ease: [0.33, 1, 0.68, 1],
+            }}
+            className="min-h-[440px] md:min-h-[560px] lg:col-span-6 lg:-my-24 lg:min-h-[640px]"
           >
-            <Lanyard
-              position={[0, 0, 14]}
-              gravity={[0, -40, 0]}
-              fov={18}
-              height="clamp(440px, 58vw, 720px)"
-            />
+            {isInView && (
+              <motion.div
+                initial={{ opacity: 0, y: -140, rotate: -7 }}
+                animate={{ opacity: 1, y: 0, rotate: 0 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 64,
+                  damping: 13,
+                  mass: 1.15,
+                  delay: 0.1,
+                }}
+              >
+                <Lanyard
+                  key="about-lanyard-drop"
+                  position={[0, 0, 14]}
+                  gravity={[0, -40, 0]}
+                  fov={18}
+                  height="clamp(440px, 58vw, 720px)"
+                />
+              </motion.div>
+            )}
           </motion.div>
         </div>
       </div>
