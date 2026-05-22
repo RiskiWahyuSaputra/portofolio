@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import TextReveal from "./TextReveal";
 import { useLang } from "./LangContext";
+import Lanyard from "./Lanyard";
 
 const t = {
   EN: {
@@ -42,8 +43,8 @@ export default function About() {
           </span>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
-          <div className="lg:col-span-4">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+          <div className="lg:col-span-6">
             <motion.h2
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -52,9 +53,19 @@ export default function About() {
             >
               {tx.heading}
             </motion.h2>
+
+            {/* Lanyard 3D Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.4, ease: [0.33, 1, 0.68, 1] }}
+              className="mt-8 md:mt-12"
+            >
+              <Lanyard position={[0, 0, 18]} gravity={[0, -40, 0]} height={520} />
+            </motion.div>
           </div>
 
-          <div className="lg:col-span-8">
+          <div className="lg:col-span-6">
             <div className="text-xl md:text-2xl lg:text-3xl font-light text-white/80 leading-relaxed">
               <TextReveal text={tx.bio} delay={0.2} stagger={0.015} />
             </div>
