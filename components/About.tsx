@@ -30,7 +30,7 @@ export default function About() {
       id="about"
       className="relative py-32 md:py-48 px-6 md:px-12 lg:px-24 bg-[#050505]"
     >
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -42,7 +42,7 @@ export default function About() {
           </span>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-20 items-center">
           <div className="lg:col-span-6">
             <motion.h2
               initial={{ opacity: 0, y: 30 }}
@@ -53,32 +53,20 @@ export default function About() {
               {tx.heading}
             </motion.h2>
 
-            {/* Lanyard 3D Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.4, ease: [0.33, 1, 0.68, 1] }}
-              className="mt-8 md:mt-12"
-            >
-              <Lanyard position={[0, 0, 18]} gravity={[0, -40, 0]} height={520} />
-            </motion.div>
-          </div>
-
-          <div className="lg:col-span-6">
             <TypingText
               key={tx.bio}
               text={tx.bio}
               active={isInView}
               delay={450}
               speed={34}
-              className="text-xl md:text-2xl lg:text-3xl font-light text-white/80 leading-relaxed"
+              className="mt-8 max-w-2xl text-xl md:text-2xl lg:text-[1.7rem] font-light text-white/80 leading-relaxed text-justify [text-align-last:left]"
             />
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.8 }}
-              className="mt-12 flex flex-wrap gap-4"
+              className="mt-12 flex max-w-2xl flex-wrap gap-4"
             >
               <div className="px-6 py-3 border border-white/10 rounded-full text-sm text-white/60">
                 Politeknik Negeri Lampung
@@ -91,6 +79,20 @@ export default function About() {
               </div>
             </motion.div>
           </div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.9, delay: 0.25, ease: [0.33, 1, 0.68, 1] }}
+            className="lg:col-span-6 lg:-my-24"
+          >
+            <Lanyard
+              position={[0, 0, 14]}
+              gravity={[0, -40, 0]}
+              fov={18}
+              height="clamp(440px, 58vw, 720px)"
+            />
+          </motion.div>
         </div>
       </div>
     </section>
