@@ -18,6 +18,7 @@ import {
   SiWhatsapp,
   SiGooglegemini,
   SiStripe,
+  SiUbuntu,
 } from "react-icons/si";
 
 type SkillItem = {
@@ -95,6 +96,11 @@ const itemIcons: Record<string, SkillItem> = {
   GitHub: {
     name: "GitHub",
     icon: SiGithub,
+    color: "#ffffff",
+  },
+  Ubuntu: {
+    name: "Ubuntu",
+    icon: SiUbuntu,
     color: "#ffffff",
   },
   Midtrans: {
@@ -193,7 +199,10 @@ function SkillBadge({ name }: { name: string }) {
           background: `radial-gradient(100px at 50% 50%, ${skill.color}22, transparent)`,
         }}
       />
-      <span style={{ color: skill.color }} className="relative z-[1] flex items-center transition-all duration-300 group-hover/badge:scale-110">
+      <span
+        style={{ color: skill.color }}
+        className="relative z-[1] flex items-center transition-all duration-300 group-hover/badge:scale-110"
+      >
         <Icon size={16} />
       </span>
       <span className="relative z-[1]">{name}</span>

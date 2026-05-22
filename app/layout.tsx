@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
+import { Outfit, Roboto_Flex } from "next/font/google";
 import SmoothScroll from "@/components/SmoothScroll";
 import { LangProvider } from "@/components/LangContext";
 import "./globals.css";
@@ -14,6 +14,13 @@ const outfit = Outfit({
   variable: "--font-outfit",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
+});
+
+const robotoFlex = Roboto_Flex({
+  variable: "--font-roboto-flex",
+  subsets: ["latin"],
+  weight: "variable",
+  axes: ["opsz"],
 });
 
 export const metadata: Metadata = {
@@ -53,7 +60,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${outfit.variable} antialiased`}>
+    <html lang="en" className={`${outfit.variable} ${robotoFlex.variable} antialiased`}>
       <body className="min-h-full bg-[#050505] text-[#f5f5f5] font-sans">
         <LangProvider>
           <SmoothScroll>{children}</SmoothScroll>

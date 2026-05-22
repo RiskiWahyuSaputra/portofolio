@@ -9,6 +9,7 @@ import {
 } from "framer-motion";
 import { useLang } from "./LangContext";
 import Lanyard from "./Lanyard";
+import VariableProximity from "./VariableProximity";
 
 const t = {
   EN: {
@@ -37,6 +38,7 @@ function ScrollProgressBar() {
 
 export default function About() {
   const ref = useRef<HTMLElement>(null);
+  const headingContainerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-15% 0px" });
   const { lang } = useLang();
   const tx = t[lang];
@@ -113,18 +115,27 @@ export default function About() {
               className="lg:col-span-6"
               style={{ y: textY, opacity: textOpacity }}
             >
-              <motion.h2
-                initial={{ opacity: 0, y: 30 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{
-                  duration: 0.8,
-                  delay: 0.1,
-                  ease: [0.33, 1, 0.68, 1],
-                }}
-                className="text-3xl md:text-4xl lg:text-5xl font-semibold text-white leading-tight"
-              >
-                {tx.heading}
-              </motion.h2>
+              <div ref={headingContainerRef} style={{ position: "relative" }}>
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{
+                    duration: 0.8,
+                    delay: 0.1,
+                    ease: [0.33, 1, 0.68, 1],
+                  }}
+                >
+                  <VariableProximity
+                    label={tx.heading}
+                    className="text-3xl md:text-4xl lg:text-5xl font-semibold text-white leading-tight"
+                    fromFontVariationSettings="'wght' 300, 'opsz' 9"
+                    toFontVariationSettings="'wght' 900, 'opsz' 40"
+                    containerRef={headingContainerRef}
+                    radius={120}
+                    falloff="gaussian"
+                  />
+                </motion.div>
+              </div>
 
               <TypingText
                 key={tx.bio}
