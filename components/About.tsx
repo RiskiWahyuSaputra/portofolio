@@ -1,8 +1,7 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import TextReveal from "./TextReveal";
 import { useLang } from "./LangContext";
 import Lanyard from "./Lanyard";
 
@@ -66,9 +65,14 @@ export default function About() {
           </div>
 
           <div className="lg:col-span-6">
-            <div className="text-xl md:text-2xl lg:text-3xl font-light text-white/80 leading-relaxed">
-              <TextReveal text={tx.bio} delay={0.2} stagger={0.015} />
-            </div>
+            <TypingText
+              key={tx.bio}
+              text={tx.bio}
+              active={isInView}
+              delay={450}
+              speed={34}
+              className="text-xl md:text-2xl lg:text-3xl font-light text-white/80 leading-relaxed"
+            />
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -90,5 +94,63 @@ export default function About() {
         </div>
       </div>
     </section>
+  );
+}
+
+function TypingText({
+  text,
+  active,
+  className = "",
+  delay = 0,
+  speed = 40,
+}: {
+  text: string;
+  active: boolean;
+  className?: string;
+  delay?: number;
+  speed?: number;
+}) {
+  const [visibleText, setVisibleText] = useState("");
+
+  useEffect(() => {
+    if (!active) {
+      return;
+    }
+
+    let index = 0;
+    let typingTimer: ReturnType<typeof setInterval> | undefined;
+    const startTimer = setTimeout(() => {
+      typingTimer = setInterval(() => {
+        index += 1;
+        setVisibleText(text.slice(0, index));
+
+        if (index >= text.length && typingTimer) {
+          clearInterval(typingTimer);
+        }
+      }, speed);
+    }, delay);
+
+    return () => {
+      clearTimeout(startTimer);
+      if (typingTimer) {
+        clearInterval(typingTimer);
+      }
+    };
+  }, [active, delay, speed, text]);
+
+  return (
+    <p aria-label={text} className={`grid ${className}`}>
+      <span aria-hidden className="invisible col-start-1 row-start-1">
+        {text}
+      </span>
+      <span aria-hidden className="col-start-1 row-start-1">
+        {visibleText}
+        <motion.span
+          className="ml-1 inline-block h-[0.9em] w-px translate-y-[0.12em] bg-white/70"
+          animate={{ opacity: [0, 1, 1, 0] }}
+          transition={{ duration: 1.1, repeat: Infinity, ease: "linear" }}
+        />
+      </span>
+    </p>
   );
 }
