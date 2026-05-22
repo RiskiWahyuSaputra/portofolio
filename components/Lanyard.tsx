@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, extend, useFrame } from "@react-three/fiber";
+import type { ThreeElement } from "@react-three/fiber";
 import {
   useGLTF,
   useTexture,
@@ -15,9 +16,9 @@ import {
   RigidBody,
   useRopeJoint,
   useSphericalJoint,
+  type RapierRigidBody,
 } from "@react-three/rapier";
 import { MeshLineGeometry, MeshLineMaterial } from "meshline";
-import type { ThreeElements } from "@react-three/fiber";
 import * as THREE from "three";
 import "./Lanyard.css";
 
@@ -25,8 +26,8 @@ extend({ MeshLineGeometry, MeshLineMaterial });
 
 declare module "@react-three/fiber" {
   interface ThreeElements {
-    meshLineGeometry: any;
-    meshLineMaterial: any;
+    meshLineGeometry: ThreeElement<typeof MeshLineGeometry>;
+    meshLineMaterial: ThreeElement<typeof MeshLineMaterial>;
   }
 }
 
@@ -37,6 +38,24 @@ interface LanyardProps {
   transparent?: boolean;
   height?: number | string;
 }
+
+const CARD_ASPECT = 0.7163921594626769;
+const CARD_FACE_NORMAL_THRESHOLD = 0.5;
+
+type LanyardGLTF = {
+  nodes: {
+    card: THREE.Mesh;
+    clip: THREE.Mesh;
+    clamp: THREE.Mesh;
+  };
+  materials: {
+    metal: THREE.Material;
+  };
+};
+
+type SmoothedRigidBody = RapierRigidBody & {
+  lerped?: THREE.Vector3;
+};
 
 export default function Lanyard({
   position = [0, 0, 30],
@@ -113,12 +132,17 @@ function Band({
   minSpeed?: number;
   isMobile?: boolean;
 }) {
-  const band = useRef<THREE.Mesh>(null!);
-  const fixed = useRef<any>(null!);
-  const j1 = useRef<any>(null!);
-  const j2 = useRef<any>(null!);
-  const j3 = useRef<any>(null!);
-  const card = useRef<any>(null!);
+  const band = useRef<
+    THREE.Mesh<
+      InstanceType<typeof MeshLineGeometry>,
+      InstanceType<typeof MeshLineMaterial>
+    >
+  >(null!);
+  const fixed = useRef<RapierRigidBody>(null!);
+  const j1 = useRef<SmoothedRigidBody>(null!);
+  const j2 = useRef<SmoothedRigidBody>(null!);
+  const j3 = useRef<RapierRigidBody>(null!);
+  const card = useRef<RapierRigidBody>(null!);
   const vec = new THREE.Vector3();
   const ang = new THREE.Vector3();
   const rot = new THREE.Vector3();
@@ -130,30 +154,49 @@ function Band({
     angularDamping: 4,
     linearDamping: 4,
   };
-  const { nodes, materials } = useGLTF("/assets/lanyard/card.glb");
-  const texture = useTexture("/assets/lanyard/lanyard.png");
-  const formalTexture = useTexture("/images/formal.png");
+  const { nodes, materials } = useGLTF(
+    "/assets/lanyard/card.glb",
+  ) as unknown as LanyardGLTF;
+  const baseLanyardTexture = useTexture("/assets/lanyard/lanyard.png");
+  const baseFrontCardTexture = useTexture("/images/card-lanyard.png");
+  const baseBackCardTexture = useTexture("/images/belakang-card.jpeg");
+  const lanyardTexture = useMemo(
+    () => createLanyardTexture(baseLanyardTexture),
+    [baseLanyardTexture],
+  );
+  const frontCardTexture = useMemo(
+    () => createFittedCardTexture(baseFrontCardTexture),
+    [baseFrontCardTexture],
+  );
+  const backCardTexture = useMemo(
+    () => createFittedCardTexture(baseBackCardTexture),
+    [baseBackCardTexture],
+  );
+  const cardGeometry = nodes.card.geometry;
+  const cardFaces = useMemo(
+    () => splitCardGeometry(cardGeometry),
+    [cardGeometry],
+  );
 
   useEffect(() => {
-    if (formalTexture) {
-      // Fix upside down (kebalik) and only half showing
-      // UV model hanya mencakup setengah V, jadi scale & flip
-      formalTexture.wrapS = THREE.RepeatWrapping;
-      formalTexture.wrapT = THREE.RepeatWrapping;
-      formalTexture.repeat.set(1, -2);
-      formalTexture.offset.set(0, 2);
-      formalTexture.needsUpdate = true;
-    }
-  }, [formalTexture]);
-  const [curve] = useState(
-    () =>
-      new THREE.CatmullRomCurve3([
-        new THREE.Vector3(),
-        new THREE.Vector3(),
-        new THREE.Vector3(),
-        new THREE.Vector3(),
-      ]),
-  );
+    return () => {
+      lanyardTexture.dispose();
+      frontCardTexture.dispose();
+      backCardTexture.dispose();
+    };
+  }, [backCardTexture, frontCardTexture, lanyardTexture]);
+
+  const curve = useMemo(() => {
+    const ropeCurve = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(),
+      new THREE.Vector3(),
+      new THREE.Vector3(),
+      new THREE.Vector3(),
+    ]);
+    ropeCurve.curveType = "chordal";
+
+    return ropeCurve;
+  }, []);
   const [dragged, drag] = useState<false | THREE.Vector3>(false);
   const [hovered, hover] = useState(false);
 
@@ -199,39 +242,23 @@ function Band({
       });
     }
     if (fixed.current) {
-      [j1, j2].forEach((ref) => {
-        if (!ref.current.lerped)
-          ref.current.lerped = new THREE.Vector3().copy(
-            ref.current.translation(),
-          );
-        const clampedDistance = Math.max(
-          0.1,
-          Math.min(1, ref.current.lerped.distanceTo(ref.current.translation())),
-        );
-        ref.current.lerped.lerp(
-          ref.current.translation(),
-          delta * (minSpeed + clampedDistance * (maxSpeed - minSpeed)),
-        );
-      });
+      const j1Lerped = updateLerpedSegment(j1.current, delta, minSpeed, maxSpeed);
+      const j2Lerped = updateLerpedSegment(j2.current, delta, minSpeed, maxSpeed);
+
       curve.points[0].copy(j3.current.translation());
-      curve.points[1].copy(j2.current.lerped);
-      curve.points[2].copy(j1.current.lerped);
+      curve.points[1].copy(j2Lerped);
+      curve.points[2].copy(j1Lerped);
       curve.points[3].copy(fixed.current.translation());
-      (band.current.geometry as any).setPoints(curve.getPoints(isMobile ? 16 : 32));
+      band.current.geometry.setPoints(curve.getPoints(isMobile ? 16 : 32));
       ang.copy(card.current.angvel());
       rot.copy(card.current.rotation());
       card.current.setAngvel({
         x: ang.x,
         y: ang.y - rot.y * 0.25,
         z: ang.z,
-      });
+      }, true);
     }
   });
-
-  curve.curveType = "chordal";
-  if (texture) {
-    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-  }
 
   return (
     <>
@@ -270,9 +297,9 @@ function Band({
               )
             )}
           >
-            <mesh geometry={(nodes.card as THREE.Mesh).geometry}>
+            <mesh geometry={cardFaces.front}>
               <meshPhysicalMaterial
-                map={formalTexture}
+                map={frontCardTexture}
                 map-anisotropy={16}
                 clearcoat={isMobile ? 0 : 1}
                 clearcoatRoughness={0.15}
@@ -280,13 +307,32 @@ function Band({
                 metalness={0.3}
               />
             </mesh>
+            <mesh geometry={cardFaces.back}>
+              <meshPhysicalMaterial
+                map={backCardTexture}
+                map-anisotropy={16}
+                clearcoat={isMobile ? 0 : 1}
+                clearcoatRoughness={0.15}
+                roughness={0.5}
+                metalness={0.3}
+              />
+            </mesh>
+            <mesh geometry={cardFaces.edge}>
+              <meshPhysicalMaterial
+                color="#f2f2f2"
+                clearcoat={isMobile ? 0 : 1}
+                clearcoatRoughness={0.15}
+                roughness={0.5}
+                metalness={0.2}
+              />
+            </mesh>
             <mesh
-              geometry={(nodes.clip as THREE.Mesh).geometry}
+              geometry={nodes.clip.geometry}
               material={materials.metal}
               material-roughness={0.3}
             />
             <mesh
-              geometry={(nodes.clamp as THREE.Mesh).geometry}
+              geometry={nodes.clamp.geometry}
               material={materials.metal}
             />
           </group>
@@ -299,11 +345,149 @@ function Band({
           depthTest={false}
           resolution={isMobile ? [1000, 2000] : [1000, 1000]}
           useMap
-          map={texture}
+          map={lanyardTexture}
           repeat={[-4, 1]}
           lineWidth={1}
         />
       </mesh>
     </>
   );
+}
+
+function updateLerpedSegment(
+  body: SmoothedRigidBody,
+  delta: number,
+  minSpeed: number,
+  maxSpeed: number,
+) {
+  const translation = body.translation();
+  const lerped = body.lerped ?? new THREE.Vector3().copy(translation);
+  const clampedDistance = Math.max(
+    0.1,
+    Math.min(1, lerped.distanceTo(translation)),
+  );
+
+  lerped.lerp(translation, delta * (minSpeed + clampedDistance * (maxSpeed - minSpeed)));
+  body.lerped = lerped;
+
+  return lerped;
+}
+
+function splitCardGeometry(geometry: THREE.BufferGeometry) {
+  geometry.computeBoundingBox();
+  const boundingBox = geometry.boundingBox;
+  const position = geometry.getAttribute("position");
+  const normal = geometry.getAttribute("normal");
+  const index = geometry.index;
+
+  if (!boundingBox || !position || !normal || !index) {
+    return {
+      front: geometry,
+      back: geometry,
+      edge: geometry,
+    };
+  }
+
+  const frontIndices: number[] = [];
+  const backIndices: number[] = [];
+  const edgeIndices: number[] = [];
+
+  for (let i = 0; i < index.count; i += 3) {
+    const a = index.getX(i);
+    const b = index.getX(i + 1);
+    const c = index.getX(i + 2);
+    const normalZ = (normal.getZ(a) + normal.getZ(b) + normal.getZ(c)) / 3;
+    const target =
+      normalZ > CARD_FACE_NORMAL_THRESHOLD
+        ? frontIndices
+        : normalZ < -CARD_FACE_NORMAL_THRESHOLD
+          ? backIndices
+          : edgeIndices;
+
+    target.push(a, b, c);
+  }
+
+  return {
+    front: createCardGeometryPart(geometry, frontIndices, boundingBox, false),
+    back: createCardGeometryPart(geometry, backIndices, boundingBox, true),
+    edge: createCardGeometryPart(geometry, edgeIndices, boundingBox, false),
+  };
+}
+
+function createCardGeometryPart(
+  source: THREE.BufferGeometry,
+  indices: number[],
+  boundingBox: THREE.Box3,
+  flipX: boolean,
+) {
+  const geometry = source.clone();
+  const indexArray =
+    source.getAttribute("position").count > 65535
+      ? new Uint32Array(indices)
+      : new Uint16Array(indices);
+
+  geometry.setIndex(new THREE.BufferAttribute(indexArray, 1));
+  normalizeCardUv(geometry, boundingBox, flipX);
+  geometry.computeBoundingSphere();
+
+  return geometry;
+}
+
+function normalizeCardUv(
+  geometry: THREE.BufferGeometry,
+  boundingBox: THREE.Box3,
+  flipX: boolean,
+) {
+  const position = geometry.getAttribute("position");
+  const normalizedUv = new Float32Array(position.count * 2);
+  const width = boundingBox.max.x - boundingBox.min.x;
+  const height = boundingBox.max.y - boundingBox.min.y;
+
+  for (let i = 0; i < position.count; i += 1) {
+    const x = (position.getX(i) - boundingBox.min.x) / width;
+    const y = (position.getY(i) - boundingBox.min.y) / height;
+    normalizedUv[i * 2] = flipX ? 1 - x : x;
+    normalizedUv[i * 2 + 1] = y;
+  }
+
+  geometry.setAttribute("uv", new THREE.BufferAttribute(normalizedUv, 2));
+}
+
+function createLanyardTexture(source: THREE.Texture) {
+  const texture = source.clone();
+
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.colorSpace = THREE.SRGBColorSpace;
+  texture.needsUpdate = true;
+
+  return texture;
+}
+
+function createFittedCardTexture(source: THREE.Texture) {
+  const texture = source.clone();
+  const image = texture.image as { width?: number; height?: number } | undefined;
+  const imageAspect =
+    image?.width && image?.height ? image.width / image.height : CARD_ASPECT;
+
+  texture.wrapS = THREE.ClampToEdgeWrapping;
+  texture.wrapT = THREE.ClampToEdgeWrapping;
+  texture.colorSpace = THREE.SRGBColorSpace;
+  texture.center.set(0.5, 0.5);
+  texture.repeat.set(1, 1);
+  texture.offset.set(0, 0);
+
+  if (imageAspect > CARD_ASPECT) {
+    const repeatX = CARD_ASPECT / imageAspect;
+    texture.repeat.x = repeatX;
+    texture.offset.x = (1 - repeatX) / 2;
+  } else {
+    const repeatY = imageAspect / CARD_ASPECT;
+    texture.repeat.y = repeatY;
+    texture.offset.y = (1 - repeatY) / 2;
+  }
+
+  texture.needsUpdate = true;
+
+  return texture;
 }
