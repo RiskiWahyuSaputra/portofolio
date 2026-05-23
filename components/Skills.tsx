@@ -1,8 +1,13 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
-import { Code2, CreditCard, Database, Server } from "lucide-react";
+import {
+  motion,
+  useInView,
+  useScroll,
+  useTransform,
+} from "framer-motion";
+import { Code2, CreditCard, Database, Server, Wrench } from "lucide-react";
 import {
   SiReact,
   SiNextdotjs,
@@ -101,7 +106,12 @@ const itemIcons: Record<string, SkillItem> = {
   Ubuntu: {
     name: "Ubuntu",
     icon: SiUbuntu,
-    color: "#ffffff",
+    color: "#E95420",
+  },
+  OpenClaw: {
+    name: "OpenClaw",
+    icon: Wrench,
+    color: "#84CC16",
   },
   Midtrans: {
     name: "Midtrans",
@@ -167,15 +177,23 @@ const stackGroups = [
     title: "Tools & Integration",
     icon: CreditCard,
     description: "Collaboration and production integrations",
-    count: "05",
+    count: "07",
     accent: "from-emerald-400/30 via-lime-500/20 to-transparent",
     glow: "group-hover:from-emerald-500/15 group-hover:to-lime-500/8",
     iconColor: "text-emerald-300",
-    items: ["GitHub", "Midtrans", "WhatsApp API", "Gemini API", "Groq API"],
+    items: [
+      "GitHub",
+      "Ubuntu",
+      "OpenClaw",
+      "Midtrans",
+      "WhatsApp API",
+      "Gemini API",
+      "Groq API",
+    ],
   },
 ];
 
-function SkillBadge({ name }: { name: string }) {
+function SkillBadge({ name, index }: { name: string; index: number }) {
   const skill = itemIcons[name];
   if (!skill) {
     return (
@@ -188,9 +206,15 @@ function SkillBadge({ name }: { name: string }) {
   const Icon = skill.icon;
   return (
     <motion.span
+      initial={{ opacity: 0, scale: 0.6, y: 12 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      transition={{
+        duration: 0.45,
+        delay: index * 0.06,
+        ease: [0.17, 0.67, 0.36, 1],
+      }}
       className="group/badge relative inline-flex items-center gap-2.5 rounded-lg border border-white/[0.06] bg-white/[0.03] px-3 py-2 text-sm text-white/60 transition-all duration-300 hover:border-white/[0.12] hover:bg-white/[0.07] hover:text-white/85 cursor-default"
-      whileHover={{ scale: 1.04 }}
-      transition={{ type: "spring", stiffness: 400, damping: 15 }}
+      whileHover={{ scale: 1.05 }}
     >
       {/* Glow on hover */}
       <span
@@ -210,50 +234,136 @@ function SkillBadge({ name }: { name: string }) {
   );
 }
 
+const cardDirections = [
+  { x: -80, rotate: -2 },
+  { x: 80, rotate: 2 },
+  { x: -60, rotate: -1 },
+  { x: 60, rotate: 1 },
+];
+
 export default function Skills() {
-  const ref = useRef<HTMLElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
+  const sectionRef = useRef<HTMLElement>(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-12% 0px" });
+  const headerRef = useRef<HTMLDivElement>(null);
+  const headerInView = useInView(headerRef, { once: true, margin: "-10% 0px" });
+
+  // Scroll-driven parallax for background
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+
+  const bgGlowY = useTransform(scrollYProgress, [0, 1], [0, -120]);
+  const bgGlowOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.15, 0.85, 1],
+    [0.2, 0.7, 0.7, 0.2],
+  );
+  const orb1Y = useTransform(scrollYProgress, [0, 1], [0, -80]);
+  const orb2Y = useTransform(scrollYProgress, [0, 1], [0, 60]);
 
   return (
     <section
-      ref={ref}
+      ref={sectionRef}
       id="skills"
-      className="relative py-32 md:py-48 px-6 md:px-12 lg:px-24 bg-[#0a0a0a]"
+      className="relative py-32 md:py-48 px-6 md:px-12 lg:px-24 bg-[#0a0a0a] overflow-hidden"
     >
       {/* Subtle top gradient */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-      <div className="max-w-6xl mx-auto">
+      {/* Parallax background glow */}
+      <motion.div
+        className="pointer-events-none absolute top-1/3 left-1/2 -translate-x-1/2 h-[800px] w-[800px] md:h-[1100px] md:w-[1100px] rounded-full"
+        style={{
+          y: bgGlowY,
+          opacity: bgGlowOpacity,
+          background:
+            "radial-gradient(ellipse at center, rgba(34, 211, 238, 0.06) 0%, rgba(59, 130, 246, 0.03) 30%, transparent 65%)",
+        }}
+      />
+
+      {/* Floating scroll-driven orbs */}
+      <motion.div
+        className="pointer-events-none absolute top-1/5 right-8 h-40 w-40 rounded-full opacity-[0.08] blur-3xl"
+        style={{
+          y: orb1Y,
+          background:
+            "radial-gradient(circle, rgba(34, 211, 238, 0.4), transparent)",
+        }}
+      />
+      <motion.div
+        className="pointer-events-none absolute bottom-1/4 left-8 h-52 w-52 rounded-full opacity-[0.06] blur-3xl"
+        style={{
+          y: orb2Y,
+          background:
+            "radial-gradient(circle, rgba(168, 85, 247, 0.3), transparent)",
+        }}
+      />
+
+      <div className="max-w-6xl mx-auto relative z-10">
+        {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
+          ref={headerRef}
+          initial={{ opacity: 0, y: 50, filter: "blur(8px)" }}
+          animate={
+            headerInView
+              ? { opacity: 1, y: 0, filter: "blur(0px)" }
+              : {}
+          }
+          transition={{ duration: 0.9, ease: [0.17, 0.67, 0.36, 1] }}
           className="mb-16"
         >
-          <span className="text-sm font-mono text-white/40 tracking-widest uppercase">
+          <motion.span
+            initial={{ opacity: 0, x: -20 }}
+            animate={headerInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="text-sm font-mono text-white/40 tracking-widest uppercase"
+          >
             02 / Skills
-          </span>
-          <h2 className="mt-4 text-3xl md:text-5xl font-semibold text-white">
+          </motion.span>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={headerInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.25 }}
+            className="mt-4 text-3xl md:text-5xl font-semibold text-white"
+          >
             Tech Stack
-          </h2>
+          </motion.h2>
         </motion.div>
 
-        {/* Bento grid: first card spans full width on md+ */}
+        {/* Bento grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
           {stackGroups.map((group, index) => {
             const isFullWidth = index === 0;
+            const dir = cardDirections[index % cardDirections.length];
 
             return (
               <motion.div
                 key={group.title}
-                initial={{ opacity: 0, y: 30 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{
-                  duration: 0.6,
-                  delay: index * 0.12,
-                  ease: [0.33, 1, 0.68, 1],
+                initial={{
+                  opacity: 0,
+                  x: dir.x,
+                  rotate: dir.rotate,
+                  scale: 0.92,
+                  filter: "blur(6px)",
                 }}
-                className={`group relative overflow-hidden rounded-xl border border-white/[0.07] bg-[#0d0d0d] p-5 transition-all duration-500 hover:-translate-y-0.5 hover:border-white/[0.14] md:p-7 ${
+                animate={
+                  isInView
+                    ? {
+                        opacity: 1,
+                        x: 0,
+                        rotate: 0,
+                        scale: 1,
+                        filter: "blur(0px)",
+                      }
+                    : {}
+                }
+                transition={{
+                  duration: 0.8,
+                  delay: 0.1 + index * 0.13,
+                  ease: [0.17, 0.67, 0.36, 1],
+                }}
+                className={`group relative overflow-hidden rounded-xl border border-white/[0.07] bg-[#0d0d0d] p-5 transition-all duration-500 hover:-translate-y-1 hover:border-white/[0.14] hover:shadow-[0_0_40px_-12px_rgba(255,255,255,0.06)] md:p-7 ${
                   isFullWidth ? "md:col-span-2" : ""
                 }`}
               >
@@ -271,7 +381,24 @@ export default function Skills() {
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-center gap-3">
                       <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.03] transition-all duration-300 group-hover:border-white/[0.15] group-hover:bg-white/[0.06]">
-                        <group.icon size={22} className={group.iconColor} />
+                        <motion.div
+                          initial={{ rotate: -15, scale: 0.8 }}
+                          animate={
+                            isInView
+                              ? { rotate: 0, scale: 1 }
+                              : {}
+                          }
+                          transition={{
+                            duration: 0.6,
+                            delay: 0.2 + index * 0.13,
+                            ease: [0.17, 0.67, 0.36, 1],
+                          }}
+                        >
+                          <group.icon
+                            size={22}
+                            className={group.iconColor}
+                          />
+                        </motion.div>
                       </div>
                       <div>
                         <h3 className="text-lg font-medium text-white">
@@ -287,10 +414,10 @@ export default function Skills() {
                     </span>
                   </div>
 
-                  {/* Skills grid with icons */}
+                  {/* Skills grid with staggered icons */}
                   <div className="mt-6 flex flex-wrap gap-2">
-                    {group.items.map((item) => (
-                      <SkillBadge key={item} name={item} />
+                    {group.items.map((item, i) => (
+                      <SkillBadge key={item} name={item} index={i} />
                     ))}
                   </div>
                 </div>
@@ -299,6 +426,9 @@ export default function Skills() {
           })}
         </div>
       </div>
+
+      {/* Bottom fade */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0a0a0a] to-transparent" />
     </section>
   );
 }

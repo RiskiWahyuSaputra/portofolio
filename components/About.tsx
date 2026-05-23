@@ -141,8 +141,8 @@ export default function About() {
                 key={tx.bio}
                 text={tx.bio}
                 active={isInView}
-                delay={450}
-                speed={34}
+                delay={280}
+                speed={16}
                 className="mt-8 max-w-2xl text-xl md:text-2xl lg:text-[1.7rem] font-light text-white/80 leading-relaxed text-justify [text-align-last:left]"
               />
 
@@ -226,29 +226,48 @@ function TypingText({
   speed?: number;
 }) {
   const [visibleText, setVisibleText] = useState("");
+  const visibleRef = useRef(0);
 
   useEffect(() => {
     if (!active) return;
 
-    let index = 0;
-    let typingTimer: ReturnType<typeof setInterval> | undefined;
-    const startTimer = setTimeout(() => {
-      typingTimer = setInterval(() => {
-        index += 1;
-        setVisibleText(text.slice(0, index));
+    let rafId: number;
+    let startTime: number | null = null;
+    let delayElapsed = false;
+    let delayStartTime: number | null = null;
 
-        if (index >= text.length && typingTimer) {
-          clearInterval(typingTimer);
+    const tick = (timestamp: number) => {
+      if (!delayElapsed) {
+        if (delayStartTime === null) delayStartTime = timestamp;
+        if (timestamp - delayStartTime >= delay) {
+          delayElapsed = true;
+          startTime = timestamp;
         }
-      }, speed);
-    }, delay);
+        rafId = requestAnimationFrame(tick);
+        return;
+      }
 
-    return () => {
-      clearTimeout(startTimer);
-      if (typingTimer) {
-        clearInterval(typingTimer);
+      if (startTime === null) startTime = timestamp;
+
+      const elapsed = timestamp - startTime;
+      const targetIndex = Math.min(
+        Math.floor(elapsed / speed),
+        text.length,
+      );
+
+      if (targetIndex > visibleRef.current) {
+        visibleRef.current = targetIndex;
+        setVisibleText(text.slice(0, targetIndex));
+      }
+
+      if (visibleRef.current < text.length) {
+        rafId = requestAnimationFrame(tick);
       }
     };
+
+    rafId = requestAnimationFrame(tick);
+
+    return () => cancelAnimationFrame(rafId);
   }, [active, delay, speed, text]);
 
   return (
