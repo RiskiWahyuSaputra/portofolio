@@ -275,6 +275,17 @@ export default function Certificates() {
                 <p className="mt-1 truncate text-xs text-white/40">
                   {cert.issuer}
                 </p>
+                {cert.credentialUrl && cert.credentialUrl !== "#" && (
+                  <a
+                    href={cert.credentialUrl}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    onClick={(e) => e.stopPropagation()}
+                    className="mt-3 inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] font-medium uppercase tracking-widest text-white/60 hover:border-white/20 hover:bg-white/10 hover:text-white transition-all"
+                  >
+                    {lx.verify}
+                  </a>
+                )}
               </div>
             </motion.article>
           ))}
@@ -311,18 +322,33 @@ export default function Certificates() {
               </div>
 
               {/* Card body */}
-              <div className="p-5 flex items-center gap-3">
-                <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-white/5 border border-white/10">
-                  <Award size={14} className="text-white/40" />
+              <div className="p-5">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-white/5 border border-white/10">
+                    <Award size={14} className="text-white/40" />
+                  </div>
+                  <div className="min-w-0">
+                    <h3 className="text-sm font-semibold text-white group-hover:text-white/80 transition-colors truncate">
+                      {cert.title}
+                    </h3>
+                    <p className="text-xs text-white/40 mt-0.5">
+                      {cert.issuer} · {cert.date}
+                    </p>
+                  </div>
                 </div>
-                <div className="min-w-0">
-                  <h3 className="text-sm font-semibold text-white group-hover:text-white/80 transition-colors truncate">
-                    {cert.title}
-                  </h3>
-                  <p className="text-xs text-white/40 mt-0.5">
-                    {cert.issuer} · {cert.date}
-                  </p>
-                </div>
+                {cert.credentialUrl && cert.credentialUrl !== "#" && (
+                  <div className="mt-3 pt-3 border-t border-white/5">
+                    <a
+                      href={cert.credentialUrl}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      onClick={(e) => e.stopPropagation()}
+                      className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] font-medium uppercase tracking-widest text-white/60 hover:border-white/20 hover:bg-white/10 hover:text-white transition-all"
+                    >
+                      {lx.verify}
+                    </a>
+                  </div>
+                )}
               </div>
             </motion.article>
           ))}
