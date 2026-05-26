@@ -5,9 +5,9 @@ import { LangProvider } from "@/components/LangContext";
 import "./globals.css";
 
 const siteUrl = "https://portofolio-eosin-alpha.vercel.app";
-const siteTitle = "Riski Wahyu Saputra | Web Developer Portfolio";
+const siteTitle = "Riski Wahyu Saputra | IT Developer Portfolio";
 const siteDescription =
-  "Portfolio Riski Wahyu Saputra, web developer yang membangun aplikasi web modern dengan Laravel, React, dan teknologi frontend interaktif.";
+  "Portfolio Riski Wahyu Saputra, IT developer yang membangun aplikasi web modern dengan Laravel, React, dan teknologi frontend interaktif.";
 const ogImage = "/images/og-image.png";
 
 const outfit = Outfit({
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
         url: ogImage,
         width: 1906,
         height: 910,
-        alt: "Riski Wahyu Saputra Web Developer Portfolio",
+        alt: "Riski Wahyu Saputra IT Developer Portfolio",
       },
     ],
     locale: "id_ID",

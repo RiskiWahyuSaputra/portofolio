@@ -25,7 +25,7 @@ const storyTexts: StoryText[] = [
     progress: [0, 0.15],
     position: "center",
     title: "Hi, I'm Riski Wahyu Saputra",
-    subtitle: "Web Developer",
+    subtitle: "IT Developer",
   },
   {
     progress: [0.18, 0.32],
@@ -36,7 +36,7 @@ const storyTexts: StoryText[] = [
   {
     progress: [0.35, 0.48],
     position: "left",
-    title: "Web Developer Intern",
+    title: "IT Developer Intern",
     subtitle: "BEST CORPORATION SYARIAH",
   },
   {

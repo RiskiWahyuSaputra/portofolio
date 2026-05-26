@@ -17,10 +17,12 @@ export default function Footer() {
           viewport={{ once: true }}
           className="flex flex-col md:flex-row items-center gap-2 md:gap-4"
         >
-          <span className="text-lg font-semibold text-white">Riski.</span>
+          <span className="text-lg font-semibold text-white">
+            Riski Wahyu Saputra.
+          </span>
           <span className="text-white/30 hidden md:inline">|</span>
           <span className="text-sm text-white/40">
-            {lang === "EN" ? "Web Developer" : "Pengembang Web"}
+            {lang === "EN" ? "IT Developer" : "IT Developer"}
           </span>
         </motion.div>
 
@@ -31,9 +33,28 @@ export default function Footer() {
           viewport={{ once: true }}
           className="flex items-center gap-6"
         >
-          <a href="https://github.com/RiskiWahyuSaputra" target="_blank" rel="noopener noreferrer" className="text-sm text-white/40 hover:text-white transition-colors">GitHub</a>
-          <a href="https://www.linkedin.com/in/riski-wahyu-saputra-6a9078294/" target="_blank" rel="noopener noreferrer" className="text-sm text-white/40 hover:text-white transition-colors">LinkedIn</a>
-          <a href="mailto:kiik37734@gmail.com" className="text-sm text-white/40 hover:text-white transition-colors">Email</a>
+          <a
+            href="https://github.com/RiskiWahyuSaputra"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-white/40 hover:text-white transition-colors"
+          >
+            GitHub
+          </a>
+          <a
+            href="https://www.linkedin.com/in/riski-wahyu-saputra-6a9078294/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-white/40 hover:text-white transition-colors"
+          >
+            LinkedIn
+          </a>
+          <a
+            href="mailto:kiik37734@gmail.com"
+            className="text-sm text-white/40 hover:text-white transition-colors"
+          >
+            Email
+          </a>
         </motion.div>
 
         <motion.p
