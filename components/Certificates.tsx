@@ -22,7 +22,7 @@ const certificates: Certificate[] = [
     issuer: "Digital Talent Scholarship",
     date: "2026",
     image: "/certificates/cert-01.png",
-    credentialUrl: "#",
+    credentialUrl: "https://digitalent.kominfo.go.id/cek-sertifikat",
   },
   {
     id: "02",
@@ -30,7 +30,7 @@ const certificates: Certificate[] = [
     issuer: "Digital Talent Scholarship",
     date: "2026",
     image: "/certificates/cert-02.png",
-    credentialUrl: "#",
+    credentialUrl: "https://digitalent.kominfo.go.id/cek-sertifikat",
   },
   {
     id: "03",
@@ -38,7 +38,7 @@ const certificates: Certificate[] = [
     issuer: "Digital Talent Scholarship",
     date: "2026",
     image: "/certificates/cert-03.png",
-    credentialUrl: "#",
+    credentialUrl: "https://digitalent.kominfo.go.id/cek-sertifikat",
   },
   {
     id: "04",
@@ -119,11 +119,11 @@ const PER_PAGE = 6;
 function CertModal({
   cert,
   onClose,
-  verifyLabel,
+  credentialLabel,
 }: {
   cert: Certificate;
   onClose: () => void;
-  verifyLabel: string;
+  credentialLabel: string;
 }) {
   return (
     <motion.div
@@ -174,7 +174,7 @@ function CertModal({
               rel="noreferrer noopener"
               className="flex-shrink-0 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-medium uppercase tracking-widest text-white/70 hover:border-white/20 hover:bg-white/10 hover:text-white transition-all"
             >
-              {verifyLabel}
+              {credentialLabel}
             </a>
           )}
         </div>
@@ -195,13 +195,13 @@ export default function Certificates() {
       section: "07 / Certificates",
       heading: "Certifications",
       viewCert: "View Certificate",
-      verify: "Verify",
+      credential: "Credential",
     },
     ID: {
       section: "07 / Sertifikat",
       heading: "Sertifikasi",
       viewCert: "Lihat Sertifikat",
-      verify: "Verifikasi",
+      credential: "Kredensial",
     },
   }[lang];
 
@@ -283,7 +283,7 @@ export default function Certificates() {
                     onClick={(e) => e.stopPropagation()}
                     className="mt-3 inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] font-medium uppercase tracking-widest text-white/60 hover:border-white/20 hover:bg-white/10 hover:text-white transition-all"
                   >
-                    {lx.verify}
+                    {lx.credential}
                   </a>
                 )}
               </div>
@@ -345,7 +345,7 @@ export default function Certificates() {
                       onClick={(e) => e.stopPropagation()}
                       className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] font-medium uppercase tracking-widest text-white/60 hover:border-white/20 hover:bg-white/10 hover:text-white transition-all"
                     >
-                      {lx.verify}
+                      {lx.credential}
                     </a>
                   </div>
                 )}
@@ -396,7 +396,7 @@ export default function Certificates() {
           <CertModal
             cert={selected}
             onClose={() => setSelected(null)}
-            verifyLabel={lx.verify}
+            credentialLabel={lx.credential}
           />
         )}
       </AnimatePresence>
