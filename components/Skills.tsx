@@ -37,6 +37,8 @@ export default function Skills() {
         openedImageWidth="280px"
         openedImageHeight="280px"
         segments={25}
+        autoRotate
+        autoRotateSpeed={0.25}
       />
     </section>
   );

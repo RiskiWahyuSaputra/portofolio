@@ -124,7 +124,9 @@ export default function DomeGallery({
   openedImageHeight = '350px',
   imageBorderRadius = '30px',
   openedImageBorderRadius = '30px',
-  grayscale = true
+  grayscale = true,
+  autoRotate = false,
+  autoRotateSpeed = 0.3
 }) {
   const rootRef = useRef(null);
   const mainRef = useRef(null);
@@ -141,6 +143,7 @@ export default function DomeGallery({
   const draggingRef = useRef(false);
   const movedRef = useRef(false);
   const inertiaRAF = useRef(null);
+  const autoRotateRAF = useRef(null);
   const openingRef = useRef(false);
   const openStartedAtRef = useRef(0);
   const lastDragEndAt = useRef(0);
@@ -264,6 +267,13 @@ export default function DomeGallery({
     }
   }, []);
 
+  const stopAutoRotate = useCallback(() => {
+    if (autoRotateRAF.current) {
+      cancelAnimationFrame(autoRotateRAF.current);
+      autoRotateRAF.current = null;
+    }
+  }, []);
+
   const startInertia = useCallback(
     (vx, vy) => {
       const MAX_V = 1.4;
@@ -346,6 +356,22 @@ export default function DomeGallery({
     },
     { target: mainRef, eventOptions: { passive: true } }
   );
+
+  useEffect(() => {
+    if (!autoRotate) return;
+    const step = () => {
+      if (draggingRef.current || openingRef.current || focusedElRef.current || inertiaRAF.current) {
+        autoRotateRAF.current = requestAnimationFrame(step);
+        return;
+      }
+      const nextY = wrapAngleSigned(rotationRef.current.y + autoRotateSpeed);
+      rotationRef.current = { x: rotationRef.current.x, y: nextY };
+      applyTransform(rotationRef.current.x, nextY);
+      autoRotateRAF.current = requestAnimationFrame(step);
+    };
+    autoRotateRAF.current = requestAnimationFrame(step);
+    return () => stopAutoRotate();
+  }, [autoRotate, autoRotateSpeed, stopAutoRotate]);
 
   useEffect(() => {
     const scrim = scrimRef.current;
