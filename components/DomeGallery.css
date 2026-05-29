@@ -111,7 +111,12 @@ main.sphere-main {
   object-fit: cover;
   pointer-events: none;
   backface-visibility: hidden;
-  filter: var(--image-filter, none);
+  filter: grayscale(1);
+  transition: filter 300ms ease;
+}
+
+.item__image:hover img {
+  filter: grayscale(0);
 }
 
 .viewer {
