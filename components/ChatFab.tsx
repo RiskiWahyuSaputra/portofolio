@@ -120,7 +120,7 @@ export default function ChatFab() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 18, scale: 0.96 }}
             transition={{ duration: 0.24, ease: [0.33, 1, 0.68, 1] }}
-            className="mb-4 flex h-[min(620px,calc(100svh-7rem))] w-[calc(100vw-2.5rem)] max-w-[380px] flex-col overflow-hidden rounded-lg border border-white/10 bg-[#0f0f0f]/95 shadow-2xl shadow-black/60 backdrop-blur-xl"
+            className="mb-4 flex h-[min(480px,calc(100svh-7rem))] w-[calc(100vw-2.5rem)] max-w-[320px] flex-col overflow-hidden rounded-lg border border-white/10 bg-[#0f0f0f]/95 shadow-2xl shadow-black/60 backdrop-blur-xl"
           >
             <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
               <div className="flex items-center gap-3">
