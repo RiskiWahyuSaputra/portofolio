@@ -113,15 +113,15 @@ export default function GitHubContributions() {
           transition={{ duration: 0.8, delay: 0.3, ease: [0.33, 1, 0.68, 1] }}
           className="relative rounded-2xl overflow-hidden bg-[#0d1117] border border-[#30363d] p-6 md:p-8"
         >
-          {/* Contribution Graph menggunakan GitHub Chart */}
-          <div className="relative w-full overflow-x-auto pb-4 [scrollbar-width:thin] [scrollbar-color:#30363d_transparent]">
+          {/* Contribution Graph - GitHub Style dengan kotak hitam dan hijau */}
+          <div className="relative w-full overflow-x-auto pb-4 [scrollbar-width:thin] [scrollbar-color:#30363d_transparent] bg-[#0d1117] rounded-lg p-4">
             <img
-              src={`https://ghchart.rshah.org/${githubUsername}`}
+              src={`https://ghchart.rshah.org/239a3b/${githubUsername}`}
               alt="GitHub Contribution Graph"
-              className="w-full min-w-[600px] rounded-lg"
+              className="w-full min-w-[600px]"
               style={{ 
-                filter: "brightness(1.1) contrast(1.05)",
-                imageRendering: "crisp-edges"
+                imageRendering: "crisp-edges",
+                mixBlendMode: "screen"
               }}
             />
           </div>
