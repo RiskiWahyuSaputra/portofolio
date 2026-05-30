@@ -163,6 +163,54 @@ const projects: Project[] = [
       "Analytics dashboard",
     ],
   },
+  {
+    number: "08",
+    title: "Customer Support Chat System",
+    image: "/projects/project-05.svg",
+    demoUrl: "#",
+    description:
+      "Implementation of a customer support chat system with queue management, AI chatbot automation, real-time live chat, analytics dashboard, and WhatsApp integration.",
+    tech: [
+      "Laravel 12",
+      "PHP 8.2",
+      "Tailwind CSS 4",
+      "Alpine.js",
+      "Laravel Reverb",
+      "MySQL",
+      "Gemini API",
+    ],
+    features: [
+      "Queue management",
+      "AI chatbot",
+      "WhatsApp integration",
+      "Realtime live chat",
+      "Analytics dashboard",
+    ],
+  },
+  {
+    number: "09",
+    title: "Customer Support Chat System",
+    image: "/projects/project-05.svg",
+    demoUrl: "#",
+    description:
+      "Implementation of a customer support chat system with queue management, AI chatbot automation, real-time live chat, analytics dashboard, and WhatsApp integration.",
+    tech: [
+      "Laravel 12",
+      "PHP 8.2",
+      "Tailwind CSS 4",
+      "Alpine.js",
+      "Laravel Reverb",
+      "MySQL",
+      "Gemini API",
+    ],
+    features: [
+      "Queue management",
+      "AI chatbot",
+      "WhatsApp integration",
+      "Realtime live chat",
+      "Analytics dashboard",
+    ],
+  },
 ];
 
 function ProjectModal({
