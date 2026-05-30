@@ -212,7 +212,7 @@ const projects: Project[] = [
     ],
   },
   {
-    number: "09",
+    number: "10",
     title: "Customer Support Chat System",
     image: "/projects/project-05.svg",
     demoUrl: "#",
@@ -236,7 +236,7 @@ const projects: Project[] = [
     ],
   },
   {
-    number: "09",
+    number: "11",
     title: "Customer Support Chat System",
     image: "/projects/project-05.svg",
     demoUrl: "#",
