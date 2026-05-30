@@ -15,7 +15,7 @@ const t = {
     heading: "Let's work\ntogether",
     sub: "I'm open for opportunities & freelance projects",
     cta: "Contact Me",
-    github: "View My GitHub",
+    github: "View GitHub",
   },
   ID: {
     label: "Hubungi Saya",
