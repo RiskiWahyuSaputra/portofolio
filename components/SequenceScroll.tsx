@@ -25,7 +25,7 @@ const storyTexts: StoryText[] = [
     progress: [0, 0.15],
     position: "center",
     title: "Hi, I'm Riski Wahyu Saputra",
-    subtitle: "IT Developer",
+    subtitle: "IT Developer/Fullstack Web Developer",
   },
   {
     progress: [0.18, 0.32],
@@ -153,8 +153,11 @@ export default function SequenceScroll() {
         Math.max(0, Math.floor(frameRef.current.current)),
       );
       const img = imagesRef.current[frameIndex];
-      const { width: canvasWidth, height: canvasHeight, isMobile } =
-        canvasSizeRef.current;
+      const {
+        width: canvasWidth,
+        height: canvasHeight,
+        isMobile,
+      } = canvasSizeRef.current;
 
       if (
         img &&
