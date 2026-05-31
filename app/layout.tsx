@@ -41,7 +41,7 @@ export const metadata: Metadata = {
         url: ogImage,
         width: 1906,
         height: 910,
-        alt: "Riski Wahyu Saputra IT Developer Portfolio",
+        alt: "Riski Wahyu Saputra IT Developer/Fullstack Web Developer Portfolio",
       },
     ],
     locale: "id_ID",
