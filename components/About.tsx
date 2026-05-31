@@ -15,7 +15,7 @@ const t = {
   ID: {
     label: "01 / Tentang",
     heading: "Tentang Saya",
-    bio: "Riski Wahyu Saputra adalah seorang IT Developer lulusan Politeknik Negeri Lampung, yang berspesialisasi dalam pengembangan aplikasi web modern. Dengan pengalaman di BEST CORPORATION SYARIAH, ia membangun sistem yang skalabel dan efisien menggunakan teknologi terkini.",
+    bio: "Riski Wahyu Saputra adalah seorang IT Developer/Fullstack Web Developer lulusan Politeknik Negeri Lampung, yang berspesialisasi dalam pengembangan aplikasi web modern. Dengan pengalaman di BEST CORPORATION SYARIAH, ia membangun sistem yang skalabel dan efisien menggunakan teknologi terkini.",
   },
 };
 
