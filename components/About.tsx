@@ -1,12 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import {
-  motion,
-  useInView,
-  useScroll,
-  useTransform,
-} from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useLang } from "./LangContext";
 import Lanyard from "./Lanyard";
 import VariableProximity from "./VariableProximity";
@@ -15,7 +10,7 @@ const t = {
   EN: {
     label: "01 / About",
     heading: "Who I Am",
-    bio: "Riski Wahyu Saputra is an IT Developer graduate from Politeknik Negeri Lampung, specializing in modern web application development. With experience at BEST CORPORATION SYARIAH, he builds scalable and efficient systems using modern technologies.",
+    bio: "Riski Wahyu Saputra is an IT Developer/Fullstack Web Developer graduate from Politeknik Negeri Lampung, specializing in modern web application development. With experience at BEST CORPORATION SYARIAH, he builds scalable and efficient systems using modern technologies.",
   },
   ID: {
     label: "01 / Tentang",
@@ -51,13 +46,25 @@ export default function About() {
 
   const lanyardY = useTransform(scrollYProgress, [0, 1], [80, -80]);
   const lanyardRotate = useTransform(scrollYProgress, [0, 1], [-3, 3]);
-  const lanyardOpacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0.6, 1, 1, 0.6]);
+  const lanyardOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.15, 0.85, 1],
+    [0.6, 1, 1, 0.6],
+  );
 
   const textY = useTransform(scrollYProgress, [0, 1], [60, -60]);
-  const textOpacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.5, 1, 1, 0.5]);
+  const textOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.2, 0.8, 1],
+    [0.5, 1, 1, 0.5],
+  );
 
   const bgGlowY = useTransform(scrollYProgress, [0, 1], [0, -100]);
-  const bgGlowOpacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0.3, 0.8, 0.8, 0.3]);
+  const bgGlowOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.1, 0.9, 1],
+    [0.3, 0.8, 0.8, 0.3],
+  );
 
   return (
     <>
@@ -83,14 +90,16 @@ export default function About() {
           className="pointer-events-none absolute top-1/4 right-10 h-32 w-32 rounded-full opacity-10 blur-3xl"
           style={{
             y: useTransform(scrollYProgress, [0, 1], [0, -60]),
-            background: "radial-gradient(circle, rgba(34, 211, 238, 0.3), transparent)",
+            background:
+              "radial-gradient(circle, rgba(34, 211, 238, 0.3), transparent)",
           }}
         />
         <motion.div
           className="pointer-events-none absolute bottom-1/4 left-10 h-40 w-40 rounded-full opacity-10 blur-3xl"
           style={{
             y: useTransform(scrollYProgress, [0, 1], [0, 40]),
-            background: "radial-gradient(circle, rgba(168, 85, 247, 0.3), transparent)",
+            background:
+              "radial-gradient(circle, rgba(168, 85, 247, 0.3), transparent)",
           }}
         />
 
@@ -250,10 +259,7 @@ function TypingText({
       if (startTime === null) startTime = timestamp;
 
       const elapsed = timestamp - startTime;
-      const targetIndex = Math.min(
-        Math.floor(elapsed / speed),
-        text.length,
-      );
+      const targetIndex = Math.min(Math.floor(elapsed / speed), text.length);
 
       if (targetIndex > visibleRef.current) {
         visibleRef.current = targetIndex;
