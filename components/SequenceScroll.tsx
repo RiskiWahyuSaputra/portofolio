@@ -43,7 +43,8 @@ const storyTexts: StoryText[] = [
     progress: [0.52, 0.68],
     position: "right",
     title: "Building modern web apps",
-    subtitle: "Laravel • React • Tailwind • PHP • MySQL",
+    subtitle:
+      "Laravel • React • Next.js • vite • TypeScript • Tailwind • PHP • MySQL",
   },
   {
     progress: [0.72, 0.85],
