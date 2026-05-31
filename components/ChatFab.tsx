@@ -23,7 +23,7 @@ const initialMessages: ChatMessage[] = [
     id: "welcome",
     role: "assistant",
     content:
-      "Halo, saya asisten portfolio Riski. Silakan tanya tentang project, skill, atau kontak langsung via WhatsApp dan email.",
+      "Halo! Saya asisten portfolio Riski. Saya hanya bisa menjawab tentang Riski - project, skill, pengalaman, atau kontaknya. Ada yang ingin kamu tanyakan?",
   },
 ];
 
