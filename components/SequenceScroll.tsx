@@ -54,7 +54,7 @@ const storyTexts: StoryText[] = [
   {
     progress: [0.9, 1],
     position: "center",
-    title: "Let's build something great together",
+    title: "Let's build something great together to me",
     cta: true,
   },
 ];
