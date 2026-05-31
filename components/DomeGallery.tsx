@@ -39,13 +39,13 @@ const DEFAULTS = {
   segments: 35
 };
 
-const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
-const normalizeAngle = d => ((d % 360) + 360) % 360;
-const wrapAngleSigned = deg => {
+const clamp = (v: number, min: number, max: number): number => Math.min(Math.max(v, min), max);
+const normalizeAngle = (d: number): number => ((d % 360) + 360) % 360;
+const wrapAngleSigned = (deg: number): number => {
   const a = (((deg + 180) % 360) + 360) % 360;
   return a - 180;
 };
-const getDataNumber = (el, name, fallback) => {
+const getDataNumber = (el: HTMLElement, name: string, fallback: number): number => {
   const attr = el.dataset[name] ?? el.getAttribute(`data-${name}`);
   const n = attr == null ? NaN : parseFloat(attr);
   return Number.isFinite(n) ? n : fallback;
