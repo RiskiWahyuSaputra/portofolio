@@ -5,7 +5,8 @@ import { LangProvider } from "@/components/LangContext";
 import "./globals.css";
 
 const siteUrl = "https://portofolio-eosin-alpha.vercel.app";
-const siteTitle = "Riski Wahyu Saputra | IT Developer Portfolio";
+const siteTitle =
+  "Riski Wahyu Saputra | IT Developer/Fullstack Web Developer Portfolio";
 const siteDescription =
   "Portfolio Riski Wahyu Saputra, IT developer yang membangun aplikasi web modern dengan Laravel, React, dan teknologi frontend interaktif.";
 const ogImage = "/images/og-image.png";
@@ -60,7 +61,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${outfit.variable} ${robotoFlex.variable} antialiased`}>
+    <html
+      lang="en"
+      className={`${outfit.variable} ${robotoFlex.variable} antialiased`}
+    >
       <body className="min-h-full bg-[#050505] text-[#f5f5f5] font-sans">
         <LangProvider>
           <SmoothScroll>{children}</SmoothScroll>
