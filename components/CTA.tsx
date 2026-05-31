@@ -22,7 +22,7 @@ const t = {
     heading: "Mari bekerja\nbersama",
     sub: "Saya terbuka untuk peluang kerja & proyek freelance",
     cta: "Hubungi Saya",
-    github: "Lihat GitHub",
+    github: "Lihat GitHub Saya",
   },
 };
 
