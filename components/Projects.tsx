@@ -91,19 +91,23 @@ const projects: Project[] = [
       "REST API",
     ],
   },
+
   {
     number: "05",
-    title: "replacement practicum payment based on QRIS (POLINELA)",
-    image: "/projects/project-04.png",
+    title: "KlinikQ - Clinic Management System",
+    image: "/projects/project-09.png",
     demoUrl: "#",
     description:
-      "Development of a substitute practicum payment application using QRIS for the Information Technology Department of Lampung State Polytechnic.",
-    tech: ["CodeIgniter", "PHP", "MySQL", "Bootstrap"],
+      "A complete clinic management application that allows clinic staff to manage patients, doctors, schedules, appointments, medical records, prescriptions, payments, and public content (articles/news). This system is built for internal clinic use with a Blade-based interface, structured API for integration, as well as notification and reporting functions.",
+    tech: ["Laravel 12", "PHP 8.2", "Vite", "Tailwind CSS 4", "MySQL", "Git"],
     features: [
-      "QRIS payment flow",
-      "Practicum billing",
-      "Payment verification",
-      "Admin management",
+      "Patient Management: Patient CRUD, integrated medical records, visit history.",
+      "Doctor & Service Management: Doctor profiles, specializations, service/fee configurations.",
+      "Scheduling and Appointments: Doctor's schedule calendar, patient appointment booking, status (confirmed/cancelled).",
+      "Medical Record & Prescription Form: Recording diagnosis, examination results, printing/generating prescriptions.",
+      "Notifications: In-app notifications for appointment confirmations and reminders, as well as a notification system for staff.",
+      "Content Management: Article/news module for publishing health information.",
+      "Authentication & Authorization: Login, role/permission management (admin, receptionist, doctor).",
     ],
   },
 
@@ -125,44 +129,20 @@ const projects: Project[] = [
 
   {
     number: "07",
-    title: "Inventory Management App",
-    image: "/projects/project-03.svg",
+    title: "replacement practicum payment based on QRIS (POLINELA)",
+    image: "/projects/project-04.png",
     demoUrl: "#",
     description:
-      "Modern inventory management with barcode scanning, multi-warehouse support, automated stock alerts, and a REST API for integrations.",
-    tech: ["Laravel", "JWT", "MySQL"],
+      "Development of a substitute practicum payment application using QRIS for the Information Technology Department of Lampung State Polytechnic.",
+    tech: ["CodeIgniter", "PHP", "MySQL", "Bootstrap"],
     features: [
-      "Barcode scanning",
-      "Multi warehouse",
-      "Stock alerts",
-      "REST API",
+      "QRIS payment flow",
+      "Practicum billing",
+      "Payment verification",
+      "Admin management",
     ],
   },
 
-  {
-    number: "08",
-    title: "Customer Support Chat System",
-    image: "/projects/project-05.svg",
-    demoUrl: "#",
-    description:
-      "Implementation of a customer support chat system with queue management, AI chatbot automation, real-time live chat, analytics dashboard, and WhatsApp integration.",
-    tech: [
-      "Laravel 12",
-      "PHP 8.2",
-      "Tailwind CSS 4",
-      "Alpine.js",
-      "Laravel Reverb",
-      "MySQL",
-      "Gemini API",
-    ],
-    features: [
-      "Queue management",
-      "AI chatbot",
-      "WhatsApp integration",
-      "Realtime live chat",
-      "Analytics dashboard",
-    ],
-  },
   {
     number: "08",
     title: "Customer Support Chat System",
@@ -211,6 +191,7 @@ const projects: Project[] = [
       "Analytics dashboard",
     ],
   },
+
   {
     number: "10",
     title: "Customer Support Chat System",
@@ -237,50 +218,17 @@ const projects: Project[] = [
   },
   {
     number: "11",
-    title: "Customer Support Chat System",
-    image: "/projects/project-05.svg",
+    title: "Inventory Management App",
+    image: "/projects/project-03.svg",
     demoUrl: "#",
     description:
-      "Implementation of a customer support chat system with queue management, AI chatbot automation, real-time live chat, analytics dashboard, and WhatsApp integration.",
-    tech: [
-      "Laravel 12",
-      "PHP 8.2",
-      "Tailwind CSS 4",
-      "Alpine.js",
-      "Laravel Reverb",
-      "MySQL",
-      "Gemini API",
-    ],
+      "Modern inventory management with barcode scanning, multi-warehouse support, automated stock alerts, and a REST API for integrations.",
+    tech: ["Laravel", "JWT", "MySQL"],
     features: [
-      "Queue management",
-      "AI chatbot",
-      "WhatsApp integration",
-      "Realtime live chat",
-      "Analytics dashboard",
-    ],
-  },
-  {
-    number: "12",
-    title: "Customer Support Chat System",
-    image: "/projects/project-05.svg",
-    demoUrl: "#",
-    description:
-      "Implementation of a customer support chat system with queue management, AI chatbot automation, real-time live chat, analytics dashboard, and WhatsApp integration.",
-    tech: [
-      "Laravel 12",
-      "PHP 8.2",
-      "Tailwind CSS 4",
-      "Alpine.js",
-      "Laravel Reverb",
-      "MySQL",
-      "Gemini API",
-    ],
-    features: [
-      "Queue management",
-      "AI chatbot",
-      "WhatsApp integration",
-      "Realtime live chat",
-      "Analytics dashboard",
+      "Barcode scanning",
+      "Multi warehouse",
+      "Stock alerts",
+      "REST API",
     ],
   },
 ];
