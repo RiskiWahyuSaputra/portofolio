@@ -139,7 +139,7 @@ const projects: Project[] = [
       "QRIS payment flow",
       "Practicum billing",
       "Payment verification",
-      "Admin managemen",
+      "Admin management",
     ],
   },
 
