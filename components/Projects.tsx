@@ -231,6 +231,21 @@ const projects: Project[] = [
       "REST API",
     ],
   },
+  {
+    number: "12",
+    title: "Inventory Management App",
+    image: "/projects/project-03.svg",
+    demoUrl: "#",
+    description:
+      "Modern inventory management with barcode scanning, multi-warehouse support, automated stock alerts, and a REST API for integrations.",
+    tech: ["Laravel", "JWT", "MySQL"],
+    features: [
+      "Barcode scanning",
+      "Multi warehouse",
+      "Stock alerts",
+      "REST API",
+    ],
+  },
 ];
 
 function ProjectModal({
