@@ -39,10 +39,10 @@ const LinkedinIcon = ({ size = 18 }: { size?: number }) => (
 );
 
 const navLinks = [
-  { name: "About", href: "#about" },
-  { name: "Skills", href: "#skills" },
-  { name: "Projects", href: "#projects" },
-  { name: "Contact", href: "#contact" },
+  { name: { EN: "About", ID: "Tentang" }, href: "#about" },
+  { name: { EN: "Skills", ID: "Keahlian" }, href: "#skills" },
+  { name: { EN: "Projects", ID: "Proyek" }, href: "#projects" },
+  { name: { EN: "Contact", ID: "Kontak" }, href: "#contact" },
 ];
 
 const socialLinks = [
@@ -91,6 +91,10 @@ export default function Navbar() {
     }, 300);
   };
 
+  const menuLabel = isOpen
+    ? (lang === "EN" ? "Close" : "Tutup")
+    : (lang === "EN" ? "Menu" : "Menu");
+
   return (
     <>
       <motion.nav
@@ -130,7 +134,7 @@ export default function Navbar() {
               aria-label="Toggle menu"
             >
               <span className="text-sm font-medium tracking-widest uppercase hidden md:block">
-                {isOpen ? "Close" : "Menu"}
+                {menuLabel}
               </span>
               <div className="w-10 h-10 flex items-center justify-center">
                 {isOpen ? <X size={20} /> : <Menu size={20} />}
@@ -154,7 +158,7 @@ export default function Navbar() {
               <div className="flex flex-col gap-2 md:gap-4">
                 {navLinks.map((link, i) => (
                   <motion.div
-                    key={link.name}
+                    key={link.href}
                     initial={{ opacity: 0, x: -60 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -40 }}
@@ -172,7 +176,7 @@ export default function Navbar() {
                         0{i + 1}
                       </span>
                       <span className="text-4xl md:text-6xl lg:text-7xl font-semibold text-white/90 group-hover:text-white transition-colors duration-300">
-                        {link.name}
+                        {link.name[lang]}
                       </span>
                     </button>
                   </motion.div>

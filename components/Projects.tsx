@@ -11,9 +11,9 @@ type Project = {
   title: string;
   image: string;
   demoUrl: string;
-  description: string;
+  description: { EN: string; ID: string };
   tech: string[];
-  features: string[];
+  features: { EN: string; ID: string }[];
 };
 
 const projects: Project[] = [
@@ -22,15 +22,17 @@ const projects: Project[] = [
     title: "StockFlow Commerce",
     image: "/projects/project-01.png",
     demoUrl: "#",
-    description:
-      "A full-featured E-Commerce platform with product catalog, shopping cart, Midtrans payment integration, admin dashboard, and real-time inventory tracking.",
+    description: {
+      EN: "A full-featured E-Commerce platform with product catalog, shopping cart, Midtrans payment integration, admin dashboard, and real-time inventory tracking.",
+      ID: "Platform E-Commerce lengkap dengan katalog produk, keranjang belanja, integrasi pembayaran Midtrans, dashboard admin, dan pelacakan inventaris real-time.",
+    },
     tech: ["Laravel", "MySQL", "Tailwind"],
     features: [
-      "Product catalog",
-      "Cart system",
-      "Midtrans payment",
-      "Admin dashboard",
-      "Inventory tracking",
+      { EN: "Product catalog", ID: "Katalog produk" },
+      { EN: "Cart system", ID: "Sistem keranjang" },
+      { EN: "Midtrans payment", ID: "Pembayaran Midtrans" },
+      { EN: "Admin dashboard", ID: "Dashboard admin" },
+      { EN: "Inventory tracking", ID: "Pelacakan inventaris" },
     ],
   },
   {
@@ -38,14 +40,16 @@ const projects: Project[] = [
     title: "School Management System",
     image: "/projects/project-02.png",
     demoUrl: "#",
-    description:
-      "Comprehensive school management solution handling student enrollment, attendance tracking, academic records, and a dedicated parent portal.",
+    description: {
+      EN: "Comprehensive school management solution handling student enrollment, attendance tracking, academic records, and a dedicated parent portal.",
+      ID: "Solusi manajemen sekolah komprehensif yang menangani pendaftaran siswa, pelacakan kehadiran, catatan akademik, dan portal orang tua khusus.",
+    },
     tech: ["CodeIgniter", "PHP", "MySQL", "Bootstrap"],
     features: [
-      "Student system",
-      "Attendance",
-      "Academic records",
-      "Parent portal",
+      { EN: "Student system", ID: "Sistem siswa" },
+      { EN: "Attendance", ID: "Kehadiran" },
+      { EN: "Academic records", ID: "Catatan akademik" },
+      { EN: "Parent portal", ID: "Portal orang tua" },
     ],
   },
   {
@@ -53,8 +57,10 @@ const projects: Project[] = [
     title: "Smart Resource Optimizer",
     image: "/projects/project-07.png",
     demoUrl: "#",
-    description:
-      "A web-based platform that connects restaurants/businesses with surplus food to communities in need. This application facilitates efficient food sharing through a real-time claim and verification system.",
+    description: {
+      EN: "A web-based platform that connects restaurants/businesses with surplus food to communities in need. This application facilitates efficient food sharing through a real-time claim and verification system.",
+      ID: "Platform berbasis web yang menghubungkan restoran/bisnis dengan kelebihan makanan kepada komunitas yang membutuhkan. Aplikasi ini memfasilitasi pembagian makanan yang efisien melalui sistem klaim dan verifikasi real-time.",
+    },
     tech: [
       "Laravel 11",
       "Laravel Reverb",
@@ -67,12 +73,12 @@ const projects: Project[] = [
       "Vite",
     ],
     features: [
-      "Manajemen user",
-      "Food posting",
-      "Food claiming",
-      "Real-time updates",
-      "Geolocation",
-      "Admin dashboard",
+      { EN: "Manajemen user", ID: "Manajemen user" },
+      { EN: "Food posting", ID: "Posting makanan" },
+      { EN: "Food claiming", ID: "Klaim makanan" },
+      { EN: "Real-time updates", ID: "Pembaruan real-time" },
+      { EN: "Geolocation", ID: "Geolokasi" },
+      { EN: "Admin dashboard", ID: "Dashboard admin" },
     ],
   },
 
@@ -81,14 +87,16 @@ const projects: Project[] = [
     title: "TokoQ - UMKM E-Commerce Platform",
     image: "/projects/project-08.png",
     demoUrl: "#",
-    description:
-      "TokoQ-UMKM is an e-commerce and digital store management platform specifically designed for MSMEs (Micro, Small, and Medium Enterprises) in Indonesia..",
+    description: {
+      EN: "TokoQ-UMKM is an e-commerce and digital store management platform specifically designed for MSMEs (Micro, Small, and Medium Enterprises) in Indonesia.",
+      ID: "TokoQ-UMKM adalah platform e-commerce dan manajemen toko digital yang dirancang khusus untuk UMKM (Usaha Mikro, Kecil, dan Menengah) di Indonesia.",
+    },
     tech: ["Laravel", "Vite ", "Tailwind CSS", "Vanilla JavaScript/ES Modules"],
     features: [
-      "Barcode scanning",
-      "Multi warehouse",
-      "Stock alerts",
-      "REST API",
+      { EN: "Barcode scanning", ID: "Pemindaian barcode" },
+      { EN: "Multi warehouse", ID: "Multi gudang" },
+      { EN: "Stock alerts", ID: "Peringatan stok" },
+      { EN: "REST API", ID: "REST API" },
     ],
   },
 
@@ -97,17 +105,19 @@ const projects: Project[] = [
     title: "KlinikQ - Clinic Management System",
     image: "/projects/project-09.png",
     demoUrl: "#",
-    description:
-      "A complete clinic management application that allows clinic staff to manage patients, doctors, schedules, appointments, medical records, prescriptions, payments, and public content (articles/news). This system is built for internal clinic use with a Blade-based interface, structured API for integration, as well as notification and reporting functions.",
+    description: {
+      EN: "A complete clinic management application that allows clinic staff to manage patients, doctors, schedules, appointments, medical records, prescriptions, payments, and public content (articles/news). This system is built for internal clinic use with a Blade-based interface, structured API for integration, as well as notification and reporting functions.",
+      ID: "Aplikasi manajemen klinik lengkap yang memungkinkan staf klinik mengelola pasien, dokter, jadwal, janji temu, rekam medis, resep, pembayaran, dan konten publik (artikel/berita). Sistem ini dibangun untuk penggunaan internal klinik dengan berbasis Blade, API terstruktur untuk integrasi, serta fungsi notifikasi dan pelaporan.",
+    },
     tech: ["Laravel 12", "PHP 8.2", "Vite", "Tailwind CSS 4", "MySQL", "Git"],
     features: [
-      "Patient Management: Patient CRUD, integrated medical records, visit history.",
-      "Doctor & Service Management: Doctor profiles, specializations, service/fee configurations.",
-      "Scheduling and Appointments: Doctor's schedule calendar, patient appointment booking, status (confirmed/cancelled).",
-      "Medical Record & Prescription Form: Recording diagnosis, examination results, printing/generating prescriptions.",
-      "Notifications: In-app notifications for appointment confirmations and reminders, as well as a notification system for staff.",
-      "Content Management: Article/news module for publishing health information.",
-      "Authentication & Authorization: Login, role/permission management (admin, receptionist, doctor).",
+      { EN: "Patient Management: Patient CRUD, integrated medical records, visit history.", ID: "Manajemen Pasien: CRUD pasien, rekam medis terintegrasi, riwayat kunjungan." },
+      { EN: "Doctor & Service Management: Doctor profiles, specializations, service/fee configurations.", ID: "Manajemen Dokter & Layanan: Profil dokter, spesialisasi, konfigurasi layanan/biaya." },
+      { EN: "Scheduling and Appointments: Doctor's schedule calendar, patient appointment booking, status (confirmed/cancelled).", ID: "Penjadwalan dan Janji Temu: Kalender jadwal dokter, pemesanan janji temu pasien, status (dikonfirmasi/dibatalkan)." },
+      { EN: "Medical Record & Prescription Form: Recording diagnosis, examination results, printing/generating prescriptions.", ID: "Rekam Medis & Formulir Resep: Pencatatan diagnosis, hasil pemeriksaan, pencetakan/pembuatan resep." },
+      { EN: "Notifications: In-app notifications for appointment confirmations and reminders, as well as a notification system for staff.", ID: "Notifikasi: Notifikasi dalam aplikasi untuk konfirmasi dan pengingat janji temu, serta sistem notifikasi untuk staf." },
+      { EN: "Content Management: Article/news module for publishing health information.", ID: "Manajemen Konten: Modul artikel/berita untuk menerbitkan informasi kesehatan." },
+      { EN: "Authentication & Authorization: Login, role/permission management (admin, receptionist, doctor).", ID: "Autentikasi & Otorisasi: Login, manajemen role/izin (admin, resepsionis, dokter)." },
     ],
   },
 
@@ -116,14 +126,16 @@ const projects: Project[] = [
     title: "Faste Coffee Shop Landing Page",
     image: "/projects/project-06.png",
     demoUrl: "#",
-    description:
-      "A modern landing page for Faste Coffee Shop focused on brand storytelling, smooth scrolling interactions, and a polished mobile-first browsing experience.",
+    description: {
+      EN: "A modern landing page for Faste Coffee Shop focused on brand storytelling, smooth scrolling interactions, and a polished mobile-first browsing experience.",
+      ID: "Landing page modern untuk Faste Coffee Shop yang berfokus pada penceritaan merek, interaksi scroll yang halus, dan pengalaman browsing mobile-first yang elegan.",
+    },
     tech: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Lenis"],
     features: [
-      "Brand storytelling",
-      "Smooth scrolling",
-      "Responsive layout",
-      "Interactive sections",
+      { EN: "Brand storytelling", ID: "Penceritaan merek" },
+      { EN: "Smooth scrolling", ID: "Scroll halus" },
+      { EN: "Responsive layout", ID: "Tata letak responsif" },
+      { EN: "Interactive sections", ID: "Bagian interaktif" },
     ],
   },
 
@@ -132,24 +144,27 @@ const projects: Project[] = [
     title: "replacement practicum payment based on QRIS (POLINELA)",
     image: "/projects/project-04.png",
     demoUrl: "#",
-    description:
-      "Development of a substitute practicum payment application using QRIS for the Information Technology Department of Lampung State Polytechnic.",
+    description: {
+      EN: "Development of a substitute practicum payment application using QRIS for the Information Technology Department of Lampung State Polytechnic.",
+      ID: "Pengembangan aplikasi pembayaran pengganti praktikum berbasis QRIS untuk Jurusan Teknologi Informasi Politeknik Negeri Lampung.",
+    },
     tech: ["CodeIgniter", "PHP", "MySQL", "Bootstrap"],
     features: [
-      "QRIS payment flow",
-      "Practicum billing",
-      "Payment verification",
-      "Admin managementt",
+      { EN: "QRIS payment flow", ID: "Alur pembayaran QRIS" },
+      { EN: "Practicum billing", ID: "Penagihan praktikum" },
+      { EN: "Payment verification", ID: "Verifikasi pembayaran" },
+      { EN: "Admin management", ID: "Manajemen admin" },
     ],
   },
-
   {
     number: "08",
     title: "Customer Support Chat System",
     image: "/projects/project-05.svg",
     demoUrl: "#",
-    description:
-      "Implementation of a customer support chat system with queue management, AI chatbot automation, real-time live chat, analytics dashboard, and WhatsApp integration.",
+    description: {
+      EN: "Implementation of a customer support chat system with queue management, AI chatbot automation, real-time live chat, analytics dashboard, and WhatsApp integration.",
+      ID: "Implementasi sistem chat dukungan pelanggan dengan manajemen antrian, otomasi chatbot AI, live chat real-time, dashboard analitik, dan integrasi WhatsApp.",
+    },
     tech: [
       "Laravel 12",
       "PHP 8.2",
@@ -160,11 +175,11 @@ const projects: Project[] = [
       "Gemini API",
     ],
     features: [
-      "Queue management",
-      "AI chatbot",
-      "WhatsApp integration",
-      "Realtime live chat",
-      "Analytics dashboard",
+      { EN: "Queue management", ID: "Manajemen antrian" },
+      { EN: "AI chatbot", ID: "Chatbot AI" },
+      { EN: "WhatsApp integration", ID: "Integrasi WhatsApp" },
+      { EN: "Realtime live chat", ID: "Live chat real-time" },
+      { EN: "Analytics dashboard", ID: "Dashboard analitik" },
     ],
   },
   {
@@ -172,8 +187,10 @@ const projects: Project[] = [
     title: "Customer Support Chat System",
     image: "/projects/project-05.svg",
     demoUrl: "#",
-    description:
-      "Implementation of a customer support chat system with queue management, AI chatbot automation, real-time live chat, analytics dashboard, and WhatsApp integration.",
+    description: {
+      EN: "Implementation of a customer support chat system with queue management, AI chatbot automation, real-time live chat, analytics dashboard, and WhatsApp integration.",
+      ID: "Implementasi sistem chat dukungan pelanggan dengan manajemen antrian, otomasi chatbot AI, live chat real-time, dashboard analitik, dan integrasi WhatsApp.",
+    },
     tech: [
       "Laravel 12",
       "PHP 8.2",
@@ -184,21 +201,22 @@ const projects: Project[] = [
       "Gemini API",
     ],
     features: [
-      "Queue management",
-      "AI chatbot",
-      "WhatsApp integration",
-      "Realtime live chat",
-      "Analytics dashboard",
+      { EN: "Queue management", ID: "Manajemen antrian" },
+      { EN: "AI chatbot", ID: "Chatbot AI" },
+      { EN: "WhatsApp integration", ID: "Integrasi WhatsApp" },
+      { EN: "Realtime live chat", ID: "Live chat real-time" },
+      { EN: "Analytics dashboard", ID: "Dashboard analitik" },
     ],
   },
-
   {
     number: "10",
     title: "Customer Support Chat System",
     image: "/projects/project-05.svg",
     demoUrl: "#",
-    description:
-      "Implementation of a customer support chat system with queue management, AI chatbot automation, real-time live chat, analytics dashboard, and WhatsApp integration.",
+    description: {
+      EN: "Implementation of a customer support chat system with queue management, AI chatbot automation, real-time live chat, analytics dashboard, and WhatsApp integration.",
+      ID: "Implementasi sistem chat dukungan pelanggan dengan manajemen antrian, otomasi chatbot AI, live chat real-time, dashboard analitik, dan integrasi WhatsApp.",
+    },
     tech: [
       "Laravel 12",
       "PHP 8.2",
@@ -209,11 +227,11 @@ const projects: Project[] = [
       "Gemini API",
     ],
     features: [
-      "Queue management",
-      "AI chatbot",
-      "WhatsApp integration",
-      "Realtime live chat",
-      "Analytics dashboard",
+      { EN: "Queue management", ID: "Manajemen antrian" },
+      { EN: "AI chatbot", ID: "Chatbot AI" },
+      { EN: "WhatsApp integration", ID: "Integrasi WhatsApp" },
+      { EN: "Realtime live chat", ID: "Live chat real-time" },
+      { EN: "Analytics dashboard", ID: "Dashboard analitik" },
     ],
   },
   {
@@ -221,14 +239,16 @@ const projects: Project[] = [
     title: "Inventory Management App",
     image: "/projects/project-03.svg",
     demoUrl: "#",
-    description:
-      "Modern inventory management with barcode scanning, multi-warehouse support, automated stock alerts, and a REST API for integrations.",
+    description: {
+      EN: "Modern inventory management with barcode scanning, multi-warehouse support, automated stock alerts, and a REST API for integrations.",
+      ID: "Manajemen inventaris modern dengan pemindaian barcode, dukungan multi gudang, peringatan stok otomatis, dan REST API untuk integrasi.",
+    },
     tech: ["Laravel", "JWT", "MySQL"],
     features: [
-      "Barcode scanning",
-      "Multi warehouse",
-      "Stock alerts",
-      "REST API",
+      { EN: "Barcode scanning", ID: "Pemindaian barcode" },
+      { EN: "Multi warehouse", ID: "Multi gudang" },
+      { EN: "Stock alerts", ID: "Peringatan stok" },
+      { EN: "REST API", ID: "REST API" },
     ],
   },
   {
@@ -236,14 +256,16 @@ const projects: Project[] = [
     title: "Inventory Management App",
     image: "/projects/project-03.svg",
     demoUrl: "#",
-    description:
-      "Modern inventory management with barcode scanning, multi-warehouse support, automated stock alerts, and a REST API for integrations.",
+    description: {
+      EN: "Modern inventory management with barcode scanning, multi-warehouse support, automated stock alerts, and a REST API for integrations.",
+      ID: "Manajemen inventaris modern dengan pemindaian barcode, dukungan multi gudang, peringatan stok otomatis, dan REST API untuk integrasi.",
+    },
     tech: ["Laravel", "JWT", "MySQL"],
     features: [
-      "Barcode scanning",
-      "Multi warehouse",
-      "Stock alerts",
-      "REST API",
+      { EN: "Barcode scanning", ID: "Pemindaian barcode" },
+      { EN: "Multi warehouse", ID: "Multi gudang" },
+      { EN: "Stock alerts", ID: "Peringatan stok" },
+      { EN: "REST API", ID: "REST API" },
     ],
   },
 ];
@@ -252,10 +274,12 @@ function ProjectModal({
   project,
   onClose,
   labels,
+  lang,
 }: {
   project: Project;
   onClose: () => void;
   labels: { demo: string; techStack: string; keyFeatures: string };
+  lang: "EN" | "ID";
 }) {
   return (
     <motion.div
@@ -325,7 +349,7 @@ function ProjectModal({
           </div>
 
           <p className="mt-4 text-base text-white/60 leading-relaxed">
-            {project.description}
+            {project.description[lang]}
           </p>
 
           {/* Tech stack */}
@@ -353,14 +377,14 @@ function ProjectModal({
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {project.features.map((feature) => (
                 <li
-                  key={feature}
+                  key={feature[lang]}
                   className="flex items-center gap-2 text-sm text-white/60"
                 >
                   <ArrowUpRight
                     size={12}
                     className="text-white/30 flex-shrink-0"
                   />
-                  {feature}
+                  {feature[lang]}
                 </li>
               ))}
             </ul>
@@ -475,7 +499,7 @@ export default function Projects() {
                 </div>
 
                 <p className="mt-2 line-clamp-2 text-sm leading-6 text-white/45">
-                  {project.description}
+                  {project.description[lang]}
                 </p>
 
                 <div className="mt-4 flex flex-wrap gap-1.5">
@@ -560,7 +584,7 @@ export default function Projects() {
                 </div>
 
                 <p className="mt-2 text-sm text-white/40 leading-relaxed line-clamp-2">
-                  {project.description}
+                  {project.description[lang]}
                 </p>
 
                 {/* Tech pills — show first 3 */}
@@ -630,6 +654,7 @@ export default function Projects() {
             project={selected}
             onClose={() => setSelected(null)}
             labels={lx}
+            lang={lang}
           />
         )}
       </AnimatePresence>

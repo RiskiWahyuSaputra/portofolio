@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { Loader2, Send, X } from "lucide-react";
+import { useLang } from "./LangContext";
 
 type ChatRole = "user" | "assistant";
 
@@ -18,15 +19,6 @@ type ChatResponse = {
   error?: string;
 };
 
-const initialMessages: ChatMessage[] = [
-  {
-    id: "welcome",
-    role: "assistant",
-    content:
-      "Halo! Saya asisten portfolio Riski. Saya hanya bisa menjawab tentang Riski - project, skill, pengalaman, atau kontaknya. Ada yang ingin kamu tanyakan?",
-  },
-];
-
 function createMessage(role: ChatRole, content: string): ChatMessage {
   return {
     id: `${role}-${Date.now()}-${Math.random().toString(36).slice(2)}`,
@@ -37,12 +29,28 @@ function createMessage(role: ChatRole, content: string): ChatMessage {
 
 export default function ChatFab() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<ChatMessage[]>(initialMessages);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const { lang } = useLang();
+
+  const welcomeMessage = lang === "EN"
+    ? "Hello! I'm Riski's portfolio assistant. I can only answer questions about Riski — his projects, skills, experience, or contact info. What would you like to know?"
+    : "Halo! Saya asisten portfolio Riski. Saya hanya bisa menjawab tentang Riski — project, skill, pengalaman, atau kontaknya. Ada yang ingin kamu tanyakan?";
+
+  // Update welcome message when language changes
+  useEffect(() => {
+    setMessages([
+      {
+        id: "welcome",
+        role: "assistant",
+        content: welcomeMessage,
+      },
+    ]);
+  }, [lang, welcomeMessage]);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({
@@ -87,13 +95,14 @@ export default function ChatFab() {
               role,
               content: messageContent,
             })),
+          lang: lang,
         }),
       });
 
       const data = (await response.json()) as ChatResponse;
 
       if (!response.ok || !data.reply) {
-        throw new Error(data.error ?? "Bot belum bisa membalas saat ini.");
+        throw new Error(data.error ?? (lang === "EN" ? "Bot can't respond right now." : "Bot belum bisa membalas saat ini."));
       }
 
       setMessages((current) => [
@@ -104,12 +113,20 @@ export default function ChatFab() {
       setError(
         caughtError instanceof Error
           ? caughtError.message
-          : "Terjadi kesalahan saat menghubungi bot.",
+          : (lang === "EN" ? "An error occurred while contacting the bot." : "Terjadi kesalahan saat menghubungi bot."),
       );
     } finally {
       setIsSending(false);
     }
   }
+
+  const chatTitle = lang === "EN" ? "Riski Assistant" : "Asisten Riski";
+  const chatSubtitle = lang === "EN" ? "Chat bot with BotQ" : "Bot chat dengan BotQ";
+  const typingText = lang === "EN" ? "Typing..." : "Mengetik...";
+  const inputPlaceholder = lang === "EN" ? "Type a message..." : "Tulis pesan...";
+  const closeChatLabel = lang === "EN" ? "Close chat" : "Tutup chat";
+  const openChatLabel = lang === "EN" ? "Open chat" : "Buka chat";
+  const sendMessageLabel = lang === "EN" ? "Send message" : "Kirim pesan";
 
   return (
     <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end sm:bottom-6 sm:right-6">
@@ -135,14 +152,14 @@ export default function ChatFab() {
                 </span>
                 <div>
                   <h2 className="text-sm font-medium text-white">
-                    Riski Assistant
+                    {chatTitle}
                   </h2>
-                  <p className="text-xs text-white/40">Chat bot with BotQ</p>
+                  <p className="text-xs text-white/40">{chatSubtitle}</p>
                 </div>
               </div>
               <button
                 type="button"
-                aria-label="Close chat"
+                aria-label={closeChatLabel}
                 onClick={() => setIsOpen(false)}
                 className="flex h-8 w-8 items-center justify-center rounded-md text-white/50 transition-colors hover:bg-white/5 hover:text-white"
               >
@@ -180,7 +197,7 @@ export default function ChatFab() {
                 <div className="flex justify-start">
                   <div className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-sm text-white/50">
                     <Loader2 size={14} className="animate-spin" />
-                    Mengetik...
+                    {typingText}
                   </div>
                 </div>
               )}
@@ -208,12 +225,12 @@ export default function ChatFab() {
                 }}
                 rows={1}
                 maxLength={1200}
-                placeholder="Tulis pesan..."
+                placeholder={inputPlaceholder}
                 className="max-h-28 min-h-10 flex-1 resize-none rounded-md border border-white/10 bg-white/[0.04] px-3 py-2 text-base leading-6 text-white outline-none transition-colors placeholder:text-white/30 focus:border-white/25 sm:text-sm"
               />
               <button
                 type="submit"
-                aria-label="Send message"
+                aria-label={sendMessageLabel}
                 disabled={!input.trim() || isSending}
                 className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-white text-black transition-colors hover:bg-white/90 disabled:cursor-not-allowed disabled:bg-white/20 disabled:text-white/40"
               >
@@ -230,7 +247,7 @@ export default function ChatFab() {
 
       <button
         type="button"
-        aria-label={isOpen ? "Close chat" : "Open chat"}
+        aria-label={isOpen ? closeChatLabel : openChatLabel}
         aria-expanded={isOpen}
         onClick={() => setIsOpen((current) => !current)}
         className="group flex h-14 w-14 items-center justify-center overflow-hidden rounded-full border border-white/15 bg-white text-black shadow-2xl shadow-black/40 transition-all duration-300 hover:-translate-y-1 hover:bg-white/90"

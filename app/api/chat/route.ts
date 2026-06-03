@@ -82,6 +82,10 @@ export async function POST(request: Request) {
       : undefined,
   );
 
+  const requestLang = (typeof body === "object" && body !== null && typeof (body as { lang?: unknown }).lang === "string")
+    ? (body as { lang: string }).lang
+    : "EN";
+
   if (messages.length === 0 || messages[messages.length - 1].role !== "user") {
     return NextResponse.json(
       { error: "Kirim minimal satu pesan dari user." },
@@ -102,6 +106,8 @@ export async function POST(request: Request) {
           role: "system",
           content:
             `You are a helpful portfolio assistant for Riski Wahyu Saputra, a web developer. 
+
+LANGUAGE: The visitor is currently using ${requestLang === "ID" ? "Indonesian (Bahasa Indonesia)" : "English"}. Answer ALL messages in that language.
 
 IMPORTANT RULES:
 1. ONLY answer questions about Riski Wahyu Saputra - his skills, projects, experience, tech stack, and contact information.

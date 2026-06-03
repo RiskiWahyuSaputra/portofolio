@@ -8,7 +8,7 @@ import { useLang } from "./LangContext";
 
 type Certificate = {
   id: string;
-  title: string;
+  title: { EN: string; ID: string };
   issuer: string;
   date: string;
   image: string;
@@ -18,7 +18,10 @@ type Certificate = {
 const certificates: Certificate[] = [
   {
     id: "01",
-    title: "Programming Fundamental - Nasional (Digital Talent Academy)",
+    title: {
+      EN: "Programming Fundamental - Nasional (Digital Talent Academy)",
+      ID: "Dasar Pemrograman - Nasional (Digital Talent Academy)",
+    },
     issuer: "Digital Talent Scholarship",
     date: "2026",
     image: "/certificates/cert-01.png",
@@ -26,7 +29,10 @@ const certificates: Certificate[] = [
   },
   {
     id: "02",
-    title: "Front-End & Back-End Development (Digital Talent Academy)",
+    title: {
+      EN: "Front-End & Back-End Development (Digital Talent Academy)",
+      ID: "Pengembangan Front-End & Back-End (Digital Talent Academy)",
+    },
     issuer: "Digital Talent Scholarship",
     date: "2026",
     image: "/certificates/cert-02.png",
@@ -34,7 +40,10 @@ const certificates: Certificate[] = [
   },
   {
     id: "03",
-    title: "Full Stack Developer (Digital Talent Academy)",
+    title: {
+      EN: "Full Stack Developer (Digital Talent Academy)",
+      ID: "Full Stack Developer (Digital Talent Academy)",
+    },
     issuer: "Digital Talent Scholarship",
     date: "2026",
     image: "/certificates/cert-03.png",
@@ -42,7 +51,10 @@ const certificates: Certificate[] = [
   },
   {
     id: "04",
-    title: "Belajar Membuat Front-End Web untuk Pemula",
+    title: {
+      EN: "Belajar Membuat Front-End Web untuk Pemula",
+      ID: "Belajar Membuat Front-End Web untuk Pemula",
+    },
     issuer: "Dicoding Indonesia",
     date: "2026",
     image: "/certificates/cert-04.png",
@@ -50,7 +62,10 @@ const certificates: Certificate[] = [
   },
   {
     id: "05",
-    title: "Belajar Membuat Aplikasi Web dengan React",
+    title: {
+      EN: "Belajar Membuat Aplikasi Web dengan React",
+      ID: "Belajar Membuat Aplikasi Web dengan React",
+    },
     issuer: "Dicoding Indonesia",
     date: "2026",
     image: "/certificates/cert-05.png",
@@ -58,7 +73,10 @@ const certificates: Certificate[] = [
   },
   {
     id: "06",
-    title: "Belajar Dasar AI",
+    title: {
+      EN: "Belajar Dasar AI",
+      ID: "Belajar Dasar AI",
+    },
     issuer: "Dicoding Indonesia",
     date: "2026",
     image: "/certificates/cert-06.png",
@@ -66,7 +84,10 @@ const certificates: Certificate[] = [
   },
   {
     id: "07",
-    title: "Belajar Penggunaan Generative AI",
+    title: {
+      EN: "Belajar Penggunaan Generative AI",
+      ID: "Belajar Penggunaan Generative AI",
+    },
     issuer: "Dicoding Indonesia",
     date: "2026",
     image: "/certificates/cert-07.png",
@@ -74,7 +95,10 @@ const certificates: Certificate[] = [
   },
   {
     id: "08",
-    title: "Spec-Driven Development dengan Kiro",
+    title: {
+      EN: "Spec-Driven Development dengan Kiro",
+      ID: "Spec-Driven Development dengan Kiro",
+    },
     issuer: "Dicoding Indonesia",
     date: "2026",
     image: "/certificates/cert-08.png",
@@ -82,7 +106,10 @@ const certificates: Certificate[] = [
   },
   {
     id: "09",
-    title: "Belajar Dasar Cloud dan Gen AI di AWS",
+    title: {
+      EN: "Belajar Dasar Cloud dan Gen AI di AWS",
+      ID: "Belajar Dasar Cloud dan Gen AI di AWS",
+    },
     issuer: "Dicoding Indonesia",
     date: "2026",
     image: "/certificates/cert-09.png",
@@ -90,7 +117,10 @@ const certificates: Certificate[] = [
   },
   {
     id: "10",
-    title: "Memulai Pemrograman dengan Python",
+    title: {
+      EN: "Memulai Pemrograman dengan Python",
+      ID: "Memulai Pemrograman dengan Python",
+    },
     issuer: "Dicoding Indonesia",
     date: "2026",
     image: "/certificates/cert-10.png",
@@ -98,7 +128,10 @@ const certificates: Certificate[] = [
   },
   {
     id: "11",
-    title: "Belajar Machine Learning untuk Pemula",
+    title: {
+      EN: "Belajar Machine Learning untuk Pemula",
+      ID: "Belajar Machine Learning untuk Pemula",
+    },
     issuer: "Dicoding Indonesia",
     date: "2026",
     image: "/certificates/cert-11.png",
@@ -106,7 +139,10 @@ const certificates: Certificate[] = [
   },
   {
     id: "12",
-    title: "Ai Praktis Untuk Produktivitas",
+    title: {
+      EN: "Ai Praktis Untuk Produktivitas",
+      ID: "AI Praktis Untuk Produktivitas",
+    },
     issuer: "Dicoding Indonesia",
     date: "2026",
     image: "/certificates/cert-12.png",
@@ -120,10 +156,12 @@ function CertModal({
   cert,
   onClose,
   credentialLabel,
+  lang,
 }: {
   cert: Certificate;
   onClose: () => void;
   credentialLabel: string;
+  lang: "EN" | "ID";
 }) {
   return (
     <motion.div
@@ -153,7 +191,7 @@ function CertModal({
         <div className="relative w-full aspect-[800/560] overflow-hidden">
           <Image
             src={cert.image}
-            alt={cert.title}
+            alt={cert.title[lang]}
             fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, 672px"
@@ -162,7 +200,7 @@ function CertModal({
 
         <div className="p-6 flex items-start justify-between gap-4">
           <div>
-            <h3 className="text-xl font-semibold text-white">{cert.title}</h3>
+            <h3 className="text-xl font-semibold text-white">{cert.title[lang]}</h3>
             <p className="mt-1 text-sm text-white/40">
               {cert.issuer} · {cert.date}
             </p>
@@ -253,7 +291,7 @@ export default function Certificates() {
               <div className="relative w-full aspect-[800/560] overflow-hidden">
                 <Image
                   src={cert.image}
-                  alt={cert.title}
+                  alt={cert.title[lang]}
                   fill
                   className="object-cover"
                   sizes="82vw"
@@ -270,7 +308,7 @@ export default function Certificates() {
                   </span>
                 </div>
                 <h3 className="line-clamp-2 text-sm font-semibold leading-6 text-white">
-                  {cert.title}
+                  {cert.title[lang]}
                 </h3>
                 <p className="mt-1 truncate text-xs text-white/40">
                   {cert.issuer}
@@ -309,7 +347,7 @@ export default function Certificates() {
               <div className="relative w-full aspect-[800/560] overflow-hidden">
                 <Image
                   src={cert.image}
-                  alt={cert.title}
+                  alt={cert.title[lang]}
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -329,7 +367,7 @@ export default function Certificates() {
                   </div>
                   <div className="min-w-0">
                     <h3 className="text-sm font-semibold text-white group-hover:text-white/80 transition-colors truncate">
-                      {cert.title}
+                      {cert.title[lang]}
                     </h3>
                     <p className="text-xs text-white/40 mt-0.5">
                       {cert.issuer} · {cert.date}
@@ -397,6 +435,7 @@ export default function Certificates() {
             cert={selected}
             onClose={() => setSelected(null)}
             credentialLabel={lx.credential}
+            lang={lang}
           />
         )}
       </AnimatePresence>

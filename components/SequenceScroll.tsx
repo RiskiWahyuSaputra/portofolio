@@ -4,6 +4,7 @@ import { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import Preloader from "./Preloader";
 import MagneticButton from "./MagneticButton";
+import { useLang } from "./LangContext";
 
 const TOTAL_FRAMES = 240;
 const MOBILE_BREAKPOINT = 768;
@@ -15,8 +16,8 @@ const FRAME_PATH = (i: number) =>
 interface StoryText {
   progress: [number, number];
   position: "center" | "left" | "right";
-  title: string;
-  subtitle?: string;
+  title: { EN: string; ID: string };
+  subtitle?: { EN: string; ID: string };
   cta?: boolean;
 }
 
@@ -24,37 +25,48 @@ const storyTexts: StoryText[] = [
   {
     progress: [0, 0.15],
     position: "center",
-    title: "Hi, I'm Riski Wahyu Saputra",
-    subtitle: "IT Developer/Fullstack Web Developer",
+    title: { EN: "Hi, I'm Riski Wahyu Saputra", ID: "Halo, Saya Riski Wahyu Saputra" },
+    subtitle: {
+      EN: "IT Developer/Fullstack Web Developer",
+      ID: "IT Developer/Fullstack Web Developer",
+    },
   },
   {
     progress: [0.18, 0.32],
     position: "center",
-    title: "Graduate of Politeknik Negeri Lampung",
-    subtitle: "Management Informatics • Information Technology",
+    title: { EN: "Graduate of Politeknik Negeri Lampung", ID: "Lulusan Politeknik Negeri Lampung" },
+    subtitle: {
+      EN: "Management Informatics • Information Technology",
+      ID: "Manajemen Informatika • Teknologi Informasi",
+    },
   },
   {
     progress: [0.35, 0.48],
     position: "left",
-    title: "IT Developer Intern",
-    subtitle: "BEST CORPORATION SYARIAH",
+    title: { EN: "IT Developer Intern", ID: "IT Developer Intern" },
+    subtitle: { EN: "BEST CORPORATION SYARIAH", ID: "BEST CORPORATION SYARIAH" },
   },
   {
     progress: [0.52, 0.68],
     position: "right",
-    title: "Building modern web apps",
-    subtitle:
-      "Laravel • React • Next.js • vite • TypeScript • Tailwind • PHP • MySQL",
+    title: { EN: "Building modern web apps", ID: "Membangun aplikasi web modern" },
+    subtitle: {
+      EN: "Laravel • React • Next.js • Vite • TypeScript • Tailwind • PHP • MySQL",
+      ID: "Laravel • React • Next.js • Vite • TypeScript • Tailwind • PHP • MySQL",
+    },
   },
   {
     progress: [0.72, 0.85],
     position: "center",
-    title: "Crafting scalable & user-friendly systems",
+    title: { EN: "Crafting scalable & user-friendly systems", ID: "Merancang sistem yang skalabel & ramah pengguna" },
   },
   {
     progress: [0.9, 1],
     position: "center",
-    title: "Let's build something great together to me",
+    title: {
+      EN: "Let's build something great together",
+      ID: "Ayo bangun sesuatu yang hebat bersama",
+    },
     cta: true,
   },
 ];
@@ -68,6 +80,7 @@ export default function SequenceScroll() {
   const [isLoaded, setIsLoaded] = useState(false);
   const frameRef = useRef({ current: 0, target: 0 });
   const rafRef = useRef<number>(0);
+  const { lang } = useLang();
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -245,6 +258,7 @@ export default function SequenceScroll() {
               key={index}
               story={story}
               scrollProgress={smoothProgress}
+              lang={lang}
             />
           ))}
         </div>
@@ -256,9 +270,11 @@ export default function SequenceScroll() {
 function StoryOverlay({
   story,
   scrollProgress,
+  lang,
 }: {
   story: StoryText;
   scrollProgress: ReturnType<typeof useSpring>;
+  lang: "EN" | "ID";
 }) {
   const opacity = useTransform(
     scrollProgress,
@@ -288,17 +304,19 @@ function StoryOverlay({
     right: "right-8 md:right-16 lg:right-24 text-right",
   };
 
+  const ctaLabel = lang === "EN" ? "View Portfolio" : "Lihat Portofolio";
+
   return (
     <motion.div
       className={`absolute top-1/2 -translate-y-1/2 max-w-xl px-4 ${positionClasses[story.position]}`}
       style={{ opacity, y }}
     >
       <h2 className="text-3xl md:text-5xl lg:text-6xl font-semibold text-white leading-tight tracking-tight drop-shadow-lg">
-        {story.title}
+        {story.title[lang]}
       </h2>
       {story.subtitle && (
         <p className="mt-4 text-base md:text-lg text-white/70 font-light tracking-wide">
-          {story.subtitle}
+          {story.subtitle[lang]}
         </p>
       )}
       {story.cta && (
@@ -310,7 +328,7 @@ function StoryOverlay({
               el?.scrollIntoView({ behavior: "smooth" });
             }}
           >
-            View Portfolio
+            {ctaLabel}
           </MagneticButton>
         </div>
       )}

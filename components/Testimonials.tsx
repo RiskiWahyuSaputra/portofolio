@@ -3,25 +3,38 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
+import { useLang } from "./LangContext";
 
-const testimonials = [
+type Testimonial = {
+  quote: { EN: string; ID: string };
+  author: string;
+  role: { EN: string; ID: string };
+};
+
+const testimonials: Testimonial[] = [
   {
-    quote:
-      "Riski delivered an exceptional e-commerce platform that streamlined our entire sales process. His attention to detail and technical expertise are outstanding.",
+    quote: {
+      EN: "Riski delivered an exceptional e-commerce platform that streamlined our entire sales process. His attention to detail and technical expertise are outstanding.",
+      ID: "Riski menghadirkan platform e-commerce luar biasa yang menyelesaikan seluruh proses penjualan kami. Perhatian terhadap detail dan keahlian teknisnya sangat mengesankan.",
+    },
     author: "Project Manager",
-    role: "BEST CORPORATION SYARIAH",
+    role: { EN: "BEST CORPORATION SYARIAH", ID: "BEST CORPORATION SYARIAH" },
   },
   {
-    quote:
-      "The school management system Riski built transformed how we handle student data. It's intuitive, fast, and incredibly reliable.",
+    quote: {
+      EN: "The school management system Riski built transformed how we handle student data. It's intuitive, fast, and incredibly reliable.",
+      ID: "Sistem manajemen sekolah yang dibangun Riski mengubah cara kami mengelola data siswa. Intuitif, cepat, dan sangat andal.",
+    },
     author: "Academic Coordinator",
-    role: "Educational Institution",
+    role: { EN: "Educational Institution", ID: "Institusi Pendidikan" },
   },
   {
-    quote:
-      "Working with Riski was a great experience. He understood our requirements perfectly and delivered a scalable inventory solution ahead of schedule.",
+    quote: {
+      EN: "Working with Riski was a great experience. He understood our requirements perfectly and delivered a scalable inventory solution ahead of schedule.",
+      ID: "Bekerja dengan Riski adalah pengalaman yang luar biasa. Ia memahami kebutuhan kami dengan sempurna dan menghadirkan solusi inventaris yang skalabel lebih cepat dari jadwal.",
+    },
     author: "Operations Lead",
-    role: "Retail Company",
+    role: { EN: "Retail Company", ID: "Perusahaan Ritel" },
   },
 ];
 
@@ -30,6 +43,7 @@ export default function Testimonials() {
   const [direction, setDirection] = useState(0);
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
+  const { lang } = useLang();
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -64,6 +78,9 @@ export default function Testimonials() {
     }),
   };
 
+  const sectionLabel = lang === "EN" ? "Testimonials" : "Testimoni";
+  const heading = lang === "EN" ? "What People Say" : "Apa Kata Mereka";
+
   return (
     <section
       ref={ref}
@@ -77,10 +94,10 @@ export default function Testimonials() {
           className="text-center mb-16"
         >
           <span className="text-sm font-mono text-white/40 tracking-widest uppercase">
-            Testimonials
+            {sectionLabel}
           </span>
           <h2 className="mt-4 text-3xl md:text-5xl font-semibold text-white">
-            What People Say
+            {heading}
           </h2>
         </motion.div>
 
@@ -98,14 +115,14 @@ export default function Testimonials() {
             >
               <Quote size={40} className="text-white/10 mb-6" />
               <p className="text-xl md:text-2xl lg:text-3xl font-light text-white/80 leading-relaxed max-w-3xl">
-                "{testimonials[current].quote}"
+                "{testimonials[current].quote[lang]}"
               </p>
               <div className="mt-8">
                 <p className="text-white font-medium">
                   {testimonials[current].author}
                 </p>
                 <p className="text-sm text-white/40 mt-1">
-                  {testimonials[current].role}
+                  {testimonials[current].role[lang]}
                 </p>
               </div>
             </motion.div>

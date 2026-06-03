@@ -2,12 +2,13 @@
 
 import { useRef, useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
+import { useLang } from "./LangContext";
 
 const stats = [
-  { value: 12, suffix: "+", label: "Projects" },
-  { value: 20, suffix: "+", label: "Skills" },
-  { value: 1, suffix: "", label: "Internship" },
-  { value: 100, suffix: "%", label: "Dedication" },
+  { value: 12, suffix: "+", label: { EN: "Projects", ID: "Proyek" } },
+  { value: 20, suffix: "+", label: { EN: "Skills", ID: "Keahlian" } },
+  { value: 1, suffix: "", label: { EN: "Internship", ID: "Magang" } },
+  { value: 100, suffix: "%", label: { EN: "Dedication", ID: "Dedikasi" } },
 ];
 
 function CountUp({
@@ -52,6 +53,7 @@ function CountUp({
 export default function Stats() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
+  const { lang } = useLang();
 
   return (
     <section
@@ -62,7 +64,7 @@ export default function Stats() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
           {stats.map((stat, index) => (
             <motion.div
-              key={stat.label}
+              key={stat.label[lang]}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{
@@ -80,7 +82,7 @@ export default function Stats() {
                 />
               </div>
               <div className="mt-2 text-sm text-white/40 tracking-wide uppercase">
-                {stat.label}
+                {stat.label[lang]}
               </div>
             </motion.div>
           ))}

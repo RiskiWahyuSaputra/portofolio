@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
+import { useLang } from "./LangContext";
 
 interface PreloaderProps {
   progress: number;
@@ -8,6 +9,9 @@ interface PreloaderProps {
 }
 
 export default function Preloader({ progress, isComplete }: PreloaderProps) {
+  const { lang } = useLang();
+  const loadingText = lang === "EN" ? "Loading Experience" : "Memuat Pengalaman";
+
   return (
     <AnimatePresence>
       {!isComplete && (
@@ -28,7 +32,7 @@ export default function Preloader({ progress, isComplete }: PreloaderProps) {
                 Riski Wahyu Saputra
               </h2>
               <p className="text-sm text-white/40 tracking-widest uppercase">
-                Loading Experience
+                {loadingText}
               </p>
             </div>
 
