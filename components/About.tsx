@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { useGLTF, useTexture } from "@react-three/drei";
 import { useLang } from "./LangContext";
 import Lanyard from "./Lanyard";
 import VariableProximity from "./VariableProximity";
@@ -37,6 +38,23 @@ export default function About() {
   const isInView = useInView(ref, { once: true, margin: "-15% 0px" });
   const { lang } = useLang();
   const tx = t[lang];
+  const [lanyardReady, setLanyardReady] = useState(false);
+
+  // Preload Lanyard 3D assets on page load so WebGL/Physics init is faster
+  useEffect(() => {
+    useGLTF.preload("/assets/lanyard/card.glb");
+    useTexture.preload("/assets/lanyard/lanyard.png");
+    useTexture.preload("/images/card-lanyard.png");
+    useTexture.preload("/images/belakang-card.jpeg");
+  }, []);
+
+  // Give Lanyard physics time to initialize & settle before typing starts
+  useEffect(() => {
+    if (isInView) {
+      const timer = setTimeout(() => setLanyardReady(true), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isInView]);
 
   // Scroll-driven parallax
   const { scrollYProgress } = useScroll({
@@ -149,7 +167,7 @@ export default function About() {
               <TypingText
                 key={tx.bio}
                 text={tx.bio}
-                active={isInView}
+                active={lanyardReady}
                 delay={280}
                 speed={16}
                 className="mt-8 max-w-2xl text-xl md:text-2xl lg:text-[1.7rem] font-light text-white/80 leading-relaxed text-justify [text-align-last:left]"
@@ -202,7 +220,6 @@ export default function About() {
                   }}
                 >
                   <Lanyard
-                    key="about-lanyard-drop"
                     position={[0, 0, 14]}
                     gravity={[0, -40, 0]}
                     fov={18}
