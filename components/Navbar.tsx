@@ -154,6 +154,20 @@ export default function Navbar() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
           >
+            {/* Close button inside overlay */}
+            <button
+              onClick={() => setIsOpen(false)}
+              className="absolute top-5 right-6 md:right-12 z-[56] flex items-center gap-3 text-white/90 hover:text-white transition-colors group"
+              aria-label={lang === "EN" ? "Close menu" : "Tutup menu"}
+            >
+              <span className="text-sm font-medium tracking-widest uppercase hidden md:block">
+                {lang === "EN" ? "Close" : "Tutup"}
+              </span>
+              <div className="w-10 h-10 flex items-center justify-center rounded-full border border-white/10 bg-white/5 group-hover:bg-white/10 group-hover:border-white/20 transition-all">
+                <X size={20} />
+              </div>
+            </button>
+
             <div className="max-w-6xl mx-auto w-full">
               <div className="flex flex-col gap-2 md:gap-4">
                 {navLinks.map((link, i) => (
