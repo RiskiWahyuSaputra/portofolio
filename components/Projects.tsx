@@ -218,7 +218,7 @@ const projects: Project[] = [
     number: "09",
     title: "Interactive Landing Page Home",
     image: "/projects/project-11.png",
-    demoUrl: "#",
+    demoUrl: "https://landingpage-home.vercel.app/",
     description: {
       EN: "Implementation of a customer support chat system with queue management, AI chatbot automation, real-time live chat, analytics dashboard, and WhatsApp integration.",
       ID: "Porto Homes adalah landing page properti modern untuk mempromosikan penjualan atau penyewaan rumah. Menonjolkan hero visual, galeri properti, tur interaktif, dan lead capture untuk calon pembeli/penyewa dengan pengalaman performa tinggi dan navigasi mulus.",
