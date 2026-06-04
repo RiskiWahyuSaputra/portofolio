@@ -22,7 +22,9 @@ export default function Footer() {
           </span>
           <span className="text-white/30 hidden md:inline">|</span>
           <span className="text-sm text-white/40">
-            {lang === "EN" ? "IT Developer" : "IT Developer"}
+            {lang === "EN"
+              ? "IT Developer | Full Stack Developer"
+              : "IT Developer | Full Stack Developer"}
           </span>
         </motion.div>
 
