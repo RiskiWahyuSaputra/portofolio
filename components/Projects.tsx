@@ -321,7 +321,7 @@ const projects: Project[] = [
     number: "12",
     title: "Undangan Digital",
     image: "/projects/project-13.png",
-    demoUrl: "#",
+    demoUrl: "https://undangan-pernikahan-orx5.vercel.app/",
     description: {
       EN: "Modern inventory management with barcode scanning, multi-warehouse support, automated stock alerts, and a REST API for integrations.",
       ID: "Manajemen inventaris modern dengan pemindaian barcode, dukungan multi gudang, peringatan stok otomatis, dan REST API untuk integrasi.",
