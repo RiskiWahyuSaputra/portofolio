@@ -336,40 +336,40 @@ const projects: Project[] = [
     ],
     features: [
       {
-        EN: "Barcode scanning",
+        EN: "Preloader animation and brief Save The Date.",
         ID: "Preloader animasi dan Save The Date singkat.",
       },
       {
-        EN: "Multi warehouse",
+        EN: "Couple's story timeline with photos and text",
         ID: "Foto besar dengan nama, tanggal, dan kutipan singkat.",
       },
       {
-        EN: "Stock alerts",
+        EN: "Event schedule with time, location, and description",
         ID: " Timeline scrollytelling yang menceritakan perjalanan pasangan.",
       },
-      { EN: "REST API", ID: "Hitungan mundur menuju hari H." },
+      { EN: "Count down day", ID: "Hitungan mundur menuju hari H." },
       {
-        EN: "REST API",
+        EN: "Photo gallery with lightbox view",
         ID: "Grid + lightbox untuk melihat foto, optimasi lazy-loading.",
       },
       {
-        EN: "REST API",
+        EN: "Event details with location, time, dress code, and interactive map (Google Maps embed)",
         ID: "Lokasi, waktu, dresscode, dan peta interaktif (Google Maps embed)",
       },
       {
-        EN: "REST API",
+        EN: "RSVP form with guest name, attendance confirmation, and message",
         ID: "Kolom untuk meninggalkan pesan/ucapan yang tersimpan (atau dikirim via email/DB).",
       },
       {
-        EN: "REST API",
+        EN: "Digital guestbook showing messages from guests with name and attendance status",
         ID: "Background music yang bisa dipause/play oleh pengunjung.",
       },
       {
-        EN: "REST API",
+        EN: "Responsive design with smooth scroll animations and a romantic color scheme",
         ID: "Keyboard navigation, teks alternatif gambar, dan layout responsif.",
       },
       {
-        EN: "REST API",
+        EN: "Color/typography easily customizable for each couple.",
         ID: "Warna/typography mudah dikustom untuk setiap pasangan.",
       },
     ],
