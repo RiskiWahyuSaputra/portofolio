@@ -111,13 +111,34 @@ const projects: Project[] = [
     },
     tech: ["Laravel 12", "PHP 8.2", "Vite", "Tailwind CSS 4", "MySQL", "Git"],
     features: [
-      { EN: "Patient Management: Patient CRUD, integrated medical records, visit history.", ID: "Manajemen Pasien: CRUD pasien, rekam medis terintegrasi, riwayat kunjungan." },
-      { EN: "Doctor & Service Management: Doctor profiles, specializations, service/fee configurations.", ID: "Manajemen Dokter & Layanan: Profil dokter, spesialisasi, konfigurasi layanan/biaya." },
-      { EN: "Scheduling and Appointments: Doctor's schedule calendar, patient appointment booking, status (confirmed/cancelled).", ID: "Penjadwalan dan Janji Temu: Kalender jadwal dokter, pemesanan janji temu pasien, status (dikonfirmasi/dibatalkan)." },
-      { EN: "Medical Record & Prescription Form: Recording diagnosis, examination results, printing/generating prescriptions.", ID: "Rekam Medis & Formulir Resep: Pencatatan diagnosis, hasil pemeriksaan, pencetakan/pembuatan resep." },
-      { EN: "Notifications: In-app notifications for appointment confirmations and reminders, as well as a notification system for staff.", ID: "Notifikasi: Notifikasi dalam aplikasi untuk konfirmasi dan pengingat janji temu, serta sistem notifikasi untuk staf." },
-      { EN: "Content Management: Article/news module for publishing health information.", ID: "Manajemen Konten: Modul artikel/berita untuk menerbitkan informasi kesehatan." },
-      { EN: "Authentication & Authorization: Login, role/permission management (admin, receptionist, doctor).", ID: "Autentikasi & Otorisasi: Login, manajemen role/izin (admin, resepsionis, dokter)." },
+      {
+        EN: "Patient Management: Patient CRUD, integrated medical records, visit history.",
+        ID: "Manajemen Pasien: CRUD pasien, rekam medis terintegrasi, riwayat kunjungan.",
+      },
+      {
+        EN: "Doctor & Service Management: Doctor profiles, specializations, service/fee configurations.",
+        ID: "Manajemen Dokter & Layanan: Profil dokter, spesialisasi, konfigurasi layanan/biaya.",
+      },
+      {
+        EN: "Scheduling and Appointments: Doctor's schedule calendar, patient appointment booking, status (confirmed/cancelled).",
+        ID: "Penjadwalan dan Janji Temu: Kalender jadwal dokter, pemesanan janji temu pasien, status (dikonfirmasi/dibatalkan).",
+      },
+      {
+        EN: "Medical Record & Prescription Form: Recording diagnosis, examination results, printing/generating prescriptions.",
+        ID: "Rekam Medis & Formulir Resep: Pencatatan diagnosis, hasil pemeriksaan, pencetakan/pembuatan resep.",
+      },
+      {
+        EN: "Notifications: In-app notifications for appointment confirmations and reminders, as well as a notification system for staff.",
+        ID: "Notifikasi: Notifikasi dalam aplikasi untuk konfirmasi dan pengingat janji temu, serta sistem notifikasi untuk staf.",
+      },
+      {
+        EN: "Content Management: Article/news module for publishing health information.",
+        ID: "Manajemen Konten: Modul artikel/berita untuk menerbitkan informasi kesehatan.",
+      },
+      {
+        EN: "Authentication & Authorization: Login, role/permission management (admin, receptionist, doctor).",
+        ID: "Autentikasi & Otorisasi: Login, manajemen role/izin (admin, resepsionis, dokter).",
+      },
     ],
   },
 
@@ -158,7 +179,7 @@ const projects: Project[] = [
   },
   {
     number: "08",
-    title: "Customer Support Chat System",
+    title: "Landing Page Anemia Pada Ibu Hamil",
     image: "/projects/project-05.svg",
     demoUrl: "#",
     description: {
