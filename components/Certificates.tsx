@@ -126,19 +126,9 @@ const certificates: Certificate[] = [
     image: "/certificates/cert-10.png",
     credentialUrl: "https://www.dicoding.com/certificates/2VX30VW2VXYQ",
   },
+
   {
     id: "11",
-    title: {
-      EN: "Belajar Machine Learning untuk Pemula",
-      ID: "Belajar Machine Learning untuk Pemula",
-    },
-    issuer: "Dicoding Indonesia",
-    date: "2026",
-    image: "/certificates/cert-11.png",
-    credentialUrl: "",
-  },
-  {
-    id: "12",
     title: {
       EN: "Ai Praktis Untuk Produktivitas",
       ID: "AI Praktis Untuk Produktivitas",
@@ -147,6 +137,18 @@ const certificates: Certificate[] = [
     date: "2026",
     image: "/certificates/cert-12.png",
     credentialUrl: "https://www.dicoding.com/certificates/4EXG11DN9PRL",
+  },
+  {
+    id: "12",
+    title: {
+      EN: "Build An AI Agent",
+      ID: "Membangun Agen AI",
+    },
+    issuer: "IBM Skills",
+    date: "2026",
+    image: "/certificates/cert-11.png",
+    credentialUrl:
+      "https://www.credly.com/badges/2f8fdadd-10a8-4c57-9695-5e19bb671af1/linked_in_profile",
   },
 ];
 
@@ -200,7 +202,9 @@ function CertModal({
 
         <div className="p-6 flex items-start justify-between gap-4">
           <div>
-            <h3 className="text-xl font-semibold text-white">{cert.title[lang]}</h3>
+            <h3 className="text-xl font-semibold text-white">
+              {cert.title[lang]}
+            </h3>
             <p className="mt-1 text-sm text-white/40">
               {cert.issuer} · {cert.date}
             </p>

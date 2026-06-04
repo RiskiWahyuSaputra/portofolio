@@ -6,6 +6,7 @@ import { useGLTF, useTexture } from "@react-three/drei";
 import { useLang } from "./LangContext";
 import Lanyard from "./Lanyard";
 import VariableProximity from "./VariableProximity";
+import MagneticButton from "./MagneticButton";
 
 const t = {
   EN: {
@@ -39,6 +40,9 @@ export default function About() {
   const { lang } = useLang();
   const tx = t[lang];
   const [lanyardReady, setLanyardReady] = useState(false);
+
+  // CV download — place your PDF at /public/cv/cv.pdf (or update this path)
+  const CV_PATH = "/cv/cv.pdf";
 
   // Preload Lanyard 3D assets on page load so WebGL/Physics init is faster
   useEffect(() => {
@@ -195,6 +199,56 @@ export default function About() {
                     {tag}
                   </motion.span>
                 ))}
+              </motion.div>
+
+              {/* Download CV Button */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.8 }}
+                className="mt-10"
+              >
+                <a
+                  href={CV_PATH}
+                  download
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <MagneticButton
+                    className="group relative inline-flex items-center gap-3 rounded-full border border-white/[0.12] bg-white/[0.04] px-8 py-4 text-sm font-medium text-white/80 tracking-wide uppercase backdrop-blur-sm hover:border-white/[0.25] hover:bg-white/[0.08] hover:text-white transition-all duration-300"
+                    strength={0.3}
+                  >
+                    {/* Download icon */}
+                    <svg
+                      className="h-5 w-5 text-white/60 group-hover:text-white transition-colors duration-300"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={1.5}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
+                      />
+                    </svg>
+                    <span>{lang === "ID" ? "Unduh CV Saya" : "Download My CV"}</span>
+                    {/* Arrow icon */}
+                    <svg
+                      className="h-4 w-4 text-white/40 group-hover:text-white/80 group-hover:translate-x-0.5 transition-all duration-300"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={1.5}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                      />
+                    </svg>
+                  </MagneticButton>
+                </a>
               </motion.div>
             </motion.div>
 
