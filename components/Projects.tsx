@@ -217,7 +217,7 @@ const projects: Project[] = [
   {
     number: "09",
     title: "Interactive Landing Page Home",
-    image: "/projects/project-05.svg",
+    image: "/projects/project-11.png",
     demoUrl: "#",
     description: {
       EN: "Implementation of a customer support chat system with queue management, AI chatbot automation, real-time live chat, analytics dashboard, and WhatsApp integration.",
