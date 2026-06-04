@@ -286,19 +286,35 @@ const projects: Project[] = [
   },
   {
     number: "11",
-    title: "Inventory Management App",
-    image: "/projects/project-03.svg",
+    title: "Qbox - Photobox Pixel",
+    image: "/projects/project-11.png",
     demoUrl: "#",
     description: {
-      EN: "Modern inventory management with barcode scanning, multi-warehouse support, automated stock alerts, and a REST API for integrations.",
-      ID: "Manajemen inventaris modern dengan pemindaian barcode, dukungan multi gudang, peringatan stok otomatis, dan REST API untuk integrasi.",
+      EN: "PhotoBox is a simple website for creating and managing creative photos with a modern and user-friendly style. Users can choose templates, add filters, and download the resulting photos directly from the browser.",
+      ID: "PhotoBox adalah website sederhana untuk membuat dan mengelola foto kreatif dengan gaya modern dan mudah digunakan. Pengguna dapat memilih template, menambahkan filter, serta mengunduh hasil foto langsung dari browser.",
     },
-    tech: ["Laravel", "JWT", "MySQL"],
+    tech: ["HTML", "CSS", "JavaScript"],
     features: [
-      { EN: "Barcode scanning", ID: "Pemindaian barcode" },
-      { EN: "Multi warehouse", ID: "Multi gudang" },
-      { EN: "Stock alerts", ID: "Peringatan stok" },
-      { EN: "REST API", ID: "REST API" },
+      {
+        EN: "Photo template options or basic layout",
+        ID: "Pilihan template foto atau layout dasar",
+      },
+      {
+        EN: "Visual effects and filters for photos",
+        ID: "Efek dan filter visual untuk foto",
+      },
+      {
+        EN: "Live preview before download",
+        ID: "Preview langsung sebelum unduh",
+      },
+      {
+        EN: "Download button for result photos",
+        ID: "Tombol unduh hasil foto",
+      },
+      {
+        EN: "Responsive for desktop and mobile views",
+        ID: "Responsif untuk tampilan desktop dan mobile",
+      },
     ],
   },
   {
