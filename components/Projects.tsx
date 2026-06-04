@@ -216,28 +216,46 @@ const projects: Project[] = [
   },
   {
     number: "09",
-    title: "Customer Support Chat System",
+    title: "Interactive Landing Page Home",
     image: "/projects/project-05.svg",
     demoUrl: "#",
     description: {
       EN: "Implementation of a customer support chat system with queue management, AI chatbot automation, real-time live chat, analytics dashboard, and WhatsApp integration.",
-      ID: "Implementasi sistem chat dukungan pelanggan dengan manajemen antrian, otomasi chatbot AI, live chat real-time, dashboard analitik, dan integrasi WhatsApp.",
+      ID: "Porto Homes adalah landing page properti modern untuk mempromosikan penjualan atau penyewaan rumah. Menonjolkan hero visual, galeri properti, tur interaktif, dan lead capture untuk calon pembeli/penyewa dengan pengalaman performa tinggi dan navigasi mulus.",
     },
     tech: [
-      "Laravel 12",
-      "PHP 8.2",
-      "Tailwind CSS 4",
-      "Alpine.js",
-      "Laravel Reverb",
-      "MySQL",
-      "Gemini API",
+      "Next.js",
+      "Tailwind CSS",
+      "Post CSS",
+      "TypeScript",
+      " custom sequence/scroll components",
     ],
     features: [
-      { EN: "Queue management", ID: "Manajemen antrian" },
-      { EN: "AI chatbot", ID: "Chatbot AI" },
-      { EN: "WhatsApp integration", ID: "Integrasi WhatsApp" },
-      { EN: "Realtime live chat", ID: "Live chat real-time" },
-      { EN: "Analytics dashboard", ID: "Dashboard analitik" },
+      {
+        EN: "Queue management",
+        ID: "Hero interaktif dengan call-to-action (lihat properti / hubungi)",
+      },
+      { EN: "AI chatbot", ID: "Galeri properti responsif (foto, lightbox)" },
+      {
+        EN: "WhatsApp integration",
+        ID: "Sequence/timeline showcase unit (fitur unggulan, harga, spesifikasi)",
+      },
+      {
+        EN: "Realtime live chat",
+        ID: "Virtual tour / embedded video atau 3D viewer",
+      },
+      {
+        EN: "Analytics dashboard",
+        ID: "Preloader & smooth scroll untuk pengalaman halus",
+      },
+      {
+        EN: "Analytics dashboard",
+        ID: "Fullscreen menu navigasi untuk sections properti",
+      },
+      {
+        EN: "Analytics dashboard",
+        ID: "Magnetic CTA dan progress indicator pada scroll sequence",
+      },
     ],
   },
   {
