@@ -179,28 +179,39 @@ const projects: Project[] = [
   },
   {
     number: "08",
-    title: "Landing Page Anemia Pada Ibu Hamil",
-    image: "/projects/project-05.svg",
+    title: "Anemia Care — Informasi Kesehatan untuk Ibu Hamil",
+    image: "/projects/project-10.png",
     demoUrl: "#",
     description: {
-      EN: "Implementation of a customer support chat system with queue management, AI chatbot automation, real-time live chat, analytics dashboard, and WhatsApp integration.",
-      ID: "Implementasi sistem chat dukungan pelanggan dengan manajemen antrian, otomasi chatbot AI, live chat real-time, dashboard analitik, dan integrasi WhatsApp.",
+      EN: "An educational site that provides a complete explanation about anemia in pregnant women, from causes, symptoms, complications, prevention, to ways to overcome it for the health of the mother and fetus.",
+      ID: "Situs edukasi yang memberikan penjelasan lengkap tentang anemia pada ibu hamil, mulai dari penyebab, gejala, komplikasi, pencegahan, hingga cara mengatasinya demi kesehatan ibu dan janin.",
     },
-    tech: [
-      "Laravel 12",
-      "PHP 8.2",
-      "Tailwind CSS 4",
-      "Alpine.js",
-      "Laravel Reverb",
-      "MySQL",
-      "Gemini API",
-    ],
+    tech: ["HTML", "CSS", "Bootstrap", "Font Awesome", "PHP", "MySQL"],
     features: [
-      { EN: "Queue management", ID: "Manajemen antrian" },
-      { EN: "AI chatbot", ID: "Chatbot AI" },
-      { EN: "WhatsApp integration", ID: "Integrasi WhatsApp" },
-      { EN: "Realtime live chat", ID: "Live chat real-time" },
-      { EN: "Analytics dashboard", ID: "Dashboard analitik" },
+      {
+        EN: "Homepage with a hero section and a summary of anemia information",
+        ID: "Halaman beranda dengan hero section dan ringkasan informasi anemia",
+      },
+      {
+        EN: "Responsive navigation for quick access to main topics",
+        ID: "Navigasi responsif untuk akses cepat ke topik utama",
+      },
+      {
+        EN: "Structured educational content: causes, symptoms, complications, prevention, and ways to overcome",
+        ID: "Konten edukasi terstruktur: penyebab, tanda & gejala, komplikasi, pencegahan, dan cara mengatasi",
+      },
+      {
+        EN: "Interactive navigation cards for easy exploration of topics",
+        ID: "Kartu navigasi interaktif untuk memudahkan pengguna menjelajah topik",
+      },
+      {
+        EN: "Important information section with health explanations and quick facts",
+        ID: "Seksi informasi penting dengan penjelasan kesehatan dan fakta singkat",
+      },
+      {
+        EN: "Mobile-friendly design with modern layout and clean visuals",
+        ID: "Desain mobile-friendly dengan layout modern dan visual bersih",
+      },
     ],
   },
   {
