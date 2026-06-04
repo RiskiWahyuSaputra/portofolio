@@ -232,28 +232,31 @@ const projects: Project[] = [
     ],
     features: [
       {
-        EN: "Queue management",
+        EN: "Hero section with interactive call-to-action (view properties/contact)",
         ID: "Hero interaktif dengan call-to-action (lihat properti / hubungi)",
       },
-      { EN: "AI chatbot", ID: "Galeri properti responsif (foto, lightbox)" },
       {
-        EN: "WhatsApp integration",
+        EN: "Property gallery with lightbox view",
+        ID: "Galeri properti responsif (foto, lightbox)",
+      },
+      {
+        EN: "Property showcase with interactive features (e.g., 360° view, floor plans)",
         ID: "Sequence/timeline showcase unit (fitur unggulan, harga, spesifikasi)",
       },
       {
-        EN: "Realtime live chat",
+        EN: "Virtual tour / embedded video or 3D viewer",
         ID: "Virtual tour / embedded video atau 3D viewer",
       },
       {
-        EN: "Analytics dashboard",
+        EN: "Lead capture form with validation and submission handling",
         ID: "Preloader & smooth scroll untuk pengalaman halus",
       },
       {
-        EN: "Analytics dashboard",
+        EN: "Performance optimizations for fast loading and smooth interactions",
         ID: "Fullscreen menu navigasi untuk sections properti",
       },
       {
-        EN: "Analytics dashboard",
+        EN: "Magnetic CTA and progress indicator on scroll sequence",
         ID: "Magnetic CTA dan progress indicator pada scroll sequence",
       },
     ],
