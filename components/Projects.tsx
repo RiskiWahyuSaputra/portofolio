@@ -146,7 +146,7 @@ const projects: Project[] = [
     number: "06",
     title: "Faste Coffee Shop Landing Page",
     image: "/projects/project-06.png",
-    demoUrl: "#",
+    demoUrl: "https://faste-coffe.vercel.app/",
     description: {
       EN: "A modern landing page for Faste Coffee Shop focused on brand storytelling, smooth scrolling interactions, and a polished mobile-first browsing experience.",
       ID: "Landing page modern untuk Faste Coffee Shop yang berfokus pada penceritaan merek, interaksi scroll yang halus, dan pengalaman browsing mobile-first yang elegan.",
