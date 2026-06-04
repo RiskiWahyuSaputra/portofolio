@@ -324,7 +324,7 @@ const projects: Project[] = [
     demoUrl: "https://undangan-pernikahan-orx5.vercel.app/",
     description: {
       EN: "Modern inventory management with barcode scanning, multi-warehouse support, automated stock alerts, and a REST API for integrations.",
-      ID: "Manajemen inventaris modern dengan pemindaian barcode, dukungan multi gudang, peringatan stok otomatis, dan REST API untuk integrasi.",
+      ID: "Aplikasi undangan pernikahan digital interaktif yang menghadirkan pengalaman scrollytelling: memperlihatkan kisah pasangan, galeri foto, jadwal acara, peta lokasi, RSVP, dan buku tamu digital. Dirancang responsif untuk diakses lewat ponsel dan desktop, dengan animasi halus, preloader",
     },
     tech: ["Laravel", "JWT", "MySQL"],
     features: [
