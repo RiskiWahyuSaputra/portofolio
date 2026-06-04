@@ -326,12 +326,52 @@ const projects: Project[] = [
       EN: "An interactive digital wedding invitation that provides a scrollytelling experience: showcasing the couple's story, photo gallery, event schedule, location map, RSVP, and digital guestbook. Designed responsively for access via mobile and desktop, with smooth animations and a preloader.",
       ID: "Aplikasi undangan pernikahan digital interaktif yang menghadirkan pengalaman scrollytelling: memperlihatkan kisah pasangan, galeri foto, jadwal acara, peta lokasi, RSVP, dan buku tamu digital. Dirancang responsif untuk diakses lewat ponsel dan desktop, dengan animasi halus, preloader",
     },
-    tech: ["Laravel", "JWT", "MySQL"],
+    tech: [
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Next.js",
+      "SequenceScroll",
+      "Framer Motion",
+    ],
     features: [
-      { EN: "Barcode scanning", ID: "Pemindaian barcode" },
-      { EN: "Multi warehouse", ID: "Multi gudang" },
-      { EN: "Stock alerts", ID: "Peringatan stok" },
-      { EN: "REST API", ID: "REST API" },
+      {
+        EN: "Barcode scanning",
+        ID: "Preloader animasi dan Save The Date singkat.",
+      },
+      {
+        EN: "Multi warehouse",
+        ID: "Foto besar dengan nama, tanggal, dan kutipan singkat.",
+      },
+      {
+        EN: "Stock alerts",
+        ID: " Timeline scrollytelling yang menceritakan perjalanan pasangan.",
+      },
+      { EN: "REST API", ID: "Hitungan mundur menuju hari H." },
+      {
+        EN: "REST API",
+        ID: "Grid + lightbox untuk melihat foto, optimasi lazy-loading.",
+      },
+      {
+        EN: "REST API",
+        ID: "Lokasi, waktu, dresscode, dan peta interaktif (Google Maps embed)",
+      },
+      {
+        EN: "REST API",
+        ID: "Kolom untuk meninggalkan pesan/ucapan yang tersimpan (atau dikirim via email/DB).",
+      },
+      {
+        EN: "REST API",
+        ID: "Background music yang bisa dipause/play oleh pengunjung.",
+      },
+      {
+        EN: "REST API",
+        ID: "Keyboard navigation, teks alternatif gambar, dan layout responsif.",
+      },
+      {
+        EN: "REST API",
+        ID: "Warna/typography mudah dikustom untuk setiap pasangan.",
+      },
     ],
   },
 ];
