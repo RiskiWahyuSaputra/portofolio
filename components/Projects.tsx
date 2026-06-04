@@ -319,8 +319,8 @@ const projects: Project[] = [
   },
   {
     number: "12",
-    title: "Inventory Management App",
-    image: "/projects/project-03.svg",
+    title: "Undangan Digital",
+    image: "/projects/project-13.png",
     demoUrl: "#",
     description: {
       EN: "Modern inventory management with barcode scanning, multi-warehouse support, automated stock alerts, and a REST API for integrations.",
