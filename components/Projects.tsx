@@ -291,7 +291,7 @@ const projects: Project[] = [
     number: "11",
     title: "Qbox - Photobox Pixel",
     image: "/projects/project-12.png",
-    demoUrl: "#",
+    demoUrl: "https://photobox-lime.vercel.app/",
     description: {
       EN: "PhotoBox is a simple website for creating and managing creative photos with a modern and user-friendly style. Users can choose templates, add filters, and download the resulting photos directly from the browser.",
       ID: "PhotoBox adalah website sederhana untuk membuat dan mengelola foto kreatif dengan gaya modern dan mudah digunakan. Pengguna dapat memilih template, menambahkan filter, serta mengunduh hasil foto langsung dari browser.",
