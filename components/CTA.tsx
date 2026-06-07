@@ -6,7 +6,7 @@ import MagneticButton from "./MagneticButton";
 import { ArrowUpRight } from "lucide-react";
 import { useLang } from "./LangContext";
 
-const phoneDisplay = "Contact me at: 0857-8991-0963";
+const phoneDisplay = "Contact me at: 085789910963";
 const whatsappHref = "https://wa.me/6285789910963";
 
 const t = {
