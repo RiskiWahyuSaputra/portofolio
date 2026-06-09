@@ -5,7 +5,7 @@ import { motion, useInView } from "framer-motion";
 import { useLang } from "./LangContext";
 
 const stats = [
-  { value: 12, suffix: "+", label: { EN: "Projects", ID: "Proyek" } },
+  { value: 13, suffix: "+", label: { EN: "Projects", ID: "Proyek" } },
   { value: 20, suffix: "+", label: { EN: "Skills", ID: "Keahlian" } },
   { value: 1, suffix: "", label: { EN: "Internship", ID: "Magang" } },
   { value: 100, suffix: "%", label: { EN: "Dedication", ID: "Dedikasi" } },
