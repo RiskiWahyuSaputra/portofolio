@@ -350,39 +350,7 @@ const projects: Project[] = [
       { EN: "Parent portal", ID: "Portal orang tua" },
     ],
   },
-  {
-    number: "13",
-    title: "Qbox - Photobox Pixel",
-    image: "/projects/project-12.png",
-    demoUrl: "https://photobox-lime.vercel.app/",
-    description: {
-      EN: "PhotoBox is a simple website for creating and managing creative photos with a modern and user-friendly style. Users can choose templates, add filters, and download the resulting photos directly from the browser.",
-      ID: "PhotoBox adalah website sederhana untuk membuat dan mengelola foto kreatif dengan gaya modern dan mudah digunakan. Pengguna dapat memilih template, menambahkan filter, serta mengunduh hasil foto langsung dari browser.",
-    },
-    tech: ["HTML", "CSS", "JavaScript"],
-    features: [
-      {
-        EN: "Photo template options or basic layout",
-        ID: "Pilihan template foto atau layout dasar",
-      },
-      {
-        EN: "Visual effects and filters for photos",
-        ID: "Efek dan filter visual untuk foto",
-      },
-      {
-        EN: "Live preview before download",
-        ID: "Preview langsung sebelum unduh",
-      },
-      {
-        EN: "Download button for result photos",
-        ID: "Tombol unduh hasil foto",
-      },
-      {
-        EN: "Responsive for desktop and mobile views",
-        ID: "Responsif untuk tampilan desktop dan mobile",
-      },
-    ],
-  },
+
   {
     number: "12",
     title: "Undangan Digital",
@@ -437,6 +405,39 @@ const projects: Project[] = [
       {
         EN: "Color/typography easily customizable for each couple.",
         ID: "Warna/typography mudah dikustom untuk setiap pasangan.",
+      },
+    ],
+  },
+  {
+    number: "13",
+    title: "Qbox - Photobox Pixel",
+    image: "/projects/project-12.png",
+    demoUrl: "https://photobox-lime.vercel.app/",
+    description: {
+      EN: "PhotoBox is a simple website for creating and managing creative photos with a modern and user-friendly style. Users can choose templates, add filters, and download the resulting photos directly from the browser.",
+      ID: "PhotoBox adalah website sederhana untuk membuat dan mengelola foto kreatif dengan gaya modern dan mudah digunakan. Pengguna dapat memilih template, menambahkan filter, serta mengunduh hasil foto langsung dari browser.",
+    },
+    tech: ["HTML", "CSS", "JavaScript"],
+    features: [
+      {
+        EN: "Photo template options or basic layout",
+        ID: "Pilihan template foto atau layout dasar",
+      },
+      {
+        EN: "Visual effects and filters for photos",
+        ID: "Efek dan filter visual untuk foto",
+      },
+      {
+        EN: "Live preview before download",
+        ID: "Preview langsung sebelum unduh",
+      },
+      {
+        EN: "Download button for result photos",
+        ID: "Tombol unduh hasil foto",
+      },
+      {
+        EN: "Responsive for desktop and mobile views",
+        ID: "Responsif untuk tampilan desktop dan mobile",
       },
     ],
   },
