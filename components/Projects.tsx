@@ -37,19 +37,65 @@ const projects: Project[] = [
   },
   {
     number: "02",
-    title: "School Management System",
-    image: "/projects/project-02.png",
+    title:
+      "Warehouse Monitoring System — Inventory, Stock Management & Analytics Platform",
+    image: "/projects/project-14.png",
     demoUrl: "#",
     description: {
-      EN: "Comprehensive school management solution handling student enrollment, attendance tracking, academic records, and a dedicated parent portal.",
-      ID: "Solusi manajemen sekolah komprehensif yang menangani pendaftaran siswa, pelacakan kehadiran, catatan akademik, dan portal orang tua khusus.",
+      EN: " A comprehensive full-stack warehouse management web application for real-time inventory tracking, stock movement management, demand forecasting, and automated reporting. Features include barcode/QR scanning, role-based dashboards with drag-and-drop widgets, automated email alerts for low stock and approval requests, data backup & restore, and AI-powered stockout predictions. Built with a dual-stack Laravel + React architecture for a modern, responsive, and scalable solution.",
+      ID: "Aplikasi web manajemen gudang full-stack yang komprehensif untuk pelacakan inventaris real-time, manajemen pergerakan stok, peramalan permintaan, dan pelaporan otomatis. Fitur termasuk pemindaian barcode/QR, dashboard berbasis peran dengan widget drag-and-drop, email otomatis untuk peringatan stok rendah dan permintaan persetujuan, backup & restore data, serta prediksi stockout berbasis AI. Dibangun dengan arsitektur dual-stack Laravel + React untuk solusi modern, responsif, dan skalabel.",
     },
-    tech: ["CodeIgniter", "PHP", "MySQL", "Bootstrap"],
+    tech: [
+      "Laravel 12",
+      "PHP 8.2",
+      "React 18",
+      "Vite 6",
+      "Tailwind CSS 3",
+      "Laravel sanctum",
+      "Laravel Mail",
+      "Laravel Reverb",
+      "Laravel Storage",
+      "REST API",
+      "MySQL",
+      "Git",
+    ],
     features: [
-      { EN: "Student system", ID: "Sistem siswa" },
-      { EN: "Attendance", ID: "Kehadiran" },
-      { EN: "Academic records", ID: "Catatan akademik" },
-      { EN: "Parent portal", ID: "Portal orang tua" },
+      {
+        EN: "Dashboard — Customizable drag-and-drop widgets, role-specific defaults (admin/manager/staff)",
+        ID: "Dashboard — Widget drag-and-drop yang dapat disesuaikan, default spesifik peran (admin/manager/staff)",
+      },
+      {
+        EN: "Inventory Management — Full CRUD, categories, locations, suppliers, barcode/QR generation & scanning",
+        ID: "Manajemen Inventaris — CRUD lengkap, kategori, lokasi, pemasok, generasi & pemindaian barcode/QR",
+      },
+      {
+        EN: "Stock Movements — In/out/transfer with approval workflow",
+        ID: "Pergerakan Stok — In/out/transfer dengan alur kerja persetujuan",
+      },
+      {
+        EN: "Demand Forecasting — AI-powered stockout predictions with confidence intervals",
+        ID: "Peramalan Permintaan — Prediksi kehabisan stok berbasis AI dengan interval kepercayaan",
+      },
+      {
+        EN: "Email Notifications — Low stock alerts, approval requests, daily/weekly summary reports",
+        ID: "Notifikasi Email — Peringatan stok rendah, permintaan persetujuan, laporan ringkasan harian/mingguan",
+      },
+      {
+        EN: "Data Backup — One-click full backup (DB + storage as ZIP), scheduled daily backups",
+        ID: "Backup Data — Backup lengkap dengan satu klik (DB + storage sebagai ZIP), backup harian yang dijadwalkan",
+      },
+      {
+        EN: "Role-Based Access — Admin, Manager, Staff with granular permissions",
+        ID: "Akses Berbasis Peran — Admin, Manager, Staff dengan izin granular",
+      },
+      {
+        EN: "Dark Mode — Full theme support with Tailwind class-based switching",
+        ID: "Mode Gelap — Dukungan tema lengkap dengan pergantian berbasis kelas Tailwind",
+      },
+      {
+        EN: "Responsive — Mobile-first design, works on all screen sizes",
+        ID: "Responsif — Desain berbasis mobile, bekerja di semua ukuran layar",
+      },
     ],
   },
   {
@@ -289,6 +335,23 @@ const projects: Project[] = [
   },
   {
     number: "11",
+    title: "School Management System",
+    image: "/projects/project-02.png",
+    demoUrl: "#",
+    description: {
+      EN: "Comprehensive school management solution handling student enrollment, attendance tracking, academic records, and a dedicated parent portal.",
+      ID: "Solusi manajemen sekolah komprehensif yang menangani pendaftaran siswa, pelacakan kehadiran, catatan akademik, dan portal orang tua khusus.",
+    },
+    tech: ["CodeIgniter", "PHP", "MySQL", "Bootstrap"],
+    features: [
+      { EN: "Student system", ID: "Sistem siswa" },
+      { EN: "Attendance", ID: "Kehadiran" },
+      { EN: "Academic records", ID: "Catatan akademik" },
+      { EN: "Parent portal", ID: "Portal orang tua" },
+    ],
+  },
+  {
+    number: "13",
     title: "Qbox - Photobox Pixel",
     image: "/projects/project-12.png",
     demoUrl: "https://photobox-lime.vercel.app/",
