@@ -111,7 +111,7 @@ main.sphere-main {
   object-fit: cover;
   pointer-events: none;
   backface-visibility: hidden;
-  filter: grayscale(1);
+  filter: var(--image-filter, none);
   transition: filter 300ms ease;
 }
 

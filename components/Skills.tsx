@@ -13,13 +13,13 @@ const techStackImages = [
   { src: "https://cdn.simpleicons.org/codeigniter/EF4223", alt: "CodeIgniter" },
   { src: "https://cdn.simpleicons.org/php/777BB4", alt: "PHP" },
   { src: "https://cdn.simpleicons.org/mysql/4479A1", alt: "MySQL" },
-  { src: "https://cdn.simpleicons.org/microsoftsqlserver/CC2927", alt: "SQL Server" },
+  { src: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/microsoftsqlserver.svg", alt: "SQL Server" },
   { src: "https://cdn.simpleicons.org/github/ffffff", alt: "GitHub" },
   { src: "https://cdn.simpleicons.org/ubuntu/E95420", alt: "Ubuntu" },
   { src: "https://cdn.simpleicons.org/stripe/00897B", alt: "Midtrans" },
   { src: "https://cdn.simpleicons.org/whatsapp/25D366", alt: "WhatsApp API" },
   { src: "https://cdn.simpleicons.org/googlegemini/4285F4", alt: "Gemini API" },
-  { src: "https://cdn.simpleicons.org/groq/F55036", alt: "Groq API" },
+  { src: "/images/tech/groq.svg", alt: "Groq API" },
 ];
 
 export default function Skills() {
@@ -31,7 +31,7 @@ export default function Skills() {
       <DomeGallery
         images={techStackImages}
         overlayBlurColor="#0a0a0a"
-        grayscale={false}
+        grayscale={true}
         imageBorderRadius="20px"
         openedImageBorderRadius="20px"
         openedImageWidth="280px"

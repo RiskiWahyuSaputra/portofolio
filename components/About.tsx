@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useGLTF, useTexture } from "@react-three/drei";
 import { useLang } from "./LangContext";
 import Lanyard from "./Lanyard";
 import VariableProximity from "./VariableProximity";
 import MagneticButton from "./MagneticButton";
+import TextType from "./TextType";
 
 const t = {
   EN: {
@@ -39,8 +40,6 @@ export default function About() {
   const isInView = useInView(ref, { once: true, margin: "-15% 0px" });
   const { lang } = useLang();
   const tx = t[lang];
-  const [lanyardReady, setLanyardReady] = useState(false);
-
   // CV download — update this path to match the PDF in /public/cv/
   const CV_PATH = "/cv/CV_Riski_Wahyu_Saputra.pdf";
 
@@ -51,14 +50,6 @@ export default function About() {
     useTexture.preload("/images/card-lanyard.png");
     useTexture.preload("/images/belakang-card.jpeg");
   }, []);
-
-  // Give Lanyard physics time to initialize & settle before typing starts
-  useEffect(() => {
-    if (isInView) {
-      const timer = setTimeout(() => setLanyardReady(true), 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [isInView]);
 
   // Scroll-driven parallax
   const { scrollYProgress } = useScroll({
@@ -168,12 +159,17 @@ export default function About() {
                 </motion.div>
               </div>
 
-              <TypingText
+              <TextType
                 key={tx.bio}
-                text={tx.bio}
-                active={lanyardReady}
-                delay={280}
-                speed={16}
+                text={[tx.bio]}
+                typingSpeed={16}
+                initialDelay={280}
+                pauseDuration={1800}
+                deletingSpeed={10}
+                loop={false}
+                showCursor={true}
+                cursorCharacter="|"
+                startOnVisible={true}
                 className="mt-8 max-w-2xl text-xl md:text-2xl lg:text-[1.7rem] font-light text-white/80 leading-relaxed text-justify [text-align-last:left]"
               />
 
@@ -269,10 +265,10 @@ export default function About() {
                   animate={{ opacity: 1, y: 0, rotate: 0 }}
                   transition={{
                     type: "spring",
-                    stiffness: 64,
-                    damping: 13,
-                    mass: 1.15,
-                    delay: 0.1,
+                    stiffness: 150,
+                    damping: 16,
+                    mass: 0.65,
+                    delay: 0,
                   }}
                 >
                   <Lanyard
@@ -291,77 +287,5 @@ export default function About() {
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#050505] to-transparent" />
       </section>
     </>
-  );
-}
-
-function TypingText({
-  text,
-  active,
-  className = "",
-  delay = 0,
-  speed = 40,
-}: {
-  text: string;
-  active: boolean;
-  className?: string;
-  delay?: number;
-  speed?: number;
-}) {
-  const [visibleText, setVisibleText] = useState("");
-  const visibleRef = useRef(0);
-
-  useEffect(() => {
-    if (!active) return;
-
-    let rafId: number;
-    let startTime: number | null = null;
-    let delayElapsed = false;
-    let delayStartTime: number | null = null;
-
-    const tick = (timestamp: number) => {
-      if (!delayElapsed) {
-        if (delayStartTime === null) delayStartTime = timestamp;
-        if (timestamp - delayStartTime >= delay) {
-          delayElapsed = true;
-          startTime = timestamp;
-        }
-        rafId = requestAnimationFrame(tick);
-        return;
-      }
-
-      if (startTime === null) startTime = timestamp;
-
-      const elapsed = timestamp - startTime;
-      const targetIndex = Math.min(Math.floor(elapsed / speed), text.length);
-
-      if (targetIndex > visibleRef.current) {
-        visibleRef.current = targetIndex;
-        setVisibleText(text.slice(0, targetIndex));
-      }
-
-      if (visibleRef.current < text.length) {
-        rafId = requestAnimationFrame(tick);
-      }
-    };
-
-    rafId = requestAnimationFrame(tick);
-
-    return () => cancelAnimationFrame(rafId);
-  }, [active, delay, speed, text]);
-
-  return (
-    <p aria-label={text} className={`grid ${className}`}>
-      <span aria-hidden className="invisible col-start-1 row-start-1">
-        {text}
-      </span>
-      <span aria-hidden className="col-start-1 row-start-1">
-        {visibleText}
-        <motion.span
-          className="ml-1 inline-block h-[0.9em] w-px translate-y-[0.12em] bg-white/70"
-          animate={{ opacity: [0, 1, 1, 0] }}
-          transition={{ duration: 1.1, repeat: Infinity, ease: "linear" }}
-        />
-      </span>
-    </p>
   );
 }

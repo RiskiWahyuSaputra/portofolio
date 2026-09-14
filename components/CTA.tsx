@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import MagneticButton from "./MagneticButton";
+import StrokeText from "./StrokeText";
 import { ArrowUpRight } from "lucide-react";
 import { useLang } from "./LangContext";
 
@@ -49,14 +50,27 @@ export default function CTA() {
           </span>
         </motion.div>
 
-        <motion.h2
+        <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.33, 1, 0.68, 1] }}
-          className="mt-6 text-4xl md:text-6xl lg:text-7xl font-semibold text-white leading-tight whitespace-pre-line"
+          className="mt-6"
         >
-          {tx.heading}
-        </motion.h2>
+          <StrokeText
+            text={tx.heading.replace("\\n", " ")}
+            strokeColor="#A78BFA"
+            fillColor="#F8FAFC"
+            strokeWidth={1.4}
+            drawDuration={1.6}
+            fillDelay={0.2}
+            stagger={0.05}
+            ease="power2.out"
+            fontSize={128}
+            fontWeight={800}
+            letterSpacing={-4}
+            active={isInView}
+          />
+        </motion.div>
 
         <motion.p
           initial={{ opacity: 0, y: 30 }}
