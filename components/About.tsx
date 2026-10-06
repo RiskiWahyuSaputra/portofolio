@@ -265,10 +265,10 @@ export default function About() {
                   animate={{ opacity: 1, y: 0, rotate: 0 }}
                   transition={{
                     type: "spring",
-                    stiffness: 150,
-                    damping: 16,
-                    mass: 0.65,
-                    delay: 0,
+                    stiffness: 64,
+                    damping: 13,
+                    mass: 1.15,
+                    delay: 0.1,
                   }}
                 >
                   <Lanyard

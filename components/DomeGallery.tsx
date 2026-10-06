@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useCallback } from 'react';
+import { useEffect, useMemo, useRef, useCallback, useState } from 'react';
 import { useGesture } from '@use-gesture/react';
 import './DomeGallery.css';
 
@@ -368,8 +368,20 @@ export default function DomeGallery({
     { target: mainRef, eventOptions: { passive: true } }
   );
 
+  const [isInView, setIsInView] = useState(false);
+
   useEffect(() => {
-    if (!autoRotate) return;
+    const root = rootRef.current;
+    if (!root) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsInView(entry.isIntersecting);
+    }, { rootMargin: "200px" });
+    observer.observe(root);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!autoRotate || !isInView) return;
     const step = () => {
       if (draggingRef.current || openingRef.current || focusedElRef.current || inertiaRAF.current) {
         autoRotateRAF.current = requestAnimationFrame(step);
@@ -382,7 +394,7 @@ export default function DomeGallery({
     };
     autoRotateRAF.current = requestAnimationFrame(step);
     return () => stopAutoRotate();
-  }, [autoRotate, autoRotateSpeed, stopAutoRotate]);
+  }, [autoRotate, autoRotateSpeed, isInView, stopAutoRotate]);
 
   useEffect(() => {
     const scrim = scrimRef.current;

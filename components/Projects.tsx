@@ -310,7 +310,7 @@ const projects: Project[] = [
   {
     number: "10",
     title: "Customer Support Chat System",
-    image: "/projects/project-05.svg",
+    image: "/images/chat.png",
     demoUrl: "#",
     description: {
       EN: "Implementation of a customer support chat system with queue management, AI chatbot automation, real-time live chat, analytics dashboard, and WhatsApp integration.",
@@ -439,6 +439,99 @@ const projects: Project[] = [
         EN: "Responsive for desktop and mobile views",
         ID: "Responsif untuk tampilan desktop dan mobile",
       },
+    ],
+  },
+];
+
+
+const workProjects: Project[] = [
+  {
+    number: "W01",
+    title: "BEST CSO — Customer Service & Operational Platform",
+    image: "/images/cso.png",
+    demoUrl: "#",
+    description: {
+      EN: "Enterprise operational & customer service portal for BEST CORPORATION SYARIAH. Manages partner handlings, power of attorney (surat kuasa), guest book check-ins, branch QR validations, interactive chatbot flows, and COA cash management mapping.",
+      ID: "Portal operasional & customer service enterprise untuk BEST CORPORATION SYARIAH. Mengelola penanganan mitra, surat kuasa, buku tamu, validasi QR cabang, alur chatbot interaktif, serta pemetaan kas dan COA operasional.",
+    },
+    tech: ["Laravel 12", "PHP 8.2", "MySQL", "REST API", "AdminLTE", "Tailwind CSS"],
+    features: [
+      { EN: "Partner Handling & Power of Attorney (Surat Kuasa)", ID: "Penanganan Mitra & Alur Surat Kuasa" },
+      { EN: "Branch QR Code Check-in & Guest Book System", ID: "Validasi QR Code Cabang & Buku Tamu Digital" },
+      { EN: "Interactive Chatbot Flow Configuration", ID: "Konfigurasi Alur Chatbot Interaktif" },
+      { EN: "COA Mapping & Cash CSO Reconciliation", ID: "Pemetaan COA & Rekonsiliasi Kas CSO" },
+      { EN: "Granular Role-based Access Control", ID: "Hak Akses Pengguna Berbasis Peran" },
+    ],
+  },
+  {
+    number: "W02",
+    title: "Best Arsip — Archive Vault & Document Management",
+    image: "/images/arsip.png",
+    demoUrl: "#",
+    description: {
+      EN: "Physical & digital document vault management system. Features visual hierarchy diagrams of archive cabinets and vault boxes, certificate and vehicle ownership (BPKB) tracking, local document migration tools, and rapid multi-filter live search.",
+      ID: "Sistem manajemen arsip dokumen fisik dan digital terpusat. Dilengkapi diagram hierarki visual lemari & vault box, pelacakan sertifikat dan BPKB, migrasi dokumen lokal, serta pencarian instan dengan multi-filter terintegrasi.",
+    },
+    tech: ["Laravel 12", "PHP 8.2", "MySQL", "Bootstrap", "REST API", "Local File Storage"],
+    features: [
+      { EN: "Visual Cabinet & Vault Box Hierarchy Diagram", ID: "Diagram Visual Hierarki Lemari & Vault Box" },
+      { EN: "Certificate & Vehicle Ownership (BPKB) Archiving", ID: "Pengarsipan Sertifikat & Dokumen Legal BPKB" },
+      { EN: "Instant Live Search & Multi-Filter Query Engine", ID: "Live Search Instan & Mesin Multi-Filter" },
+      { EN: "Automated Expiration Date & Document Alerts", ID: "Pelacakan Masa Berlaku & Notifikasi Otomatis" },
+      { EN: "Import & Migration Tools from Legacy Archives", ID: "Alat Impor & Migrasi dari Sistem Arsip Lama" },
+    ],
+  },
+  {
+    number: "W03",
+    title: "Best Finance — Financial Operations & Serial Reconciliation",
+    image: "/images/finance.png",
+    demoUrl: "#",
+    description: {
+      EN: "Internal financial management and transaction processing engine. Handles serial code exchanges and recaps, routine departmental expense allocations, supervisor petty cash tracking, bank mutation syncing, and bonus disbursements.",
+      ID: "Sistem operasi keuangan internal dan pemrosesan transaksi. Mengelola penukaran dan rekapan serial produk, alokasi biaya rutin departemen, kas kecil (petty cash) supervisor, rekonsiliasi mutasi bank, dan pencairan bonus.",
+    },
+    tech: ["Laravel 12", "PHP 8.2", "MySQL", "REST API", "Payment Integration", "Storage"],
+    features: [
+      { EN: "Serial Number Exchange & Recap Tracking", ID: "Pelacakan & Rekapan Penukaran Serial Produk" },
+      { EN: "Departmental Routine Expense Approvals", ID: "Pengajuan & Persetujuan Biaya Rutin Departemen" },
+      { EN: "Petty Cash SPV & Transaction Ledger", ID: "Pencatatan Petty Cash SPV & Buku Kas" },
+      { EN: "Bank Mutation Sync & Multi-Account Transfers", ID: "Sinkronisasi Mutasi Bank & Transfer Rekening" },
+      { EN: "Audit Trails & Account Balance Logging", ID: "Audit Trail & Pencatatan Log Saldo Akun" },
+    ],
+  },
+  {
+    number: "W04",
+    title: "Sekretariat — Enterprise Document & Digital E-Signature",
+    image: "/images/sekretariat.png",
+    demoUrl: "#",
+    description: {
+      EN: "Corporate secretarial and administration system. Integrates digital signatures (E-Sign) for official company documents, seminar attendee verification, consignment workflows, vendor submissions, and asset maintenance scheduling.",
+      ID: "Sistem kesekretariatan dan administrasi korporat. Mengintegrasikan tanda tangan digital (E-Sign) untuk dokumen resmi perusahaan, verifikasi absensi seminar, alur konsinyasi, pengajuan vendor, dan jadwal pemeliharaan aset.",
+    },
+    tech: ["Laravel", "PHP", "MySQL", "FPDF / Digital Signature", "AdminLTE", "REST API"],
+    features: [
+      { EN: "Digital Document E-Signature & Verification", ID: "Tanda Tangan Digital (E-Sign) & Verifikasi Dokumen" },
+      { EN: "Official Letter Drafting & PDF Watermarking", ID: "Penyusunan Surat Resmi & Watermark PDF" },
+      { EN: "Consignment & Vendor Submission Workflows", ID: "Alur Konsinyasi & Pengajuan Mitra Vendor" },
+      { EN: "Corporate Asset Maintenance Scheduling", ID: "Penjadwalan Pemeliharaan Inventaris & Aset" },
+      { EN: "Event & Seminar Attendance Verification", ID: "Verifikasi Presensi & Sertifikasi Seminar" },
+    ],
+  },
+  {
+    number: "W05",
+    title: "DKP — Divisi Komunikasi dan Pemasaran",
+    image: "/images/dkp.png",
+    demoUrl: "#",
+    description: {
+      EN: "Internal communication, marketing administration, and campaign management portal for BEST CORPORATION. Streamlines marketing workflows, divisional coordination, promotional assets, and internal reporting.",
+      ID: "Portal komunikasi internal, administrasi pemasaran, dan manajemen kampanye untuk BEST CORPORATION. Memfasilitasi alur kerja pemasaran, koordinasi divisi, aset promosi, dan pelaporan operasional internal.",
+    },
+    tech: ["Laravel", "PHP", "MySQL", "Tailwind CSS", "REST API"],
+    features: [
+      { EN: "Division Communications & Task Management", ID: "Manajemen Tugas & Komunikasi Divisi" },
+      { EN: "Marketing Campaign Tracking & Assets", ID: "Pelacakan Kampanye & Aset Pemasaran" },
+      { EN: "Internal Divisional Reporting & Analytics", ID: "Pelaporan & Analitik Internal Divisi" },
+      { EN: "Secure Role-Based Authentication System", ID: "Autentikasi Aman Berbasis Peran Pengguna" },
     ],
   },
 ];
@@ -574,6 +667,7 @@ const MOBILE_INITIAL_COUNT = 3;
 export default function Projects() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
+  const [activeTab, setActiveTab] = useState<"personal" | "work">("personal");
   const [selected, setSelected] = useState<Project | null>(null);
   const [page, setPage] = useState(0);
   const [showAllMobile, setShowAllMobile] = useState(false);
@@ -583,31 +677,44 @@ export default function Projects() {
     EN: {
       section: "06 / Projects",
       heading: "Featured Work",
+      tabPersonal: "Personal Projects",
+      tabWork: "Work & Maintained Systems",
       viewDetails: "View Details",
       demo: "Demo",
       techStack: "Tech Stack",
       keyFeatures: "Key Features",
       showAll: "View All Projects",
       showLess: "Show Less",
+      workBadge: "Maintained & Operated at BEST CORP",
     },
     ID: {
       section: "06 / Proyek",
       heading: "Karya Unggulan",
+      tabPersonal: "Proyek Personal",
+      tabWork: "Sistem Kerja & Pemeliharaan",
       viewDetails: "Lihat Detail",
       demo: "Demo",
       techStack: "Teknologi",
       keyFeatures: "Fitur Utama",
       showAll: "Lihat Semua Proyek",
       showLess: "Tampilkan Lebih Sedikit",
+      workBadge: "Dikelola & Dipelihara di BEST CORP",
     },
   };
   const lx = labels[lang];
 
-  const totalPages = Math.ceil(projects.length / PER_PAGE);
-  const paginated = projects.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE);
+  const currentList = activeTab === "personal" ? projects : workProjects;
+  const totalPages = Math.ceil(currentList.length / PER_PAGE);
+  const paginated = currentList.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE);
   const mobileProjects = showAllMobile
-    ? projects
-    : projects.slice(0, MOBILE_INITIAL_COUNT);
+    ? currentList
+    : currentList.slice(0, MOBILE_INITIAL_COUNT);
+
+  const handleTabChange = (tab: "personal" | "work") => {
+    setActiveTab(tab);
+    setPage(0);
+    setShowAllMobile(false);
+  };
 
   return (
     <section
@@ -620,14 +727,57 @@ export default function Projects() {
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
-          className="mb-10 md:mb-20"
+          className="mb-8 md:mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6"
         >
-          <span className="text-sm font-mono text-white/40 tracking-widest uppercase">
-            {lx.section}
-          </span>
-          <h2 className="mt-4 text-3xl md:text-5xl font-semibold text-white">
-            {lx.heading}
-          </h2>
+          <div>
+            <span className="text-sm font-mono text-white/40 tracking-widest uppercase">
+              {lx.section}
+            </span>
+            <h2 className="mt-4 text-3xl md:text-5xl font-semibold text-white">
+              {lx.heading}
+            </h2>
+          </div>
+
+          {/* Tab Filter Switcher */}
+          <div className="inline-flex p-1 rounded-full border border-white/10 bg-white/[0.03] backdrop-blur-sm self-start md:self-auto">
+            <button
+              onClick={() => handleTabChange("personal")}
+              className={`relative px-5 py-2.5 rounded-full text-xs md:text-sm font-mono transition-all duration-300 ${
+                activeTab === "personal"
+                  ? "text-white font-medium shadow-sm"
+                  : "text-white/40 hover:text-white/80"
+              }`}
+            >
+              {activeTab === "personal" && (
+                <motion.div
+                  layoutId="activeTabBadge"
+                  className="absolute inset-0 rounded-full bg-white/10 border border-white/15"
+                  transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                />
+              )}
+              <span className="relative z-10">{lx.tabPersonal}</span>
+            </button>
+            <button
+              onClick={() => handleTabChange("work")}
+              className={`relative px-5 py-2.5 rounded-full text-xs md:text-sm font-mono transition-all duration-300 ${
+                activeTab === "work"
+                  ? "text-white font-medium shadow-sm"
+                  : "text-white/40 hover:text-white/80"
+              }`}
+            >
+              {activeTab === "work" && (
+                <motion.div
+                  layoutId="activeTabBadge"
+                  className="absolute inset-0 rounded-full bg-white/10 border border-white/15"
+                  transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                />
+              )}
+              <span className="relative z-10 flex items-center gap-1.5">
+                <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                {lx.tabWork}
+              </span>
+            </button>
+          </div>
         </motion.div>
 
         {/* Mobile compact list */}
@@ -658,9 +808,17 @@ export default function Projects() {
               <div className="p-4">
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
-                    <span className="text-xs font-mono text-white/30">
-                      {project.number}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-mono text-white/30">
+                        {project.number}
+                      </span>
+                      {activeTab === "work" && (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                          Enterprise
+                        </span>
+                      )}
+                    </div>
                     <h3 className="mt-1 line-clamp-2 text-base font-semibold leading-6 text-white">
                       {project.title}
                     </h3>
@@ -743,9 +901,17 @@ export default function Projects() {
               <div className="p-5">
                 <div className="flex items-start justify-between gap-2">
                   <div>
-                    <span className="text-xs font-mono text-white/30">
-                      {project.number}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-mono text-white/30">
+                        {project.number}
+                      </span>
+                      {activeTab === "work" && (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                          Enterprise
+                        </span>
+                      )}
+                    </div>
                     <h3 className="mt-1 text-base font-semibold text-white group-hover:text-white/80 transition-colors line-clamp-1">
                       {project.title}
                     </h3>

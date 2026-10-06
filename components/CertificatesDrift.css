@@ -1,0 +1,80 @@
+.certificate-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.86);
+  backdrop-filter: blur(10px);
+}
+
+.certificate-lightbox__content {
+  position: relative;
+  width: min(900px, 94vw);
+  max-height: 92vh;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 1rem;
+  background: #111;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+}
+
+.certificate-lightbox__image {
+  position: relative;
+  width: 100%;
+  height: min(72vh, 620px);
+}
+
+.certificate-lightbox__close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 2;
+  display: flex;
+  width: 2.5rem;
+  height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  transition: background 180ms ease, color 180ms ease;
+}
+
+.certificate-lightbox__close:hover { color: white; background: rgba(255, 255, 255, 0.16); }
+
+.certificate-lightbox__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 0 0.25rem;
+}
+
+.certificate-lightbox__title { margin: 0; color: rgba(255, 255, 255, 0.72); font-size: 0.875rem; }
+
+.certificate-lightbox__credential {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 0.6rem 0.9rem;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: border-color 180ms ease, background 180ms ease, color 180ms ease;
+}
+
+.certificate-lightbox__credential:hover { border-color: rgba(255, 255, 255, 0.35); background: rgba(255, 255, 255, 0.12); color: white; }
+
+@media (max-width: 640px) {
+  .certificate-lightbox__footer { align-items: flex-start; flex-direction: column; }
+}

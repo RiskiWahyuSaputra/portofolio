@@ -64,6 +64,8 @@ export default function Lanyard({
   transparent = true,
   height = "100vh",
 }: LanyardProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isInView, setIsInView] = useState(false);
   const [isMobile, setIsMobile] = useState(
     () => typeof window !== "undefined" && window.innerWidth < 768,
   );
@@ -74,8 +76,21 @@ export default function Lanyard({
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { rootMargin: "150px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="lanyard-wrapper" style={{ height }}>
+    <div ref={containerRef} className="lanyard-wrapper" style={{ height }}>
       <Canvas
         camera={{ position, fov }}
         dpr={[1, isMobile ? 1.5 : 2]}
@@ -228,6 +243,16 @@ function Band({
   }, [hovered, dragged]);
 
   useFrame((state, delta) => {
+    const fixedBody = fixed.current;
+    const j1Body = j1.current;
+    const j2Body = j2.current;
+    const j3Body = j3.current;
+    const cardBody = card.current;
+
+    if (!fixedBody || !j1Body || !j2Body || !j3Body || !cardBody || !Number.isFinite(delta)) {
+      return;
+    }
+
     if (dragged) {
       vec
         .set(state.pointer.x, state.pointer.y, 0.5)
@@ -241,18 +266,24 @@ function Band({
         z: vec.z - dragged.z,
       });
     }
-    if (fixed.current) {
-      const j1Lerped = updateLerpedSegment(j1.current, delta, minSpeed, maxSpeed);
-      const j2Lerped = updateLerpedSegment(j2.current, delta, minSpeed, maxSpeed);
+    if (fixedBody) {
+      const j1Lerped = updateLerpedSegment(j1Body, delta, minSpeed, maxSpeed);
+      const j2Lerped = updateLerpedSegment(j2Body, delta, minSpeed, maxSpeed);
+      const fixedPosition = fixedBody.translation();
+      const j3Position = j3Body.translation();
 
-      curve.points[0].copy(j3.current.translation());
+      if (!isFiniteVector(j1Lerped) || !isFiniteVector(j2Lerped) || !isFiniteVector(fixedPosition) || !isFiniteVector(j3Position)) {
+        return;
+      }
+
+      curve.points[0].copy(j3Position);
       curve.points[1].copy(j2Lerped);
       curve.points[2].copy(j1Lerped);
-      curve.points[3].copy(fixed.current.translation());
+      curve.points[3].copy(fixedPosition);
       band.current.geometry.setPoints(curve.getPoints(isMobile ? 16 : 32));
-      ang.copy(card.current.angvel());
-      rot.copy(card.current.rotation());
-      card.current.setAngvel({
+      ang.copy(cardBody.angvel());
+      rot.copy(cardBody.rotation());
+      cardBody.setAngvel({
         x: ang.x,
         y: ang.y - rot.y * 0.25,
         z: ang.z,
@@ -352,6 +383,10 @@ function Band({
       </mesh>
     </>
   );
+}
+
+function isFiniteVector(vector: THREE.Vector3 | { x: number; y: number; z: number }) {
+  return Number.isFinite(vector.x) && Number.isFinite(vector.y) && Number.isFinite(vector.z);
 }
 
 function updateLerpedSegment(

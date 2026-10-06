@@ -10,13 +10,13 @@ export default function SmoothScroll({
 }) {
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 0.75,
-      easing: (t) => 1 - Math.pow(1 - t, 4),
+      duration: 1.0,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: "vertical",
       gestureOrientation: "vertical",
       smoothWheel: true,
-      syncTouch: true,
-      touchMultiplier: 1.1,
+      syncTouch: false,
+      touchMultiplier: 1.0,
     });
 
     let animationFrame = 0;
