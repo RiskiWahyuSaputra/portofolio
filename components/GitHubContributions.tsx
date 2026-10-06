@@ -74,7 +74,7 @@ export default function GitHubContributions() {
               <GitCommit size={20} className="text-[#58a6ff]" />
             </div>
             <div>
-              <div className="text-2xl font-semibold text-white">6/year</div>
+              <div className="text-2xl font-semibold text-white">800+</div>
               <div className="text-xs text-[#8b949e] uppercase tracking-wide">
                 {lx.stats.commits}
               </div>
@@ -86,7 +86,7 @@ export default function GitHubContributions() {
               <Code2 size={20} className="text-[#58a6ff]" />
             </div>
             <div>
-              <div className="text-2xl font-semibold text-white">41</div>
+              <div className="text-2xl font-semibold text-white">35+</div>
               <div className="text-xs text-[#8b949e] uppercase tracking-wide">
                 {lx.stats.repos}
               </div>
@@ -98,7 +98,7 @@ export default function GitHubContributions() {
               <Calendar size={20} className="text-[#58a6ff]" />
             </div>
             <div>
-              <div className="text-2xl font-semibold text-white">2026</div>
+              <div className="text-2xl font-semibold text-white">826</div>
               <div className="text-xs text-[#8b949e] uppercase tracking-wide">
                 {lx.stats.contributions}
               </div>
