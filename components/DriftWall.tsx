@@ -66,7 +66,6 @@ export default function DriftWall({
   const wallHoveredRef = useRef(false);
   const lastTimeRef = useRef<number | null>(null);
   const [height, setHeight] = useState(600);
-  const [activeId, setActiveId] = useState<string | null>(null);
   const [reduced, setReduced] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -131,16 +130,16 @@ export default function DriftWall({
       dampedRef.current.y += (-pointerRef.current.y * maxTilt - dampedRef.current.y) * damping;
       transformPlane(dampedRef.current.x, dampedRef.current.y);
 
-      tracksRef.current.forEach((track, index) => {
-        const meta = columnMeta[index];
-        if (!track || !meta) return;
-        const paused = (wallHoveredRef.current && pauseOnHover) || hoveredColumnRef.current === index;
-        const target = reduced || paused ? 0 : velocities[index];
-        const ease = 1 - Math.exp(-delta / (target === 0 ? 0.16 : 0.28));
-        velocitiesRef.current[index] += (target - velocitiesRef.current[index]) * ease;
-        offsetsRef.current[index] = ((offsetsRef.current[index] + velocitiesRef.current[index] * delta) % meta.copyHeight + meta.copyHeight) % meta.copyHeight;
-        track.style.transform = `translate3d(0, ${-offsetsRef.current[index]}px, 0)`;
-      });
+        tracksRef.current.forEach((track, index) => {
+          const meta = columnMeta[index];
+          if (!track || !meta) return;
+          const isColHovered = hoveredColumnRef.current === index;
+          const target = reduced ? 0 : isColHovered ? velocities[index] * 0.15 : velocities[index];
+          const ease = 1 - Math.exp(-delta / 0.35);
+          velocitiesRef.current[index] += (target - velocitiesRef.current[index]) * ease;
+          offsetsRef.current[index] = ((offsetsRef.current[index] + velocitiesRef.current[index] * delta) % meta.copyHeight + meta.copyHeight) % meta.copyHeight;
+          track.style.transform = `translate3d(0, ${-offsetsRef.current[index]}px, 0)`;
+        });
       frame = requestAnimationFrame(animate);
     };
     frame = requestAnimationFrame(animate);
@@ -152,9 +151,9 @@ export default function DriftWall({
     if (!rect) return;
     pointerRef.current = { x: (event.clientX - rect.left) / rect.width - 0.5, y: (event.clientY - rect.top) / rect.height - 0.5 };
     const tile = (event.target as HTMLElement).closest<HTMLElement>("[data-tile-id]");
-    if (tile) {
-      setActiveId(tile.dataset.tileId ?? null);
-      hoveredColumnRef.current = Number(tile.dataset.column);
+    const col = tile ? Number(tile.dataset.column) : -1;
+    if (hoveredColumnRef.current !== col) {
+      hoveredColumnRef.current = col;
     }
   };
 
@@ -166,7 +165,7 @@ export default function DriftWall({
   } as React.CSSProperties;
 
   return (
-    <div ref={containerRef} className={`drift-wall${reduced ? " drift-wall--reduced" : ""}`} style={cssVars} onPointerMove={handlePointerMove} onPointerEnter={() => { wallHoveredRef.current = true; }} onPointerLeave={() => { wallHoveredRef.current = false; pointerRef.current = { x: 0, y: 0 }; hoveredColumnRef.current = -1; setActiveId(null); }} role="group" aria-label="Drifting certificate wall">
+    <div ref={containerRef} className={`drift-wall${reduced ? " drift-wall--reduced" : ""}`} style={cssVars} onPointerMove={handlePointerMove} onPointerEnter={() => { wallHoveredRef.current = true; }} onPointerLeave={() => { wallHoveredRef.current = false; pointerRef.current = { x: 0, y: 0 }; hoveredColumnRef.current = -1; }} role="group" aria-label="Drifting certificate wall">
       <div ref={planeRef} className="drift-wall__plane">
         {columnItems.map((column, columnIndex) => {
           const meta = columnMeta[columnIndex];
@@ -174,7 +173,7 @@ export default function DriftWall({
             <div className="drift-wall__track" ref={(node) => { tracksRef.current[columnIndex] = node; }}>
               {Array.from({ length: meta.copies }).flatMap((_, copyIndex) => column.map((item, itemIndex) => {
                 const id = `${columnIndex}-${copyIndex}-${itemIndex}`;
-                const tile = <span className={`drift-wall__inner${activeId === id ? " is-active" : ""}`}><img src={item.image} alt={item.title ?? ""} loading="lazy" decoding="async" draggable={false} /><span className="drift-wall__overlay" /></span>;
+                const tile = <span className="drift-wall__inner"><img src={item.image} alt={item.title ?? ""} loading="lazy" decoding="async" draggable={false} /><span className="drift-wall__overlay" /></span>;
                 return item.href ? <a className="drift-wall__tile" key={id} data-tile-id={id} data-column={columnIndex} href={item.href} target="_blank" rel="noreferrer noopener">{tile}</a> : <div className="drift-wall__tile" key={id} data-tile-id={id} data-column={columnIndex} tabIndex={0} role="button" aria-label={item.title} onClick={() => onItemClick?.(item)} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") onItemClick?.(item); }}>{tile}</div>;
               }))}
             </div>

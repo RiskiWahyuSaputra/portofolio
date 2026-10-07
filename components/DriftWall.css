@@ -18,7 +18,7 @@
   mask-composite: intersect;
 }
 
-.drift-wall__plane { position: absolute; top: 50%; left: 50%; display: flex; transform-style: preserve-3d; transform-origin: 50% 50%; will-change: transform; }
+.drift-wall__plane { position: absolute; top: 50%; left: 50%; display: flex; transform-style: preserve-3d; transform-origin: 50% 50%; transform: translate(-50%, -50%); will-change: transform; }
 .drift-wall__column { position: relative; width: calc(var(--dw-tile-w) + var(--dw-gap)); transform-style: preserve-3d; }
 .drift-wall__track { display: flex; flex-direction: column; will-change: transform; transform-style: preserve-3d; }
 .drift-wall__tile { position: relative; display: block; width: 100%; height: calc(var(--dw-tile-h) + var(--dw-gap)); flex: 0 0 auto; outline: none; transform-style: preserve-3d; }
