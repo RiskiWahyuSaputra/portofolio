@@ -21,7 +21,7 @@ type GroqResponse = {
 };
 
 const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
-const GROQ_MODEL = process.env.GROQ_MODEL ?? "llama-3.3-70b-versatile";
+const GROQ_MODEL = process.env.GROQ_MODEL ?? "qwen/qwen3.8-27b";
 const CONTACT_WHATSAPP = "085789910963";
 const CONTACT_EMAIL = "kiik37734@gmail.com";
 const MAX_HISTORY = 12;
