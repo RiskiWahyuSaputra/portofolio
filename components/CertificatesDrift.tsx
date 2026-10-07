@@ -21,6 +21,9 @@ const certificates = [
   ["/certificates/cert-10.png", "Pemrograman dengan Python", "https://www.dicoding.com/certificates/2VX30VW2VXYQ"],
   ["/certificates/cert-12.png", "AI Praktis Untuk Produktivitas", "https://www.dicoding.com/certificates/4EXG11DN9PRL"],
   ["/certificates/cert-11.png", "Build An AI Agent", "https://www.credly.com/badges/2f8fdadd-10a8-4c57-9695-5e19bb671af1/linked_in_profile"],
+  ["/certificates/cert-13.png", "Applied AI Foundations", "https://academy.openai.com/"],
+  ["/certificates/cert-14.png", "Agents and Workflows", "https://academy.openai.com/"],
+  ["/certificates/cert-15.png", "#JuaraVibeCoding - Google Developer Groups", "https://goo.gle/jvc-cert-verifier"],
 ];
 
 export default function CertificatesDrift() {

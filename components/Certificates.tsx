@@ -150,6 +150,39 @@ const certificates: Certificate[] = [
     credentialUrl:
       "https://www.credly.com/badges/2f8fdadd-10a8-4c57-9695-5e19bb671af1/linked_in_profile",
   },
+  {
+    id: "13",
+    title: {
+      EN: "Applied AI Foundations",
+      ID: "Applied AI Foundations",
+    },
+    issuer: "OpenAI Academy",
+    date: "2026",
+    image: "/certificates/cert-13.png",
+    credentialUrl: "https://academy.openai.com/",
+  },
+  {
+    id: "14",
+    title: {
+      EN: "Agents and Workflows",
+      ID: "Agents and Workflows",
+    },
+    issuer: "OpenAI Academy",
+    date: "2026",
+    image: "/certificates/cert-14.png",
+    credentialUrl: "https://academy.openai.com/",
+  },
+  {
+    id: "15",
+    title: {
+      EN: "Certificate of Completion — #JuaraVibeCoding",
+      ID: "Sertifikat Kelulusan — #JuaraVibeCoding",
+    },
+    issuer: "Google Developer Groups",
+    date: "2026",
+    image: "/certificates/cert-15.png",
+    credentialUrl: "https://goo.gle/jvc-cert-verifier",
+  },
 ];
 
 const PER_PAGE = 6;
