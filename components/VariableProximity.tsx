@@ -1,12 +1,13 @@
 "use client";
 
-import { forwardRef, useMemo, useRef, useEffect, useCallback } from "react";
+import { forwardRef, useMemo, useRef, useEffect, useCallback, useState } from "react";
 
-function useAnimationFrame(callback: () => void) {
+function useAnimationFrame(callback: () => void, isEnabled = true) {
   const callbackRef = useRef(callback);
   callbackRef.current = callback;
 
   useEffect(() => {
+    if (!isEnabled) return;
     let frameId: number;
     const loop = () => {
       callbackRef.current();
@@ -14,7 +15,7 @@ function useAnimationFrame(callback: () => void) {
     };
     frameId = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(frameId);
-  }, []);
+  }, [isEnabled]);
 }
 
 function useMousePositionRef(containerRef: React.RefObject<HTMLDivElement | null>) {
@@ -121,9 +122,20 @@ const VariableProximity = forwardRef<HTMLSpanElement, VariableProximityProps>(
       [radius, falloff],
     );
 
+    const [isInView, setIsInView] = useState(false);
+
+    useEffect(() => {
+      const el = containerRef?.current;
+      if (!el) return;
+      const observer = new IntersectionObserver(([entry]) => {
+        setIsInView(entry.isIntersecting);
+      }, { rootMargin: "100px" });
+      observer.observe(el);
+      return () => observer.disconnect();
+    }, [containerRef]);
+
     useAnimationFrame(() => {
-      if (!containerRef?.current) return;
-      const containerRect = containerRef.current.getBoundingClientRect();
+      if (!containerRef?.current || !isInView) return;
       const { x, y } = mousePositionRef.current;
       if (
         lastPositionRef.current.x === x &&
@@ -132,6 +144,8 @@ const VariableProximity = forwardRef<HTMLSpanElement, VariableProximityProps>(
         return;
       }
       lastPositionRef.current = { x, y };
+
+      const containerRect = containerRef.current.getBoundingClientRect();
 
       letterRefs.current.forEach((letterRef, index) => {
         if (!letterRef) return;

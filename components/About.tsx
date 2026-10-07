@@ -79,6 +79,9 @@ export default function About() {
     [0.3, 0.8, 0.8, 0.3],
   );
 
+  const orbY1 = useTransform(scrollYProgress, [0, 1], [0, -60]);
+  const orbY2 = useTransform(scrollYProgress, [0, 1], [0, 40]);
+
   return (
     <>
       <ScrollProgressBar />
@@ -102,7 +105,7 @@ export default function About() {
         <motion.div
           className="pointer-events-none absolute top-1/4 right-10 h-32 w-32 rounded-full opacity-10 blur-3xl"
           style={{
-            y: useTransform(scrollYProgress, [0, 1], [0, -60]),
+            y: orbY1,
             background:
               "radial-gradient(circle, rgba(34, 211, 238, 0.3), transparent)",
           }}
@@ -110,7 +113,7 @@ export default function About() {
         <motion.div
           className="pointer-events-none absolute bottom-1/4 left-10 h-40 w-40 rounded-full opacity-10 blur-3xl"
           style={{
-            y: useTransform(scrollYProgress, [0, 1], [0, 40]),
+            y: orbY2,
             background:
               "radial-gradient(circle, rgba(168, 85, 247, 0.3), transparent)",
           }}
