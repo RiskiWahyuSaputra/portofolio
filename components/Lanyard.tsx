@@ -267,12 +267,24 @@ function Band({
       });
     }
     if (fixedBody) {
-      const j1Lerped = updateLerpedSegment(j1Body, delta, minSpeed, maxSpeed);
-      const j2Lerped = updateLerpedSegment(j2Body, delta, minSpeed, maxSpeed);
       const fixedPosition = fixedBody.translation();
+      const j1Position = j1Body.translation();
+      const j2Position = j2Body.translation();
       const j3Position = j3Body.translation();
 
-      if (!isFiniteVector(j1Lerped) || !isFiniteVector(j2Lerped) || !isFiniteVector(fixedPosition) || !isFiniteVector(j3Position)) {
+      if (
+        !isFiniteVector(fixedPosition) ||
+        !isFiniteVector(j1Position) ||
+        !isFiniteVector(j2Position) ||
+        !isFiniteVector(j3Position)
+      ) {
+        return;
+      }
+
+      const j1Lerped = updateLerpedSegment(j1Body, delta, minSpeed, maxSpeed);
+      const j2Lerped = updateLerpedSegment(j2Body, delta, minSpeed, maxSpeed);
+
+      if (!isFiniteVector(j1Lerped) || !isFiniteVector(j2Lerped)) {
         return;
       }
 
@@ -280,14 +292,23 @@ function Band({
       curve.points[1].copy(j2Lerped);
       curve.points[2].copy(j1Lerped);
       curve.points[3].copy(fixedPosition);
-      band.current.geometry.setPoints(curve.getPoints(isMobile ? 16 : 32));
+
+      const points = curve.getPoints(isMobile ? 16 : 32);
+      const allPointsFinite = points.every(p => Number.isFinite(p.x) && Number.isFinite(p.y) && Number.isFinite(p.z));
+      if (!allPointsFinite) {
+        return;
+      }
+
+      band.current.geometry.setPoints(points);
       ang.copy(cardBody.angvel());
       rot.copy(cardBody.rotation());
-      cardBody.setAngvel({
-        x: ang.x,
-        y: ang.y - rot.y * 0.25,
-        z: ang.z,
-      }, true);
+      if (Number.isFinite(ang.x) && Number.isFinite(ang.y) && Number.isFinite(ang.z) && Number.isFinite(rot.y)) {
+        cardBody.setAngvel({
+          x: ang.x,
+          y: ang.y - rot.y * 0.25,
+          z: ang.z,
+        }, true);
+      }
     }
   });
 
