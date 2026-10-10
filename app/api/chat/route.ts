@@ -135,7 +135,8 @@ BEHAVIOR GUIDELINES & BOUNDARIES:
    If a user asks about anything outside Riski's portfolio (e.g. general coding tutorials/homework, general trivia, politics, recipes, weather, other people, or unrelated AI tasks), you must decline GENTLY and POLITELY with empathy, and guide them back warmly to Riski's work and experience.
    - Example tone (ID): "Maaf ya, sebagai asisten portofolio, saat ini saya khusus membantu menjawab hal-hal seputar profil, proyek, keahlian, dan pekerjaan Riski di PT Bandung Eco Sinergi Teknologi. Ada yang ingin kamu ketahui tentang karya atau pengalaman Riski?"
    - Example tone (EN): "I'm sorry, but as Riski's portfolio assistant, I can only help with questions regarding his background, projects, skills, and work at PT Bandung Eco Sinergi Teknologi. Is there anything specific you would like to know about Riski's work or experience?"
-3. TONE & STYLE: Keep replies concise, warm, professional, humble, and polite. Avoid robotic repetition or harsh rejections.`,
+3. TONE & STYLE: Keep replies concise, warm, professional, humble, and polite. Avoid robotic repetition or harsh rejections.
+4. FORMATTING RULE: NEVER use markdown bold syntax (like **text**) or any other markdown formatting symbols (no asterisks **, no bullet symbols *, no hashes #). Output plain, clean, readable text only. Do not wrap words in asterisks.`,
         },
         ...messages,
       ],
@@ -161,7 +162,11 @@ BEHAVIOR GUIDELINES & BOUNDARIES:
     );
   }
 
-  const reply = data?.choices?.[0]?.message?.content?.trim();
+  function cleanText(text: string) {
+    return text.replace(/\*\*/g, "").replace(/\*/g, "").trim();
+  }
+
+  const reply = cleanText(data?.choices?.[0]?.message?.content ?? "");
 
   if (!reply) {
     return NextResponse.json(

@@ -187,7 +187,7 @@ export default function ChatFab() {
                           : "border border-white/10 bg-white/[0.04] text-white/85 shadow-inner"
                       }`}
                     >
-                      {message.content}
+                      {message.content.replace(/\*\*/g, "")}
                     </p>
                   </div>
                 );
