@@ -66,7 +66,7 @@ export default function Footer() {
           viewport={{ once: true }}
           className="text-xs text-white/20"
         >
-          © {currentYear} Riski Wahyu Saputra
+          © {currentYear} Riski Wahyu Saputra.
         </motion.p>
       </div>
     </footer>
