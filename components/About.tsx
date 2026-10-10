@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
-import { useGLTF, useTexture } from "@react-three/drei";
 import { useLang } from "./LangContext";
-import Lanyard from "./Lanyard";
+
+// three.js + physics (~3 MB of JS/WASM) stay out of the initial load
+const Lanyard = dynamic(() => import("./Lanyard"), { ssr: false });
 import VariableProximity from "./VariableProximity";
 import MagneticButton from "./MagneticButton";
 import TextType from "./TextType";
@@ -43,12 +45,58 @@ export default function About() {
   // CV download — update this path to match the PDF in /public/cv/
   const CV_PATH = "/cv/CV_Riski_Wahyu_Saputra.pdf";
 
-  // Preload Lanyard 3D assets on page load so WebGL/Physics init is faster
+  // Load + mount the 3D lanyard once the visitor has started interacting and
+  // then pauses scrolling (or when the section is reached, whichever comes
+  // first), so its one-time setup doesn't land mid-scroll or slow page load.
+  const [isIdle, setIsIdle] = useState(false);
+  const mountLanyard = isIdle || isInView;
   useEffect(() => {
-    useGLTF.preload("/assets/lanyard/card.glb");
-    useTexture.preload("/assets/lanyard/lanyard.png");
-    useTexture.preload("/images/card-lanyard.png");
-    useTexture.preload("/images/belakang-card.jpeg");
+    const SCROLL_QUIET_MS = 500;
+    let lastScroll = 0;
+    let idleId = 0;
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
+    const interactionEvents = ["wheel", "touchstart", "pointerdown", "keydown"] as const;
+    const onScroll = () => {
+      lastScroll = performance.now();
+    };
+    const onFirstInteraction = () => {
+      interactionEvents.forEach((type) =>
+        window.removeEventListener(type, onFirstInteraction),
+      );
+      lastScroll = performance.now();
+      tryMount();
+    };
+    const tryMount = () => {
+      if (performance.now() - lastScroll < SCROLL_QUIET_MS) {
+        timeoutId = setTimeout(tryMount, 250);
+        return;
+      }
+      if ("requestIdleCallback" in window) {
+        idleId = window.requestIdleCallback(
+          () => {
+            if (performance.now() - lastScroll < SCROLL_QUIET_MS) tryMount();
+            else setIsIdle(true);
+          },
+          { timeout: 1000 },
+        );
+      } else {
+        setIsIdle(true);
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    interactionEvents.forEach((type) =>
+      window.addEventListener(type, onFirstInteraction, { passive: true }),
+    );
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      interactionEvents.forEach((type) =>
+        window.removeEventListener(type, onFirstInteraction),
+      );
+      if (idleId) window.cancelIdleCallback(idleId);
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   // Scroll-driven parallax
@@ -262,10 +310,14 @@ export default function About() {
               }}
               className="min-h-[440px] md:min-h-[560px] lg:col-span-6 lg:-my-24 lg:min-h-[640px]"
             >
-              {isInView && (
+              {mountLanyard && (
                 <motion.div
                   initial={{ opacity: 0, y: -140, rotate: -7 }}
-                  animate={{ opacity: 1, y: 0, rotate: 0 }}
+                  animate={
+                    isInView
+                      ? { opacity: 1, y: 0, rotate: 0 }
+                      : { opacity: 0, y: -140, rotate: -7 }
+                  }
                   transition={{
                     type: "spring",
                     stiffness: 64,

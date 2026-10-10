@@ -11,8 +11,26 @@ const TOTAL_FRAMES = 240;
 const MOBILE_BREAKPOINT = 768;
 const MOBILE_IMAGE_SCALE = 0.58;
 const MOBILE_IMAGE_MIN_WIDTH = 0.9;
-const FRAME_PATH = (i: number) =>
-  `/sequence/ezgif-frame-${String(i + 1).padStart(3, "0")}.jpg`;
+const FRAME_PATH = (i: number, isMobile: boolean) =>
+  `/sequence/${isMobile ? "mobile" : "desktop"}/${String(i + 1).padStart(3, "0")}.webp`;
+// Frames load coarse-to-fine: every 8th first (enough to start), then fill in
+const LOAD_STRIDES = [8, 4, 2, 1];
+const LOAD_CONCURRENCY = 6;
+
+function getLoadOrder() {
+  const seen = new Set<number>();
+  const order: number[] = [];
+  for (const stride of LOAD_STRIDES) {
+    for (let i = 0; i < TOTAL_FRAMES; i += stride) {
+      if (!seen.has(i)) {
+        seen.add(i);
+        order.push(i);
+      }
+    }
+  }
+  if (!seen.has(TOTAL_FRAMES - 1)) order.splice(1, 0, TOTAL_FRAMES - 1);
+  return order;
+}
 
 interface StoryText {
   progress: [number, number];
@@ -82,6 +100,8 @@ export default function SequenceScroll() {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imagesRef = useRef<HTMLImageElement[]>([]);
+  const loadedRef = useRef<boolean[]>(new Array(TOTAL_FRAMES).fill(false));
+  const onFrameLoadedRef = useRef<() => void>(() => {});
   const canvasSizeRef = useRef({ width: 0, height: 0, isMobile: false });
   const [progress, setProgress] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -100,35 +120,70 @@ export default function SequenceScroll() {
     restDelta: 0.001,
   });
 
-  // Preload all images
+  // Load frames progressively; the hero is usable after the first pass
   useEffect(() => {
     let cancelled = false;
-    const images: HTMLImageElement[] = [];
-    let loadedCount = 0;
+    const isMobile = window.innerWidth < MOBILE_BREAKPOINT;
+    const order = getLoadOrder();
+    const firstPass = Math.ceil(TOTAL_FRAMES / LOAD_STRIDES[0]);
+    const images: HTMLImageElement[] = new Array(TOTAL_FRAMES);
+    imagesRef.current = images;
+    let next = 0;
+    let done = 0;
+    let started = LOAD_CONCURRENCY;
+    // The remaining frames are only fetched once the visitor interacts, so
+    // the initial page load stays light.
+    let unlocked = false;
+    const interactionEvents = ["wheel", "touchstart", "keydown", "pointerdown", "scroll"] as const;
 
-    const checkComplete = () => {
-      if (cancelled) return;
-      loadedCount++;
-      setProgress((loadedCount / TOTAL_FRAMES) * 100);
-      if (loadedCount >= TOTAL_FRAMES) {
-        imagesRef.current = images;
-        setIsLoaded(true);
+    const loadNext = () => {
+      if (cancelled || next >= order.length) return;
+      if (!unlocked && next >= firstPass) {
+        started--;
+        return;
       }
+      const index = order[next++];
+      const img = new Image();
+      img.decoding = "async";
+      const finish = (ok: boolean) => {
+        if (cancelled) return;
+        if (ok) {
+          images[index] = img;
+          loadedRef.current[index] = true;
+          onFrameLoadedRef.current();
+        }
+        done++;
+        if (done <= firstPass) {
+          setProgress((done / firstPass) * 100);
+          if (done === firstPass) setIsLoaded(true);
+        }
+        loadNext();
+      };
+      img.onload = () => {
+        img.decode().then(() => finish(true), () => finish(true));
+      };
+      img.onerror = () => finish(false);
+      img.src = FRAME_PATH(index, isMobile);
     };
 
-    for (let i = 0; i < TOTAL_FRAMES; i++) {
-      const img = new Image();
-      img.src = FRAME_PATH(i);
-      img.decoding = "async";
-      img.onload = () => {
-        img.decode().catch(() => {}).finally(checkComplete);
-      };
-      img.onerror = checkComplete;
-      images.push(img);
-    }
+    const unlock = () => {
+      if (unlocked) return;
+      unlocked = true;
+      interactionEvents.forEach((type) => window.removeEventListener(type, unlock));
+      while (started < LOAD_CONCURRENCY) {
+        started++;
+        loadNext();
+      }
+    };
+    interactionEvents.forEach((type) =>
+      window.addEventListener(type, unlock, { passive: true }),
+    );
+
+    for (let i = 0; i < LOAD_CONCURRENCY; i++) loadNext();
 
     return () => {
       cancelled = true;
+      interactionEvents.forEach((type) => window.removeEventListener(type, unlock));
     };
   }, []);
 
@@ -171,11 +226,23 @@ export default function SequenceScroll() {
       rafRef.current = 0;
       if (!isVisible) return;
 
-      const frameIndex = Math.min(
+      const wanted = Math.min(
         TOTAL_FRAMES - 1,
         Math.max(0, Math.round(frameRef.current.target)),
       );
-      if (frameIndex === drawnFrame) return;
+      // Fall back to the nearest frame that has finished loading
+      let frameIndex = -1;
+      for (let d = 0; d < TOTAL_FRAMES; d++) {
+        if (loadedRef.current[wanted - d]) {
+          frameIndex = wanted - d;
+          break;
+        }
+        if (loadedRef.current[wanted + d]) {
+          frameIndex = wanted + d;
+          break;
+        }
+      }
+      if (frameIndex === -1 || frameIndex === drawnFrame) return;
 
       const img = imagesRef.current[frameIndex];
       const {
@@ -255,6 +322,7 @@ export default function SequenceScroll() {
       requestDraw();
     });
 
+    onFrameLoadedRef.current = requestDraw;
     frameRef.current.target = smoothProgress.get() * (TOTAL_FRAMES - 1);
     resize();
     requestDraw();
@@ -262,6 +330,7 @@ export default function SequenceScroll() {
 
     return () => {
       unsubscribe();
+      onFrameLoadedRef.current = () => {};
       observer.disconnect();
       window.removeEventListener("resize", onResize);
       cancelAnimationFrame(rafRef.current);

@@ -162,7 +162,7 @@ export default function ChatFab() {
               <div className="flex items-center gap-3.5">
                 <span className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl border border-white/20 bg-white shadow-sm p-1">
                   <Image
-                    src="/images/icon-fab.png"
+                    src="/images/icon-fab.webp"
                     alt="Kiyu Assistant"
                     width={40}
                     height={40}
@@ -380,7 +380,7 @@ export default function ChatFab() {
               <X size={24} className="text-black" />
             ) : (
               <Image
-                src="/images/icon-fab.png"
+                src="/images/icon-fab.webp"
                 alt=""
                 width={64}
                 height={64}

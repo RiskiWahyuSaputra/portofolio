@@ -219,11 +219,14 @@ export default function Terminal() {
   const idRef = useRef(0);
   const outputRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [canScroll, setCanScroll] = useState(false);
 
   // Keep the newest output visible without scrolling the page itself
   useEffect(() => {
     const el = outputRef.current;
-    if (el) el.scrollTop = el.scrollHeight;
+    if (!el) return;
+    el.scrollTop = el.scrollHeight;
+    setCanScroll(el.scrollHeight > el.clientHeight + 1);
   }, [lines]);
 
   const execute = (raw: string) => {
@@ -320,13 +323,15 @@ export default function Terminal() {
           {/* Output */}
           <div
             ref={outputRef}
-            data-lenis-prevent
+            // Only take over the wheel once there is something to scroll,
+            // otherwise the page would stop scrolling under the cursor
+            data-lenis-prevent={canScroll ? "" : undefined}
             onClick={() => {
               if (!window.getSelection()?.toString()) {
                 inputRef.current?.focus({ preventScroll: true });
               }
             }}
-            className="h-[340px] md:h-[380px] overflow-y-auto overscroll-contain px-4 md:px-6 py-5 font-mono text-[13px] md:text-sm leading-relaxed cursor-text [scrollbar-width:thin] [scrollbar-color:#333_transparent]"
+            className="h-[340px] md:h-[380px] overflow-y-auto px-4 md:px-6 py-5 font-mono text-[13px] md:text-sm leading-relaxed cursor-text [scrollbar-width:thin] [scrollbar-color:#333_transparent]"
           >
             <p className="text-white/50">{tx.welcome}</p>
 

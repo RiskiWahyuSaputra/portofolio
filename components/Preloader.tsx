@@ -23,12 +23,8 @@ export default function Preloader({ progress, isComplete }: PreloaderProps) {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
         >
-          <motion.div
-            className="flex flex-col items-center gap-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
+          {/* Visible from the first paint (no fade-in) so it counts as LCP */}
+          <div className="flex flex-col items-center gap-8">
             <div className="text-center">
               <h2 className="text-2xl font-light tracking-[0.2em] text-white/90 uppercase mb-2">
                 Riski Wahyu Saputra
@@ -53,7 +49,7 @@ export default function Preloader({ progress, isComplete }: PreloaderProps) {
               </span>
               <span className="text-lg text-white/40">%</span>
             </div>
-          </motion.div>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>

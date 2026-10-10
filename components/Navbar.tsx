@@ -1,7 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useMotionValueEvent,
+  useScroll,
+} from "framer-motion";
 import { Mail, Menu, X } from "lucide-react";
 import { useLang } from "./LangContext";
 import { smoothScrollTo } from "./SmoothScroll";
@@ -66,14 +71,10 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const { lang, toggle } = useLang();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  // framer-motion batches scroll reads into its frame loop, avoiding a
+  // forced layout on every scroll event
+  const { scrollY } = useScroll();
+  useMotionValueEvent(scrollY, "change", (y) => setScrolled(y > 50));
 
   useEffect(() => {
     if (isOpen) {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Canvas, extend, useFrame } from "@react-three/fiber";
+import { Canvas, extend, useFrame, useThree } from "@react-three/fiber";
 import type { ThreeElement } from "@react-three/fiber";
 import {
   useGLTF,
@@ -23,6 +23,16 @@ import * as THREE from "three";
 import "./Lanyard.css";
 
 extend({ MeshLineGeometry, MeshLineMaterial });
+
+// Start fetching assets as soon as this (lazy-loaded) module is imported
+useGLTF.preload("/assets/lanyard/card.glb");
+useTexture.preload("/assets/lanyard/lanyard.png");
+useTexture.preload("/images/card-lanyard.webp");
+useTexture.preload("/images/belakang-card.jpeg");
+
+// Once the scene is ready, keep rendering briefly even while offscreen so
+// texture upload and environment baking happen before the user scrolls here.
+const WARMUP_MS = 600;
 
 declare module "@react-three/fiber" {
   interface ThreeElements {
@@ -66,6 +76,7 @@ export default function Lanyard({
 }: LanyardProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isInView, setIsInView] = useState(false);
+  const [isWarmingUp, setIsWarmingUp] = useState(true);
   const [isMobile, setIsMobile] = useState(
     () => typeof window !== "undefined" && window.innerWidth < 768,
   );
@@ -83,23 +94,32 @@ export default function Lanyard({
       ([entry]) => {
         setIsInView(entry.isIntersecting);
       },
-      { rootMargin: "150px" }
+      { rootMargin: "50% 0px" }
     );
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
+
+  const warmupTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  useEffect(() => () => clearTimeout(warmupTimer.current), []);
+  const handleReady = () => {
+    warmupTimer.current = setTimeout(() => setIsWarmingUp(false), WARMUP_MS);
+  };
 
   return (
     <div ref={containerRef} className="lanyard-wrapper" style={{ height }}>
       <Canvas
         camera={{ position, fov }}
         dpr={[1, isMobile ? 1.5 : 2]}
-        frameloop={isInView ? "always" : "never"}
+        frameloop={isInView || isWarmingUp ? "always" : "never"}
         resize={{ scroll: false }}
         gl={{ alpha: transparent }}
-        onCreated={({ gl }) =>
-          gl.setClearColor(new THREE.Color(0x000000), transparent ? 0 : 1)
-        }
+        onCreated={({ gl }) => {
+          gl.setClearColor(new THREE.Color(0x000000), transparent ? 0 : 1);
+          // Reading shader info logs forces the GPU to finish compiling
+          // synchronously, which stalls the main thread mid-scroll.
+          gl.debug.checkShaderErrors = process.env.NODE_ENV !== "production";
+        }}
       >
         <ambientLight intensity={Math.PI} />
         <Physics
@@ -107,9 +127,9 @@ export default function Lanyard({
           timeStep={isMobile ? 1 / 30 : 1 / 60}
           paused={!isInView}
         >
-          <Band isMobile={isMobile} />
+          <Band isMobile={isMobile} onReady={handleReady} />
         </Physics>
-        <Environment blur={0.75}>
+        <Environment blur={0.75} resolution={64}>
           <Lightformer
             intensity={2}
             color="white"
@@ -148,10 +168,12 @@ function Band({
   maxSpeed = 50,
   minSpeed = 0,
   isMobile = false,
+  onReady,
 }: {
   maxSpeed?: number;
   minSpeed?: number;
   isMobile?: boolean;
+  onReady?: () => void;
 }) {
   const band = useRef<
     THREE.Mesh<
@@ -179,7 +201,7 @@ function Band({
     "/assets/lanyard/card.glb",
   ) as unknown as LanyardGLTF;
   const baseLanyardTexture = useTexture("/assets/lanyard/lanyard.png");
-  const baseFrontCardTexture = useTexture("/images/card-lanyard.png");
+  const baseFrontCardTexture = useTexture("/images/card-lanyard.webp");
   const baseBackCardTexture = useTexture("/images/belakang-card.jpeg");
   const lanyardTexture = useMemo(
     () => createLanyardTexture(baseLanyardTexture),
@@ -240,6 +262,22 @@ function Band({
     [0, 0, 0],
     [0, 1.5, 0],
   ]);
+
+  // Compile shaders off the main thread (KHR_parallel_shader_compile) as soon
+  // as assets are loaded, instead of blocking the first visible frame.
+  const { gl, scene, camera } = useThree();
+  useEffect(() => {
+    let cancelled = false;
+    gl.compileAsync(scene, camera)
+      .catch(() => {})
+      .finally(() => {
+        if (!cancelled) onReady?.();
+      });
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gl, scene, camera]);
 
   useEffect(() => {
     if (hovered) {
