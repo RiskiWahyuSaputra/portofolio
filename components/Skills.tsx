@@ -15,6 +15,7 @@ const techStackImages = [
   { src: "https://cdn.simpleicons.org/mysql/4479A1", alt: "MySQL" },
   { src: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/microsoftsqlserver.svg", alt: "SQL Server" },
   { src: "https://cdn.simpleicons.org/github/ffffff", alt: "GitHub" },
+  { src: "https://cdn.simpleicons.org/linux/FCC624", alt: "Linux" },
   { src: "https://cdn.simpleicons.org/ubuntu/E95420", alt: "Ubuntu" },
   { src: "https://cdn.simpleicons.org/stripe/00897B", alt: "Midtrans" },
   { src: "https://cdn.simpleicons.org/whatsapp/25D366", alt: "WhatsApp API" },

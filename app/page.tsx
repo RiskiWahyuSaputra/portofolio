@@ -7,6 +7,7 @@ import Experience from "@/components/Experience";
 import Certificates from "@/components/CertificatesDrift";
 import Stats from "@/components/Stats";
 import GitHubContributions from "@/components/GitHubContributions";
+import Terminal from "@/components/Terminal";
 import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
 import ChatFab from "@/components/ChatFab";
@@ -36,6 +37,7 @@ export default function Home() {
         <Certificates />
         <Stats />
         <GitHubContributions />
+        <Terminal />
         <CTA />
         <Footer />
       </div>
