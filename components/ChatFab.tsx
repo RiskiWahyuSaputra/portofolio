@@ -38,8 +38,8 @@ export default function ChatFab() {
   const { lang } = useLang();
 
   const welcomeMessage = lang === "EN"
-    ? "Hello! I'm Kiyu Assistant. I can only answer questions about Riski — his projects, skills, experience, or contact info. What would you like to know?"
-    : "Halo! Saya Kiyu Assistant. Saya siap menjawab pertanyaan tentang Riski — project, skill, pengalaman, atau kontaknya. Ada yang ingin kamu tanyakan?";
+    ? "Hello! I'm Kiyu Assistant. I'm here to share details about Riski — his work as an IT Developer at PT Bandung Eco Sinergi Teknologi, his projects, skills, and contact info. What would you like to know?"
+    : "Halo! Saya Kiyu Assistant. Saya siap berbagi informasi seputar Riski — pekerjaannya sebagai IT Developer di PT Bandung Eco Sinergi Teknologi, proyek, keahlian, dan kontaknya. Ada yang ingin kamu tanyakan?";
 
   // Update welcome message when language changes
   useEffect(() => {
