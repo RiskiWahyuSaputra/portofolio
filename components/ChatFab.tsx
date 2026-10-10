@@ -180,15 +180,33 @@ export default function ChatFab() {
                     key={message.id}
                     className={`flex ${isUser ? "justify-end" : "justify-start"}`}
                   >
-                    <p
-                      className={`max-w-[85%] whitespace-pre-wrap rounded-xl px-4 py-2.5 text-sm leading-relaxed ${
+                    <div
+                      className={`max-w-[85%] rounded-xl px-4 py-2.5 text-sm leading-relaxed ${
                         isUser
                           ? "bg-white text-black font-medium shadow-sm"
                           : "border border-white/10 bg-white/[0.04] text-white/85 shadow-inner"
                       }`}
                     >
-                      {message.content.replace(/\*\*/g, "")}
-                    </p>
+                      <p className="whitespace-pre-wrap">
+                        {message.content.replace(/\*\*/g, "")}
+                      </p>
+                      {!isUser && (message.content.toLowerCase().includes("cv") || message.content.toLowerCase().includes("resume") || message.content.toLowerCase().includes("unduh") || message.content.toLowerCase().includes("download")) && (
+                        <div className="mt-3 pt-2.5 border-t border-white/10 flex items-center gap-2">
+                          <a
+                            href="/cv/CV_Riski_Wahyu_Saputra.pdf"
+                            download
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-medium px-3 py-1.5 transition-colors border border-white/15"
+                          >
+                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            <span>{lang === "ID" ? "Download CV (PDF)" : "Download Resume (PDF)"}</span>
+                          </a>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 );
               })}
