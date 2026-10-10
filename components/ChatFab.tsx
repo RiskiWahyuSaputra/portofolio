@@ -41,6 +41,22 @@ export default function ChatFab() {
     ? "Hello! I'm Kiyu Assistant. I'm here to share details about Riski — his work as an IT Developer at PT Bandung Eco Sinergi Teknologi, his projects, skills, and contact info. What would you like to know?"
     : "Halo! Saya Kiyu Assistant. Saya siap berbagi informasi seputar Riski — pekerjaannya sebagai IT Developer di PT Bandung Eco Sinergi Teknologi, proyek, keahlian, dan kontaknya. Ada yang ingin kamu tanyakan?";
 
+  const suggestionChips = lang === "EN"
+    ? [
+        { label: "📄 Download CV / Resume", query: "Can I download Riski's CV / resume?" },
+        { label: "🏢 Experience at BEST CORP", query: "What is Riski's experience and role at PT Bandung Eco Sinergi Teknologi?" },
+        { label: "💻 Remote / WFH / WFO?", query: "Is Riski open for Remote, WFH, or WFO work arrangements?" },
+        { label: "🚀 Services & Freelance", query: "What services can Riski build, and is he open for freelance projects?" },
+        { label: "💬 Contact via WhatsApp", query: "How can I contact Riski on WhatsApp?" },
+      ]
+    : [
+        { label: "📄 Unduh CV / Resume", query: "Boleh lihat dan download CV / resume Riski?" },
+        { label: "🏢 Pengalaman di BEST CORP", query: "Apa saja pengalaman dan tanggung jawab Riski di PT Bandung Eco Sinergi Teknologi?" },
+        { label: "💻 Kerja Remote / WFH / WFO?", query: "Apakah Riski bisa bekerja secara Remote, WFH, atau WFO?" },
+        { label: "🚀 Jasa Web & Freelance", query: "Layanan web apa saja yang bisa Riski buat, dan apakah terbuka untuk freelance?" },
+        { label: "💬 Hubungi via WhatsApp", query: "Bagaimana cara menghubungi Riski lewat WhatsApp?" },
+      ];
+
   // Update welcome message when language changes
   useEffect(() => {
     setMessages([
@@ -65,10 +81,8 @@ export default function ChatFab() {
     }
   }, [isOpen]);
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    const content = input.trim();
+  async function sendChatMessage(contentToSend: string) {
+    const content = contentToSend.trim();
 
     if (!content || isSending) {
       return;
@@ -118,6 +132,11 @@ export default function ChatFab() {
     } finally {
       setIsSending(false);
     }
+  }
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    await sendChatMessage(input);
   }
 
   const chatTitle = "Kiyu Assistant";
@@ -190,6 +209,20 @@ export default function ChatFab() {
                       <p className="whitespace-pre-wrap">
                         {message.content.replace(/\*\*/g, "")}
                       </p>
+                      {message.id === "welcome" && !isSending && (
+                        <div className="mt-3.5 pt-3 border-t border-white/10 flex flex-wrap gap-1.5">
+                          {suggestionChips.map((chip, idx) => (
+                            <button
+                              key={idx}
+                              type="button"
+                              onClick={() => sendChatMessage(chip.query)}
+                              className="text-left text-xs bg-white/[0.06] hover:bg-white/15 text-white/80 hover:text-white px-2.5 py-1.5 rounded-lg border border-white/10 transition-colors"
+                            >
+                              {chip.label}
+                            </button>
+                          ))}
+                        </div>
+                      )}
                       {!isUser && (() => {
                         const lower = message.content.toLowerCase();
                         const showCv = lower.includes("cv") || lower.includes("resume") || lower.includes("unduh cv") || lower.includes("download cv");
