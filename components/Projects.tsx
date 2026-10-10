@@ -501,6 +501,24 @@ const workProjects: Project[] = [
   },
   {
     number: "W04",
+    title: "Best Warehouse — Inventory Management & Supply Chain Platform",
+    image: "/images/warehouse.png",
+    demoUrl: "#",
+    description: {
+      EN: "Enterprise warehouse & supply chain management system for BEST CORPORATION SYARIAH. Manages multi-warehouse inventory, goods receipt (QC & box numbering), internal requests, product outbounds, stock transfers, barcode & serial tracking, and stockist transactions.",
+      ID: "Sistem manajemen pergudangan & rantai pasok enterprise untuk BEST CORPORATION SYARIAH. Mengelola inventaris multi-gudang, penerimaan barang (QC & penomoran box), permintaan barang, pengeluaran stok, transfer antar-gudang, pelacakan barcode & serial, serta transaksi stokis.",
+    },
+    tech: ["Laravel 12", "PHP 8.2", "MySQL", "REST API", "Barcode / QR", "DomPDF / FPDF"],
+    features: [
+      { EN: "Multi-Warehouse Stock Management & Stocktaking (SO)", ID: "Manajemen Stok Multi-Gudang & Stock Opname (SO)" },
+      { EN: "Goods Receipt with QC Inspection & Box Numbering", ID: "Penerimaan Barang dengan Inspeksi QC & Nomor Box" },
+      { EN: "Product Outbound & Inter-Warehouse Transfers", ID: "Pengeluaran Barang & Transfer Antar-Gudang" },
+      { EN: "Barcode Scanning & Serial Tracking Integration", ID: "Integrasi Pemindaian Barcode & Pelacakan Serial" },
+      { EN: "Stockist Transactions & CPM Operational Flow", ID: "Transaksi Stokis & Alur Operasional CPM" },
+    ],
+  },
+  {
+    number: "W05",
     title: "Sekretariat — Enterprise Document & Digital E-Signature",
     image: "/images/sekretariat.png",
     demoUrl: "#",
@@ -518,7 +536,7 @@ const workProjects: Project[] = [
     ],
   },
   {
-    number: "W05",
+    number: "W06",
     title: "DKP — Divisi Komunikasi dan Pemasaran",
     image: "/images/dkp.png",
     demoUrl: "#",
