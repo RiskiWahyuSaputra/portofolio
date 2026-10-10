@@ -27,7 +27,7 @@ main.sphere-main {
   display: grid;
   place-items: center;
   overflow: hidden;
-  touch-action: none;
+  touch-action: pan-y;
   user-select: none;
   -webkit-user-select: none;
   background: transparent;
@@ -64,7 +64,6 @@ main.sphere-main {
 .overlay--blur {
   -webkit-mask-image: radial-gradient(rgba(235, 235, 235, 0) 70%, var(--overlay-blur-color, #120F17) 90%);
   mask-image: radial-gradient(rgba(235, 235, 235, 0) 70%, var(--overlay-blur-color, #120F17) 90%);
-  backdrop-filter: blur(3px);
 }
 
 .item {
@@ -152,12 +151,12 @@ main.sphere-main {
   pointer-events: none;
   opacity: 0;
   transition: opacity 500ms ease;
-  backdrop-filter: blur(3px);
 }
 
 .sphere-root[data-enlarging='true'] .viewer .scrim {
   opacity: 1;
   pointer-events: all;
+  backdrop-filter: blur(3px);
 }
 
 .viewer .enlarge {

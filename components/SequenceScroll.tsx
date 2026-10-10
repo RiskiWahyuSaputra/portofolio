@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import Preloader from "./Preloader";
 import MagneticButton from "./MagneticButton";
 import { useLang } from "./LangContext";
+import { smoothScrollTo } from "./SmoothScroll";
 
 const TOTAL_FRAMES = 240;
 const MOBILE_BREAKPOINT = 768;
@@ -84,7 +85,7 @@ export default function SequenceScroll() {
   const canvasSizeRef = useRef({ width: 0, height: 0, isMobile: false });
   const [progress, setProgress] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
-  const frameRef = useRef({ current: 0, target: 0 });
+  const frameRef = useRef({ target: 0 });
   const rafRef = useRef<number>(0);
   const { lang } = useLang();
 
@@ -118,7 +119,10 @@ export default function SequenceScroll() {
     for (let i = 0; i < TOTAL_FRAMES; i++) {
       const img = new Image();
       img.src = FRAME_PATH(i);
-      img.onload = checkComplete;
+      img.decoding = "async";
+      img.onload = () => {
+        img.decode().catch(() => {}).finally(checkComplete);
+      };
       img.onerror = checkComplete;
       images.push(img);
     }
@@ -132,7 +136,14 @@ export default function SequenceScroll() {
     if (!isLoaded) return;
 
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    const container = containerRef.current;
+    if (!canvas || !container) return;
+
+    const ctx = canvas.getContext("2d", { alpha: false });
+    if (!ctx) return;
+
+    let drawnFrame = -1;
+    let isVisible = true;
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
@@ -142,36 +153,30 @@ export default function SequenceScroll() {
 
       canvas.width = width * dpr;
       canvas.height = height * dpr;
-
-      const ctx = canvas.getContext("2d");
-      if (ctx) {
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      }
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.imageSmoothingQuality = "high";
 
       canvasSizeRef.current = {
         width,
         height,
         isMobile: window.innerWidth < MOBILE_BREAKPOINT,
       };
+      // Resizing clears the canvas, so force a redraw
+      drawnFrame = -1;
     };
 
+    // Draws only when the frame index actually changes, instead of
+    // repainting a full-screen image on every animation frame.
     const renderFrame = () => {
-      const ctx = canvas.getContext("2d");
-      if (!ctx || imagesRef.current.length === 0) return;
-
-      const { current, target } = frameRef.current;
-      const diff = target - current;
-
-      if (Math.abs(diff) > 0.05) {
-        frameRef.current.current = current + diff * 0.15;
-      } else {
-        frameRef.current.current = target;
-      }
+      rafRef.current = 0;
+      if (!isVisible) return;
 
       const frameIndex = Math.min(
         TOTAL_FRAMES - 1,
-        Math.max(0, Math.floor(frameRef.current.current)),
+        Math.max(0, Math.round(frameRef.current.target)),
       );
+      if (frameIndex === drawnFrame) return;
+
       const img = imagesRef.current[frameIndex];
       const {
         width: canvasWidth,
@@ -180,67 +185,88 @@ export default function SequenceScroll() {
       } = canvasSizeRef.current;
 
       if (
-        img &&
-        img.complete &&
-        img.naturalWidth > 0 &&
-        canvasWidth &&
-        canvasHeight
+        !img ||
+        !img.complete ||
+        img.naturalWidth === 0 ||
+        !canvasWidth ||
+        !canvasHeight
       ) {
-        const imgRatio = img.naturalWidth / img.naturalHeight;
-        const canvasRatio = canvasWidth / canvasHeight;
-
-        let drawWidth;
-        let drawHeight;
-        let offsetX;
-        let offsetY;
-
-        if (isMobile) {
-          drawHeight = canvasHeight * MOBILE_IMAGE_SCALE;
-          drawWidth = drawHeight * imgRatio;
-
-          const minWidth = canvasWidth * MOBILE_IMAGE_MIN_WIDTH;
-          if (drawWidth < minWidth) {
-            drawWidth = minWidth;
-            drawHeight = drawWidth / imgRatio;
-          }
-
-          offsetX = (canvasWidth - drawWidth) / 2;
-          offsetY = (canvasHeight - drawHeight) * 0.52;
-        } else if (canvasRatio > imgRatio) {
-          drawWidth = canvasWidth;
-          drawHeight = canvasWidth / imgRatio;
-          offsetX = 0;
-          offsetY = (canvasHeight - drawHeight) * 0.5;
-        } else {
-          drawHeight = canvasHeight;
-          drawWidth = canvasHeight * imgRatio;
-          offsetX = (canvasWidth - drawWidth) * 0.5;
-          offsetY = 0;
-        }
-
-        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-        ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+        return;
       }
 
-      rafRef.current = requestAnimationFrame(renderFrame);
+      const imgRatio = img.naturalWidth / img.naturalHeight;
+      const canvasRatio = canvasWidth / canvasHeight;
+
+      let drawWidth;
+      let drawHeight;
+      let offsetX;
+      let offsetY;
+
+      if (isMobile) {
+        drawHeight = canvasHeight * MOBILE_IMAGE_SCALE;
+        drawWidth = drawHeight * imgRatio;
+
+        const minWidth = canvasWidth * MOBILE_IMAGE_MIN_WIDTH;
+        if (drawWidth < minWidth) {
+          drawWidth = minWidth;
+          drawHeight = drawWidth / imgRatio;
+        }
+
+        offsetX = (canvasWidth - drawWidth) / 2;
+        offsetY = (canvasHeight - drawHeight) * 0.52;
+      } else if (canvasRatio > imgRatio) {
+        drawWidth = canvasWidth;
+        drawHeight = canvasWidth / imgRatio;
+        offsetX = 0;
+        offsetY = (canvasHeight - drawHeight) * 0.5;
+      } else {
+        drawHeight = canvasHeight;
+        drawWidth = canvasHeight * imgRatio;
+        offsetX = (canvasWidth - drawWidth) * 0.5;
+        offsetY = 0;
+      }
+
+      ctx.fillStyle = "#050505";
+      ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+      ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+      drawnFrame = frameIndex;
     };
 
+    const requestDraw = () => {
+      if (!rafRef.current) {
+        rafRef.current = requestAnimationFrame(renderFrame);
+      }
+    };
+
+    const onResize = () => {
+      resize();
+      requestDraw();
+    };
+
+    // Stop drawing once the hero is scrolled out of view
+    const observer = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+      if (isVisible) requestDraw();
+    });
+    observer.observe(container);
+
+    const unsubscribe = smoothProgress.on("change", (v) => {
+      frameRef.current.target = v * (TOTAL_FRAMES - 1);
+      requestDraw();
+    });
+
+    frameRef.current.target = smoothProgress.get() * (TOTAL_FRAMES - 1);
     resize();
-    window.addEventListener("resize", resize);
-    rafRef.current = requestAnimationFrame(renderFrame);
+    requestDraw();
+    window.addEventListener("resize", onResize);
 
     return () => {
-      window.removeEventListener("resize", resize);
+      unsubscribe();
+      observer.disconnect();
+      window.removeEventListener("resize", onResize);
       cancelAnimationFrame(rafRef.current);
+      rafRef.current = 0;
     };
-  }, [isLoaded]);
-
-  // Sync scroll progress to frame target
-  useEffect(() => {
-    if (!isLoaded) return;
-    return smoothProgress.on("change", (v) => {
-      frameRef.current.target = v * (TOTAL_FRAMES - 1);
-    });
   }, [isLoaded, smoothProgress]);
 
   return (
@@ -330,8 +356,7 @@ function StoryOverlay({
           <MagneticButton
             className="px-8 py-4 bg-white text-black rounded-full text-sm font-medium tracking-wide hover:bg-white/90 transition-colors"
             onClick={() => {
-              const el = document.getElementById("projects");
-              el?.scrollIntoView({ behavior: "smooth" });
+              smoothScrollTo("#projects");
             }}
           >
             {ctaLabel}

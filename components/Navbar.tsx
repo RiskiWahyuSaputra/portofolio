@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, Menu, X } from "lucide-react";
 import { useLang } from "./LangContext";
+import { smoothScrollTo } from "./SmoothScroll";
 
 const GithubIcon = ({ size = 18 }: { size?: number }) => (
   <svg
@@ -68,7 +69,8 @@ export default function Navbar() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
-    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -86,8 +88,7 @@ export default function Navbar() {
   const handleLinkClick = (href: string) => {
     setIsOpen(false);
     setTimeout(() => {
-      const el = document.querySelector(href);
-      el?.scrollIntoView({ behavior: "smooth" });
+      smoothScrollTo(href);
     }, 300);
   };
 
@@ -98,7 +99,7 @@ export default function Navbar() {
   return (
     <>
       <motion.nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-500 ${
           scrolled ? "bg-[#050505]/80 backdrop-blur-md" : "bg-transparent"
         }`}
         initial={{ y: -100 }}
@@ -111,7 +112,7 @@ export default function Navbar() {
             className="text-xl font-semibold text-white tracking-tight hover:opacity-80 transition-opacity"
             onClick={(e) => {
               e.preventDefault();
-              window.scrollTo({ top: 0, behavior: "smooth" });
+              smoothScrollTo(0);
             }}
           >
             Riski Wahyu Saputra<span className="text-white/60">.</span>
