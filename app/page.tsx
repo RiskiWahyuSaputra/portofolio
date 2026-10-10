@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import About from "@/components/About";
 import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
+import Experience from "@/components/Experience";
 import Certificates from "@/components/CertificatesDrift";
 import Stats from "@/components/Stats";
 import GitHubContributions from "@/components/GitHubContributions";
@@ -31,6 +32,7 @@ export default function Home() {
         <About />
         <Skills />
         <Projects />
+        <Experience />
         <Certificates />
         <Stats />
         <GitHubContributions />

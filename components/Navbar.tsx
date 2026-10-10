@@ -43,6 +43,7 @@ const navLinks = [
   { name: { EN: "About", ID: "Tentang" }, href: "#about" },
   { name: { EN: "Skills", ID: "Keahlian" }, href: "#skills" },
   { name: { EN: "Projects", ID: "Proyek" }, href: "#projects" },
+  { name: { EN: "Experience", ID: "Pengalaman" }, href: "#experience" },
   { name: { EN: "Contact", ID: "Kontak" }, href: "#contact" },
 ];
 

@@ -26,7 +26,7 @@ export default function GitHubContributions() {
 
   const lx = {
     EN: {
-      section: "08 / GitHub Activity",
+      section: "09 / GitHub Activity",
       heading: "Contribution Graph",
       description: "My coding activity and contributions on GitHub",
       viewProfile: "View GitHub Profile",
@@ -40,7 +40,7 @@ export default function GitHubContributions() {
       },
     },
     ID: {
-      section: "08 / Aktivitas GitHub",
+      section: "09 / Aktivitas GitHub",
       heading: "Grafik Kontribusi",
       description: "Aktivitas coding dan kontribusi saya di GitHub",
       viewProfile: "Lihat Profil GitHub",

@@ -49,7 +49,7 @@ export default function CertificatesDrift() {
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 md:mb-12">
           <span className="text-sm font-mono uppercase tracking-widest text-white/40">
-            {lang === "ID" ? "07 / Sertifikat" : "07 / Certificates"}
+            {lang === "ID" ? "08 / Sertifikat" : "08 / Certificates"}
           </span>
           <h2 className="mt-4 text-3xl font-semibold text-white md:text-5xl">
             {lang === "ID" ? "Sertifikasi" : "Certifications"}
