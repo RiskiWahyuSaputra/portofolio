@@ -12,6 +12,8 @@ export default function Preloader({ progress, isComplete }: PreloaderProps) {
   const { lang } = useLang();
   const loadingText = lang === "EN" ? "Loading Experience" : "Memuat Pengalaman";
 
+  if (isComplete) return null;
+
   return (
     <AnimatePresence>
       {!isComplete && (
