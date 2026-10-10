@@ -13,12 +13,12 @@ const t = {
   EN: {
     label: "01 / About",
     heading: "Who I Am",
-    bio: "Riski Wahyu Saputra is an IT Developer/Fullstack Web Developer graduate from Politeknik Negeri Lampung, specializing in modern web application development. With experience at BEST CORPORATION SYARIAH, he builds scalable and efficient systems using modern technologies.",
+    bio: "Riski Wahyu Saputra is an IT Developer at PT Bandung Eco Sinergi Teknologi. He handles web development and application maintenance based on incoming IT helpdesk tickets, ensuring internal enterprise systems, operational tools, and business workflows run reliably and efficiently.",
   },
   ID: {
     label: "01 / Tentang",
     heading: "Tentang Saya",
-    bio: "Riski Wahyu Saputra adalah seorang IT Developer/Fullstack Web Developer lulusan Politeknik Negeri Lampung, yang berspesialisasi dalam pengembangan aplikasi web modern. Dengan pengalaman di BEST CORPORATION SYARIAH, ia membangun sistem yang skalabel dan efisien menggunakan teknologi terkini.",
+    bio: "Riski Wahyu Saputra adalah seorang IT Developer di PT Bandung Eco Sinergi Teknologi. Bertanggung jawab dalam membangun aplikasi web internal sekaligus melakukan pemeliharaan (maintenance) sistem berdasarkan tiket helpdesk yang masuk, memastikan setiap layanan digital dan alur kerja operasional perusahaan berjalan optimal dan andal.",
   },
 };
 
@@ -183,9 +183,9 @@ export default function About() {
                 className="mt-12 flex max-w-2xl flex-wrap gap-3"
               >
                 {[
+                  "PT Bandung Eco Sinergi Teknologi",
+                  "IT Developer",
                   "Politeknik Negeri Lampung",
-                  "Management Informatics",
-                  "Information Technology",
                 ].map((tag, i) => (
                   <motion.span
                     key={tag}

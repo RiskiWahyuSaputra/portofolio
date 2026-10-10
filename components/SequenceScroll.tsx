@@ -27,24 +27,30 @@ const storyTexts: StoryText[] = [
     position: "center",
     title: { EN: "Hi, I'm Riski Wahyu Saputra", ID: "Halo, Saya Riski Wahyu Saputra" },
     subtitle: {
-      EN: "IT Developer/Fullstack Web Developer",
-      ID: "IT Developer/Fullstack Web Developer",
+      EN: "IT Developer",
+      ID: "IT Developer",
     },
   },
   {
     progress: [0.18, 0.32],
     position: "center",
-    title: { EN: "Graduate of Politeknik Negeri Lampung", ID: "Lulusan Politeknik Negeri Lampung" },
+    title: { EN: "IT Developer", ID: "IT Developer" },
     subtitle: {
-      EN: "Management Informatics • Information Technology",
-      ID: "Manajemen Informatika • Teknologi Informasi",
+      EN: "PT Bandung Eco Sinergi Teknologi",
+      ID: "PT Bandung Eco Sinergi Teknologi",
     },
   },
   {
     progress: [0.35, 0.48],
     position: "left",
-    title: { EN: "IT Developer Intern", ID: "IT Developer Intern" },
-    subtitle: { EN: "BEST CORPORATION SYARIAH", ID: "BEST CORPORATION SYARIAH" },
+    title: {
+      EN: "Web Development & Maintenance",
+      ID: "Pengembangan Web & Maintenance",
+    },
+    subtitle: {
+      EN: "Building enterprise web applications and maintaining systems according to IT helpdesk requests",
+      ID: "Membangun aplikasi web internal dan pemeliharaan sistem sesuai kebutuhan helpdesk",
+    },
   },
   {
     progress: [0.52, 0.68],

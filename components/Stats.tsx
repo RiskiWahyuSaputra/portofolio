@@ -7,7 +7,7 @@ import { useLang } from "./LangContext";
 const stats = [
   { value: 13, suffix: "+", label: { EN: "Projects", ID: "Proyek" } },
   { value: 20, suffix: "+", label: { EN: "Skills", ID: "Keahlian" } },
-  { value: 1, suffix: "", label: { EN: "Internship", ID: "Magang" } },
+  { value: 1, suffix: "", label: { EN: "Company", ID: "Perusahaan" } },
   { value: 100, suffix: "%", label: { EN: "Dedication", ID: "Dedikasi" } },
 ];
 

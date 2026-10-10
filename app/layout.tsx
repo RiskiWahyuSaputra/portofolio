@@ -6,9 +6,9 @@ import "./globals.css";
 
 const siteUrl = "https://portofolio-eosin-alpha.vercel.app";
 const siteTitle =
-  "Riski Wahyu Saputra | IT Developer/Fullstack Web Developer Portfolio";
+  "Riski Wahyu Saputra | IT Developer Portfolio";
 const siteDescription =
-  "Portfolio Riski Wahyu Saputra, IT developer/Fullstack Web Developer yang membangun aplikasi web modern dengan Laravel, React, Next.js dan teknologi frontend interaktif.";
+  "Portfolio Riski Wahyu Saputra, IT Developer di PT Bandung Eco Sinergi Teknologi yang membangun serta memelihara aplikasi web enterprise berbasis Laravel, React, Next.js, dan penanganan helpdesk.";
 const ogImage = "/images/og-image.png";
 
 const outfit = Outfit({
