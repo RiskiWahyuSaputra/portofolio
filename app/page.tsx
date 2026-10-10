@@ -6,7 +6,6 @@ import Projects from "@/components/Projects";
 import Certificates from "@/components/CertificatesDrift";
 import Stats from "@/components/Stats";
 import GitHubContributions from "@/components/GitHubContributions";
-import Testimonials from "@/components/Testimonials";
 import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
 import ChatFab from "@/components/ChatFab";
@@ -35,7 +34,6 @@ export default function Home() {
         <Certificates />
         <Stats />
         <GitHubContributions />
-        <Testimonials />
         <CTA />
         <Footer />
       </div>
