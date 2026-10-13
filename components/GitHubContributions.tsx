@@ -30,7 +30,7 @@ export default function GitHubContributions() {
       heading: "Contribution Graph",
       description: "My coding activity and contributions on GitHub",
       viewProfile: "View GitHub Profile",
-      totalNote: "826 contributions in the last year",
+      totalNote: `${contributionData.totalContributions} contributions in the last year`,
       less: "Less",
       more: "More",
       stats: {
@@ -44,7 +44,7 @@ export default function GitHubContributions() {
       heading: "Grafik Kontribusi",
       description: "Aktivitas coding dan kontribusi saya di GitHub",
       viewProfile: "Lihat Profil GitHub",
-      totalNote: "826 kontribusi dalam 1 tahun terakhir",
+      totalNote: `${contributionData.totalContributions} kontribusi dalam 1 tahun terakhir`,
       less: "Sedikit",
       more: "Banyak",
       stats: {
@@ -129,7 +129,7 @@ export default function GitHubContributions() {
               <Calendar size={24} className="text-[#58a6ff]" />
             </div>
             <div>
-              <div className="text-3xl font-bold text-white tracking-tight">826</div>
+              <div className="text-3xl font-bold text-white tracking-tight">{contributionData.totalContributions}</div>
               <div className="text-xs text-[#8b949e] uppercase font-mono tracking-wider mt-0.5">
                 {lx.stats.contributions}
               </div>
