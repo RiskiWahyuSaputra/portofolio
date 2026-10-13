@@ -13,7 +13,7 @@ const techStackImages = [
   { src: "https://cdn.simpleicons.org/codeigniter/EF4223", alt: "CodeIgniter" },
   { src: "https://cdn.simpleicons.org/php/777BB4", alt: "PHP" },
   { src: "https://cdn.simpleicons.org/mysql/4479A1", alt: "MySQL" },
-  { src: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/microsoftsqlserver.svg", alt: "SQL Server" },
+  { src: "/images/tech/sqlserver.svg", alt: "SQL Server" },
   { src: "https://cdn.simpleicons.org/github/ffffff", alt: "GitHub" },
   { src: "https://cdn.simpleicons.org/linux/FCC624", alt: "Linux" },
   { src: "https://cdn.simpleicons.org/ubuntu/E95420", alt: "Ubuntu" },
