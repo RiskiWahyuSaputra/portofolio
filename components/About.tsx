@@ -9,7 +9,6 @@ import { useLang } from "./LangContext";
 const Lanyard = dynamic(() => import("./Lanyard"), { ssr: false });
 import VariableProximity from "./VariableProximity";
 import MagneticButton from "./MagneticButton";
-import TextType from "./TextType";
 
 const t = {
   EN: {
@@ -210,19 +209,15 @@ export default function About() {
                 </motion.div>
               </div>
 
-              <TextType
+              <motion.p
                 key={tx.bio}
-                text={[tx.bio]}
-                typingSpeed={16}
-                initialDelay={280}
-                pauseDuration={1800}
-                deletingSpeed={10}
-                loop={false}
-                showCursor={true}
-                cursorCharacter="|"
-                startOnVisible={true}
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: 0.2, ease: [0.33, 1, 0.68, 1] }}
                 className="mt-8 max-w-2xl text-xl md:text-2xl lg:text-[1.7rem] font-light text-white/80 leading-relaxed text-justify [text-align-last:left]"
-              />
+              >
+                {tx.bio}
+              </motion.p>
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
