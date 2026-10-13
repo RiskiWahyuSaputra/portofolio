@@ -23,6 +23,11 @@ const t = {
   },
 };
 
+// Kata kunci di bio yang ditampilkan lebih terang
+const HIGHLIGHT_WORDS = new Set([
+  "IT", "Developer", "PT", "Bandung", "Eco", "Sinergi", "Teknologi",
+]);
+
 function ScrollProgressBar() {
   const { scrollYProgress } = useScroll();
   const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
@@ -211,12 +216,34 @@ export default function About() {
 
               <motion.p
                 key={tx.bio}
-                initial={{ opacity: 0, y: 20 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.2, ease: [0.33, 1, 0.68, 1] }}
+                initial="hidden"
+                animate={isInView ? "visible" : "hidden"}
+                variants={{
+                  visible: { transition: { delayChildren: 0.2, staggerChildren: 0.022 } },
+                }}
                 className="mt-8 max-w-2xl text-xl md:text-2xl lg:text-[1.7rem] font-light text-white/80 leading-relaxed text-justify [text-align-last:left]"
               >
-                {tx.bio}
+                {tx.bio.split(" ").map((word, i) => {
+                  const isHighlight = HIGHLIGHT_WORDS.has(word.replace(/[.,]/g, ""));
+                  return (
+                    <span key={i}>
+                      <motion.span
+                        variants={{
+                          hidden: { opacity: 0, y: 12, filter: "blur(8px)" },
+                          visible: {
+                            opacity: 1,
+                            y: 0,
+                            filter: "blur(0px)",
+                            transition: { duration: 0.5, ease: [0.33, 1, 0.68, 1] },
+                          },
+                        }}
+                        className={`inline-block ${isHighlight ? "font-normal text-white" : ""}`}
+                      >
+                        {word}
+                      </motion.span>{" "}
+                    </span>
+                  );
+                })}
               </motion.p>
 
               <motion.div
