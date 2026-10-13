@@ -685,7 +685,7 @@ const MOBILE_INITIAL_COUNT = 3;
 export default function Projects() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
-  const [activeTab, setActiveTab] = useState<"personal" | "work">("personal");
+  const [activeTab, setActiveTab] = useState<"personal" | "work">("work");
   const [selected, setSelected] = useState<Project | null>(null);
   const [page, setPage] = useState(0);
   const [showAllMobile, setShowAllMobile] = useState(false);
@@ -759,23 +759,6 @@ export default function Projects() {
           {/* Tab Filter Switcher */}
           <div className="inline-flex p-1 rounded-full border border-white/10 bg-white/[0.03] backdrop-blur-sm self-start md:self-auto">
             <button
-              onClick={() => handleTabChange("personal")}
-              className={`relative px-5 py-2.5 rounded-full text-xs md:text-sm font-mono transition-all duration-300 ${
-                activeTab === "personal"
-                  ? "text-white font-medium shadow-sm"
-                  : "text-white/40 hover:text-white/80"
-              }`}
-            >
-              {activeTab === "personal" && (
-                <motion.div
-                  layoutId="activeTabBadge"
-                  className="absolute inset-0 rounded-full bg-white/10 border border-white/15"
-                  transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                />
-              )}
-              <span className="relative z-10">{lx.tabPersonal}</span>
-            </button>
-            <button
               onClick={() => handleTabChange("work")}
               className={`relative px-5 py-2.5 rounded-full text-xs md:text-sm font-mono transition-all duration-300 ${
                 activeTab === "work"
@@ -794,6 +777,23 @@ export default function Projects() {
                 <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                 {lx.tabWork}
               </span>
+            </button>
+            <button
+              onClick={() => handleTabChange("personal")}
+              className={`relative px-5 py-2.5 rounded-full text-xs md:text-sm font-mono transition-all duration-300 ${
+                activeTab === "personal"
+                  ? "text-white font-medium shadow-sm"
+                  : "text-white/40 hover:text-white/80"
+              }`}
+            >
+              {activeTab === "personal" && (
+                <motion.div
+                  layoutId="activeTabBadge"
+                  className="absolute inset-0 rounded-full bg-white/10 border border-white/15"
+                  transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                />
+              )}
+              <span className="relative z-10">{lx.tabPersonal}</span>
             </button>
           </div>
         </motion.div>
