@@ -695,6 +695,7 @@ export default function Projects() {
     EN: {
       section: "06 / Projects",
       heading: "Featured Work",
+      headingWork: "Professional Work",
       tabPersonal: "Personal Projects",
       tabWork: "Work & Maintained Systems",
       viewDetails: "View Details",
@@ -708,6 +709,7 @@ export default function Projects() {
     ID: {
       section: "06 / Proyek",
       heading: "Karya Unggulan",
+      headingWork: "Karya Profesional",
       tabPersonal: "Proyek Personal",
       tabWork: "Sistem Kerja & Pemeliharaan",
       viewDetails: "Lihat Detail",
@@ -751,9 +753,15 @@ export default function Projects() {
             <span className="text-sm font-mono text-white/40 tracking-widest uppercase">
               {lx.section}
             </span>
-            <h2 className="mt-4 text-3xl md:text-5xl font-semibold text-white">
-              {lx.heading}
-            </h2>
+            <motion.h2
+              key={activeTab}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, ease: [0.33, 1, 0.68, 1] }}
+              className="mt-4 text-3xl md:text-5xl font-semibold text-white"
+            >
+              {activeTab === "work" ? lx.headingWork : lx.heading}
+            </motion.h2>
           </div>
 
           {/* Tab Filter Switcher */}
