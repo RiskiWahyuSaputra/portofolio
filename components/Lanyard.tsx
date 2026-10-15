@@ -33,6 +33,7 @@ useTexture.preload("/images/belakang-card.jpeg");
 // Once the scene is ready, keep rendering briefly even while offscreen so
 // texture upload and environment baking happen before the user scrolls here.
 const WARMUP_MS = 600;
+const MAX_CONTEXT_RESTORES = 3;
 
 declare module "@react-three/fiber" {
   interface ThreeElements {
@@ -77,6 +78,10 @@ export default function Lanyard({
   const containerRef = useRef<HTMLDivElement>(null);
   const [isInView, setIsInView] = useState(false);
   const [isWarmingUp, setIsWarmingUp] = useState(true);
+  // Remount the Canvas on a fresh <canvas> if its WebGL context is lost —
+  // e.g. R3F's delayed unmount during StrictMode's double effect run, or the
+  // GPU dropping the context on mobile. Capped so it can't loop.
+  const [canvasKey, setCanvasKey] = useState(0);
   const [isMobile, setIsMobile] = useState(
     () => typeof window !== "undefined" && window.innerWidth < 768,
   );
@@ -109,6 +114,7 @@ export default function Lanyard({
   return (
     <div ref={containerRef} className="lanyard-wrapper" style={{ height }}>
       <Canvas
+        key={canvasKey}
         camera={{ position, fov }}
         dpr={[1, isMobile ? 1.5 : 2]}
         frameloop={isInView || isWarmingUp ? "always" : "never"}
@@ -119,6 +125,14 @@ export default function Lanyard({
           // Reading shader info logs forces the GPU to finish compiling
           // synchronously, which stalls the main thread mid-scroll.
           gl.debug.checkShaderErrors = process.env.NODE_ENV !== "production";
+          gl.domElement.addEventListener(
+            "webglcontextlost",
+            () => {
+              if (!containerRef.current?.contains(gl.domElement)) return;
+              setCanvasKey((k) => (k < MAX_CONTEXT_RESTORES ? k + 1 : k));
+            },
+            { once: true },
+          );
         }}
       >
         <ambientLight intensity={Math.PI} />

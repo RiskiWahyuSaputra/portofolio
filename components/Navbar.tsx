@@ -44,6 +44,8 @@ const LinkedinIcon = ({ size = 18 }: { size?: number }) => (
   </svg>
 );
 
+const NAV_HEIGHT = 80;
+
 const navLinks = [
   { name: { EN: "About", ID: "Tentang" }, href: "#about" },
   { name: { EN: "Skills", ID: "Keahlian" }, href: "#skills" },
@@ -74,7 +76,12 @@ export default function Navbar() {
   // framer-motion batches scroll reads into its frame loop, avoiding a
   // forced layout on every scroll event
   const { scrollY } = useScroll();
-  useMotionValueEvent(scrollY, "change", (y) => setScrolled(y > 50));
+  // Stay transparent over the hero; only show the background once the
+  // About section reaches the navbar
+  useMotionValueEvent(scrollY, "change", () => {
+    const about = document.getElementById("about");
+    setScrolled(!!about && about.getBoundingClientRect().top <= NAV_HEIGHT);
+  });
 
   useEffect(() => {
     if (isOpen) {

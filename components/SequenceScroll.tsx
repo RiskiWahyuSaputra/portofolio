@@ -7,12 +7,12 @@ import MagneticButton from "./MagneticButton";
 import { useLang } from "./LangContext";
 import { smoothScrollTo } from "./SmoothScroll";
 
-const TOTAL_FRAMES = 240;
+const TOTAL_FRAMES = 480;
 const MOBILE_BREAKPOINT = 768;
 const MOBILE_IMAGE_SCALE = 0.58;
 const MOBILE_IMAGE_MIN_WIDTH = 0.9;
-const FRAME_PATH = (i: number, isMobile: boolean) =>
-  `/sequence/${isMobile ? "mobile" : "desktop"}/${String(i + 1).padStart(3, "0")}.webp`;
+const FRAME_PATH = (i: number) =>
+  `/sequence/hd/${String(i + 1).padStart(3, "0")}.webp`;
 // Frames load coarse-to-fine: every 8th first (enough to start), then fill in
 const LOAD_STRIDES = [8, 4, 2, 1];
 const LOAD_CONCURRENCY = 6;
@@ -123,7 +123,6 @@ export default function SequenceScroll() {
   // Load frames progressively; the hero is usable after the first pass
   useEffect(() => {
     let cancelled = false;
-    const isMobile = window.innerWidth < MOBILE_BREAKPOINT;
     const order = getLoadOrder();
     const firstPass = Math.ceil(TOTAL_FRAMES / LOAD_STRIDES[0]);
     const images: HTMLImageElement[] = new Array(TOTAL_FRAMES);
@@ -163,7 +162,7 @@ export default function SequenceScroll() {
         img.decode().then(() => finish(true), () => finish(true));
       };
       img.onerror = () => finish(false);
-      img.src = FRAME_PATH(index, isMobile);
+      img.src = FRAME_PATH(index);
     };
 
     const unlock = () => {
@@ -342,7 +341,7 @@ export default function SequenceScroll() {
     <>
       <Preloader progress={progress} isComplete={isLoaded} />
 
-      <div ref={containerRef} className="relative h-[400svh]">
+      <div ref={containerRef} className="relative h-[1000svh]">
         <div className="sticky top-0 h-[100svh] w-full overflow-hidden">
           <canvas
             ref={canvasRef}
