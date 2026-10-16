@@ -341,7 +341,7 @@ export default function SequenceScroll() {
     <>
       <Preloader progress={progress} isComplete={isLoaded} />
 
-      <div ref={containerRef} className="relative h-[1000svh]">
+      <div ref={containerRef} className="relative h-[1600svh]">
         <div className="sticky top-0 h-[100svh] w-full overflow-hidden">
           <canvas
             ref={canvasRef}

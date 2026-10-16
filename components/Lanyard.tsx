@@ -34,6 +34,11 @@ useTexture.preload("/images/belakang-card.jpeg");
 // texture upload and environment baking happen before the user scrolls here.
 const WARMUP_MS = 600;
 const MAX_CONTEXT_RESTORES = 3;
+// In dev, StrictMode's double mount makes R3F force a context loss on the
+// canvas 500ms after mount, which remounts it below. Hold the simulation (and
+// keep the canvas hidden) until a canvas has outlived that window, so the
+// card's drop only ever plays on the canvas that stays.
+const SETTLE_MS = 600;
 
 declare module "@react-three/fiber" {
   interface ThreeElements {
@@ -48,6 +53,9 @@ interface LanyardProps {
   fov?: number;
   transparent?: boolean;
   height?: number | string;
+  /** Holds the simulation still until the lanyard is revealed, so the
+   *  card's drop plays exactly once, while visible. */
+  active?: boolean;
 }
 
 const CARD_ASPECT = 0.7163921594626769;
@@ -74,6 +82,7 @@ export default function Lanyard({
   fov = 20,
   transparent = true,
   height = "100vh",
+  active = true,
 }: LanyardProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isInView, setIsInView] = useState(false);
@@ -82,6 +91,11 @@ export default function Lanyard({
   // e.g. R3F's delayed unmount during StrictMode's double effect run, or the
   // GPU dropping the context on mobile. Capped so it can't loop.
   const [canvasKey, setCanvasKey] = useState(0);
+  const [settledKey, setSettledKey] = useState(-1);
+  const settleTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  useEffect(() => () => clearTimeout(settleTimer.current), []);
+  const isSettled = settledKey === canvasKey;
+  const isRunning = isSettled && active && isInView;
   const [isMobile, setIsMobile] = useState(
     () => typeof window !== "undefined" && window.innerWidth < 768,
   );
@@ -112,7 +126,15 @@ export default function Lanyard({
   };
 
   return (
-    <div ref={containerRef} className="lanyard-wrapper" style={{ height }}>
+    <div
+      ref={containerRef}
+      className="lanyard-wrapper"
+      style={{
+        height,
+        opacity: isSettled && active ? 1 : 0,
+        transition: "opacity 0.3s ease-out",
+      }}
+    >
       <Canvas
         key={canvasKey}
         camera={{ position, fov }}
@@ -125,6 +147,11 @@ export default function Lanyard({
           // Reading shader info logs forces the GPU to finish compiling
           // synchronously, which stalls the main thread mid-scroll.
           gl.debug.checkShaderErrors = process.env.NODE_ENV !== "production";
+          clearTimeout(settleTimer.current);
+          settleTimer.current = setTimeout(
+            () => setSettledKey(canvasKey),
+            SETTLE_MS,
+          );
           gl.domElement.addEventListener(
             "webglcontextlost",
             () => {
@@ -139,7 +166,7 @@ export default function Lanyard({
         <Physics
           gravity={gravity}
           timeStep={isMobile ? 1 / 30 : 1 / 60}
-          paused={!isInView}
+          paused={!isRunning}
         >
           <Band isMobile={isMobile} onReady={handleReady} />
         </Physics>
@@ -279,16 +306,34 @@ function Band({
 
   // Compile shaders off the main thread (KHR_parallel_shader_compile) as soon
   // as assets are loaded, instead of blocking the first visible frame.
+  // Polls the programs ourselves rather than using gl.compileAsync(): its
+  // polling throws ("reading 'isReady'") from a setTimeout if a material is
+  // disposed mid-compile, e.g. when R3F tears down a StrictMode root.
   const { gl, scene, camera } = useThree();
   useEffect(() => {
     let cancelled = false;
-    gl.compileAsync(scene, camera)
-      .catch(() => {})
-      .finally(() => {
-        if (!cancelled) onReady?.();
-      });
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    let pending: Set<THREE.Material>;
+    try {
+      pending = gl.compile(scene, camera);
+    } catch {
+      pending = new Set();
+    }
+    const poll = () => {
+      if (cancelled) return;
+      for (const material of pending) {
+        const { currentProgram } = (gl.properties.get(material) ?? {}) as {
+          currentProgram?: { isReady: () => boolean };
+        };
+        if (!currentProgram || currentProgram.isReady()) pending.delete(material);
+      }
+      if (pending.size === 0) onReady?.();
+      else timer = setTimeout(poll, 10);
+    };
+    poll();
     return () => {
       cancelled = true;
+      clearTimeout(timer);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gl, scene, camera]);

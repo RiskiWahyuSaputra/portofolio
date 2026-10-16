@@ -333,26 +333,19 @@ export default function About() {
               className="min-h-[440px] md:min-h-[560px] lg:col-span-6 lg:-my-24 lg:min-h-[640px]"
             >
               {mountLanyard && (
+                // Only fade in here — the drop itself comes from the physics
+                // simulation, which starts once the section is revealed.
                 <motion.div
-                  initial={{ opacity: 0, y: -140, rotate: -7 }}
-                  animate={
-                    isInView
-                      ? { opacity: 1, y: 0, rotate: 0 }
-                      : { opacity: 0, y: -140, rotate: -7 }
-                  }
-                  transition={{
-                    type: "spring",
-                    stiffness: 64,
-                    damping: 13,
-                    mass: 1.15,
-                    delay: 0.1,
-                  }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: isInView ? 1 : 0 }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
                 >
                   <Lanyard
                     position={[0, 0, 14]}
                     gravity={[0, -40, 0]}
                     fov={18}
                     height="clamp(440px, 58vw, 720px)"
+                    active={isInView}
                   />
                 </motion.div>
               )}
