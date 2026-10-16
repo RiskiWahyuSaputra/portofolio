@@ -28,18 +28,6 @@ const HIGHLIGHT_WORDS = new Set([
   "IT", "Developer", "PT", "Bandung", "Eco", "Sinergi", "Teknologi",
 ]);
 
-function ScrollProgressBar() {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
-
-  return (
-    <motion.div
-      className="fixed top-0 left-0 right-0 z-[60] h-[2px] origin-left bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600"
-      style={{ scaleX }}
-    />
-  );
-}
-
 export default function About() {
   const ref = useRef<HTMLElement>(null);
   const headingContainerRef = useRef<HTMLDivElement>(null);
@@ -136,7 +124,6 @@ export default function About() {
 
   return (
     <>
-      <ScrollProgressBar />
       <section
         ref={ref}
         id="about"
