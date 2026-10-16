@@ -6,6 +6,7 @@ import MagneticButton from "./MagneticButton";
 import StrokeText from "./StrokeText";
 import { ArrowUpRight } from "lucide-react";
 import { useLang } from "./LangContext";
+import { CtaCats } from "./CtaCats";
 
 const phoneDisplay = "Contact me at: +62 857-8991-0963";
 const whatsappHref = "https://wa.me/6285789910963";
@@ -30,6 +31,8 @@ const t = {
 export default function CTA() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
+  // Cats' idle animations only run while the section is on screen
+  const isOnScreen = useInView(ref);
   const { lang } = useLang();
   const tx = t[lang];
 
@@ -54,10 +57,10 @@ export default function CTA() {
           initial={{ opacity: 0, y: 50 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.33, 1, 0.68, 1] }}
-          className="mt-6"
+          className={`mt-14 md:mt-20 ${isInView ? "ctacats--on" : ""} ${isOnScreen ? "" : "ctacats--paused"}`}
         >
           <StrokeText
-            text={tx.heading.replace("\\n", " ")}
+            text={tx.heading.replace(/\n/g, " ")}
             strokeColor="#A78BFA"
             fillColor="#F8FAFC"
             strokeWidth={1.4}
@@ -69,6 +72,7 @@ export default function CTA() {
             fontWeight={800}
             letterSpacing={-4}
             active={isInView}
+            overlay={(layout) => <CtaCats layout={layout} />}
           />
         </motion.div>
 
@@ -76,7 +80,7 @@ export default function CTA() {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.2, ease: [0.33, 1, 0.68, 1] }}
-          className="mt-6 text-lg md:text-xl text-white/50 font-light"
+          className="mt-16 md:mt-24 text-lg md:text-xl text-white/50 font-light"
         >
           {tx.sub}
         </motion.p>

@@ -74,7 +74,7 @@ export default function Stats() {
               }}
               className="text-center"
             >
-              <div className="text-4xl md:text-5xl lg:text-6xl font-semibold text-white">
+              <div className="text-4xl md:text-5xl lg:text-6xl font-semibold leading-none text-white">
                 <CountUp
                   target={stat.value}
                   suffix={stat.suffix}

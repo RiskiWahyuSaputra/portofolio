@@ -1,0 +1,153 @@
+/* Cats on the CTA heading. All transforms use the element's own box so
+   origins can be written as percentages of each part. */
+.ctacats .cat-enter,
+.ctacats .cat-hop,
+.ctacats .cat-climb,
+.ctacats .cat-tilt,
+.ctacats .cat-tail,
+.ctacats .cat-peek,
+.ctacats .cat-swing,
+.ctacats .cat-breathe,
+.ctacats .cat-swat,
+.ctacats .cat-blink,
+.ctacats .cat-zzz text,
+.ctacats .cat-meow {
+  transform-box: fill-box;
+}
+
+.ctacats .cat {
+  pointer-events: auto;
+}
+
+/* Entrance: hidden until the heading has finished drawing */
+.ctacats .cat-enter {
+  opacity: 0;
+  transform-origin: 50% 100%;
+}
+.ctacats--on .ctacats .cat-enter {
+  animation: cat-enter 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation-delay: calc(2.6s + var(--d, 0s));
+}
+@keyframes cat-enter {
+  from { opacity: 0; transform: translateY(14px) scale(0.5); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Hover: little hop + "meow!" */
+.ctacats .cat-hop { transform-origin: 50% 100%; }
+.ctacats .cat:hover .cat-hop { animation: cat-hop 0.45s ease-out; }
+@keyframes cat-hop {
+  0%, 100% { transform: none; }
+  35% { transform: translateY(-7px) scale(1.05, 0.96); }
+  60% { transform: translateY(0) scale(0.97, 1.03); }
+}
+.ctacats .cat-meow {
+  font: 700 12px var(--font-sans, sans-serif);
+  fill: #f8fafc;
+  paint-order: stroke;
+  stroke: #0a0a0a;
+  stroke-width: 3px;
+  opacity: 0;
+  transform-origin: 50% 100%;
+  transition: opacity 0.2s, transform 0.2s;
+  transform: translateY(4px) scale(0.8);
+  pointer-events: none;
+}
+.ctacats .cat:hover .cat-meow { opacity: 1; transform: none; }
+
+/* Idle behaviours */
+.ctacats .cat-blink {
+  transform-origin: 50% 50%;
+  animation: cat-blink 4.6s infinite;
+}
+.ctacats .cat:nth-child(2n) .cat-blink { animation-duration: 5.3s; animation-delay: -1.2s; }
+.ctacats .cat:nth-child(3n) .cat-blink { animation-duration: 6.1s; animation-delay: -2.7s; }
+@keyframes cat-blink {
+  0%, 93%, 100% { transform: none; }
+  96% { transform: scaleY(0.1); }
+}
+
+.ctacats .cat-tail {
+  transform-origin: 0% 0%;
+  animation: cat-tail 2.4s ease-in-out infinite alternate;
+}
+@keyframes cat-tail {
+  from { transform: rotate(-9deg); }
+  to { transform: rotate(9deg); }
+}
+
+.ctacats .cat-climb { animation: cat-climb 2.6s ease-in-out infinite; }
+@keyframes cat-climb {
+  0%, 100% { transform: translateY(2px); }
+  40% { transform: translateY(-6px); }
+  55% { transform: translateY(-5px); }
+}
+
+.ctacats .cat-tilt {
+  transform-origin: 50% 80%;
+  animation: cat-tilt 5s ease-in-out infinite;
+}
+@keyframes cat-tilt {
+  0%, 30%, 100% { transform: none; }
+  40%, 60% { transform: rotate(12deg); }
+  70% { transform: rotate(-6deg); }
+}
+
+.ctacats .cat-peek { animation: cat-peek 6.5s ease-in-out infinite; }
+@keyframes cat-peek {
+  0%, 8% { transform: translateY(48px); }
+  20%, 62% { transform: translateY(0); }
+  30% { transform: translateY(-3px); }
+  76%, 100% { transform: translateY(48px); }
+}
+
+.ctacats .cat-swing {
+  transform-origin: 50% 0%;
+  animation: cat-swing 2.8s ease-in-out infinite alternate;
+}
+@keyframes cat-swing {
+  from { transform: rotate(-8deg); }
+  to { transform: rotate(8deg); }
+}
+
+.ctacats .cat-breathe {
+  transform-origin: 50% 100%;
+  animation: cat-breathe 3.2s ease-in-out infinite;
+}
+@keyframes cat-breathe {
+  0%, 100% { transform: none; }
+  50% { transform: scale(1.02, 1.07); }
+}
+.ctacats .cat-zzz text {
+  font-family: var(--font-sans, sans-serif);
+  font-weight: 700;
+  opacity: 0;
+  animation: cat-z 3.6s ease-out infinite;
+}
+.ctacats .cat-zzz text:nth-child(2) { animation-delay: 1.2s; }
+.ctacats .cat-zzz text:nth-child(3) { animation-delay: 2.4s; }
+@keyframes cat-z {
+  0% { opacity: 0; transform: translate(0, 6px); }
+  25% { opacity: 0.9; }
+  100% { opacity: 0; transform: translate(10px, -14px); }
+}
+
+.ctacats .cat-swat {
+  transform-origin: 100% 100%;
+  animation: cat-swat 3.4s ease-in-out infinite;
+}
+@keyframes cat-swat {
+  0%, 62%, 100% { transform: none; }
+  68% { transform: rotate(-28deg); }
+  74% { transform: rotate(14deg); }
+  80% { transform: rotate(-22deg); }
+  86% { transform: rotate(10deg); }
+}
+
+/* Off-screen: freeze; reduced motion: no idle animation at all */
+.ctacats--paused .ctacats * { animation-play-state: paused !important; }
+@media (prefers-reduced-motion: reduce) {
+  .ctacats *,
+  .ctacats--on .ctacats .cat-enter { animation: none !important; }
+  .ctacats--on .ctacats .cat-enter { opacity: 1; }
+}

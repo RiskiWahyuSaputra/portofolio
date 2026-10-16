@@ -1,8 +1,27 @@
 "use client";
 
-import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { type ReactNode, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { gsap } from "gsap";
 import "./StrokeText.css";
+
+/** Where one character sits, in the SVG's user units (baseline is y = 0). */
+export type CharMetrics = {
+  char: string;
+  index: number;
+  /** Advance box from the layout (includes side bearings). */
+  x: number;
+  width: number;
+  /** Ink bounds of the glyph itself. inkTop is negative (above the baseline). */
+  inkLeft: number;
+  inkRight: number;
+  inkTop: number;
+  inkBottom: number;
+};
+
+export type StrokeTextLayout = {
+  fontSize: number;
+  chars: CharMetrics[];
+};
 
 type StrokeTextProps = {
   text: string;
@@ -18,6 +37,8 @@ type StrokeTextProps = {
   letterSpacing?: number;
   className?: string;
   active?: boolean;
+  /** Extra SVG drawn over the text, positioned from per-character metrics. */
+  overlay?: (layout: StrokeTextLayout) => ReactNode;
 };
 
 export default function StrokeText({
@@ -34,11 +55,14 @@ export default function StrokeText({
   letterSpacing = -4,
   className = "",
   active = false,
+  overlay,
 }: StrokeTextProps) {
   const rootRef = useRef<HTMLSpanElement>(null);
+  const wantsOverlay = Boolean(overlay);
   const textRef = useRef<SVGTextElement>(null);
   const wipeRef = useRef<SVGRectElement>(null);
   const [box, setBox] = useState<DOMRect | null>(null);
+  const [chars, setChars] = useState<CharMetrics[] | null>(null);
   const rawId = useId();
   const clipId = `stroke-text-${rawId.replace(/[^a-zA-Z0-9_-]/g, "")}`;
   const characters = useMemo(() => Array.from(text), [text]);
@@ -50,10 +74,11 @@ export default function StrokeText({
     const measure = () => {
       const bbox = node.getBBox();
       if (bbox.width) setBox(bbox);
+      if (wantsOverlay) setChars(measureChars(node, characters));
     };
     measure();
     document.fonts?.ready.then(measure).catch(() => undefined);
-  }, [fontSize, fontWeight, letterSpacing, text]);
+  }, [characters, fontSize, fontWeight, letterSpacing, text, wantsOverlay]);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -105,7 +130,42 @@ export default function StrokeText({
         <text className="stroke-text__fill" x="0" y="0" fill={fillColor} stroke="none" style={fontStyle} clipPath={`url(#${clipId})`}>
           {characters.map((char, index) => <tspan data-fill-char key={`fill-${index}`}>{char}</tspan>)}
         </text>
+        {overlay && chars && overlay({ fontSize, chars })}
       </svg>
     </span>
   );
+}
+
+let measureCanvas: HTMLCanvasElement | null = null;
+
+// Combines the SVG's own layout (where each glyph sits) with canvas text
+// metrics (how far each glyph's ink actually reaches), since getExtentOfChar
+// only reports the font's full ascent/descent box.
+function measureChars(node: SVGTextElement, characters: string[]): CharMetrics[] | null {
+  try {
+    if (node.getNumberOfChars() !== characters.length) return null;
+    measureCanvas ??= document.createElement("canvas");
+    const ctx = measureCanvas.getContext("2d");
+    if (!ctx) return null;
+    const style = getComputedStyle(node);
+    ctx.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+
+    return characters.map((char, index) => {
+      const extent = node.getExtentOfChar(index);
+      const start = node.getStartPositionOfChar(index);
+      const m = ctx.measureText(char);
+      return {
+        char,
+        index,
+        x: extent.x,
+        width: extent.width,
+        inkLeft: start.x - m.actualBoundingBoxLeft,
+        inkRight: start.x + m.actualBoundingBoxRight,
+        inkTop: start.y - m.actualBoundingBoxAscent,
+        inkBottom: start.y + m.actualBoundingBoxDescent,
+      };
+    });
+  } catch {
+    return null;
+  }
 }
