@@ -4,14 +4,15 @@ import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { Code2, GitCommit, Calendar } from "lucide-react";
 import { useLang } from "./LangContext";
-import contributionData from "./github-data.json";
+import { GITHUB_USERNAME, type ContributionData } from "@/lib/github-contributions";
 
 const MONTH_NAMES = [
   "Jan", "Feb", "Mar", "Apr", "May", "Jun",
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
 ];
 
-export default function GitHubContributions() {
+// Data comes from the page (server), read live from GitHub and revalidated hourly
+export default function GitHubContributions({ data: contributionData }: { data: ContributionData }) {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
   const { lang } = useLang();
@@ -22,7 +23,7 @@ export default function GitHubContributions() {
     y: number;
   } | null>(null);
 
-  const githubUsername = "RiskiWahyuSaputra";
+  const githubUsername = GITHUB_USERNAME;
 
   const lx = {
     EN: {

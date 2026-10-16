@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node scripts/fetch-github-contributions.js --soft",
+    "prebuild": "node scripts/fetch-github-contributions.mjs --soft",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "github": "node scripts/fetch-github-contributions.js"
+    "github": "node scripts/fetch-github-contributions.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",

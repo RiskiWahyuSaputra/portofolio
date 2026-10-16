@@ -12,8 +12,15 @@ import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
 import ChatFab from "@/components/ChatFab";
 import ClickSpark from "@/components/ClickSpark";
+import { getGitHubContributions } from "@/lib/get-github-contributions";
 
-export default function Home() {
+// Re-render at most hourly so the GitHub graph picks up new contributions
+// without a redeploy (matches GITHUB_REVALIDATE_SECONDS).
+export const revalidate = 3600;
+
+export default async function Home() {
+  const githubContributions = await getGitHubContributions();
+
   return (
     <ClickSpark
       sparkColor="#ffffff"
@@ -36,7 +43,7 @@ export default function Home() {
         <Experience />
         <Certificates />
         <Stats />
-        <GitHubContributions />
+        <GitHubContributions data={githubContributions} />
         <Terminal />
         <CTA />
         <Footer />
