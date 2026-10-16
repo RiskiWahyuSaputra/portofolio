@@ -8,7 +8,7 @@ import "./CtaCats.css";
 // <svg>, positioned from each letter's ink bounds, so they stay glued to the
 // right letters at any screen size and in both languages.
 
-type Palette = {
+export type Palette = {
   body: string;
   stroke: string;
   line: string; // mouth / closed eyes
@@ -20,17 +20,23 @@ type Palette = {
   patch?: string; // calico patch
   patch2?: string;
   points?: string; // siamese ears / mask / paws / tail
+  muzzle?: string; // lower-face colour (tuxedo); defaults to points
+  paws?: string; // defaults to points, then body
 };
 
 const INK = "#0a0a0a";
 
-const PALETTES = {
+export const PALETTES = {
   tabby: { body: "#F2A541", stroke: INK, line: "#3b2410", earInner: "#F9A8B8", eye: "#1b1b1b", belly: "#FCE3B8", stripe: "#C2701E" },
   black: { body: "#26262c", stroke: "#6b6b78", line: "#9a9aa8", earInner: "#4b4b55", eye: "#FACC15", pupil: "#111" },
   white: { body: "#F5F5F4", stroke: INK, line: "#3f3f46", earInner: "#FBCFE8", eye: "#60A5FA", pupil: "#0f172a" },
   gray: { body: "#9CA3AF", stroke: INK, line: "#1f2937", earInner: "#F9A8B8", eye: "#84CC16", pupil: "#111", stripe: "#6B7280", belly: "#E5E7EB" },
   calico: { body: "#FAFAF9", stroke: INK, line: "#3f3f46", earInner: "#FBCFE8", eye: "#1b1b1b", patch: "#E8933A", patch2: "#2b2b2b" },
   siamese: { body: "#F1E4CF", stroke: INK, line: "#2a1d17", earInner: "#C9A99A", eye: "#38BDF8", pupil: "#0f172a", points: "#5A3E33" },
+  russianBlue: { body: "#7C8DA6", stroke: INK, line: "#1e293b", earInner: "#C4A1B4", eye: "#4ADE80", pupil: "#0f172a", belly: "#A3B1C6" },
+  tuxedo: { body: "#1f1f24", stroke: "#6b6b78", line: "#3f3f46", earInner: "#4b4b55", eye: "#A3E635", pupil: "#111", belly: "#F5F5F4", muzzle: "#F5F5F4", paws: "#F5F5F4" },
+  cream: { body: "#F6D7A7", stroke: INK, line: "#4a3212", earInner: "#F9A8B8", eye: "#B45309", pupil: "#1c1917", stripe: "#E0A961", belly: "#FFF1DC" },
+  brownTabby: { body: "#8B6A4F", stroke: INK, line: "#1c140d", earInner: "#D6A4A4", eye: "#FBBF24", pupil: "#1c1917", stripe: "#4E3826", belly: "#C9AE92" },
 } satisfies Record<string, Palette>;
 
 const SW = 2.2; // outline width
@@ -56,7 +62,7 @@ function Tail({ d, p, className = "cat-tail" }: { d: string; p: Palette; classNa
 }
 
 function Paw({ cx, cy, p, rx = 5, ry = 3.8 }: { cx: number; cy: number; p: Palette; rx?: number; ry?: number }) {
-  return <ellipse cx={cx} cy={cy} rx={rx} ry={ry} fill={p.points ?? p.body} stroke={p.stroke} strokeWidth={SW} />;
+  return <ellipse cx={cx} cy={cy} rx={rx} ry={ry} fill={p.paws ?? p.points ?? p.body} stroke={p.stroke} strokeWidth={SW} />;
 }
 
 function Head({ p, closed = false }: { p: Palette; closed?: boolean }) {
@@ -77,7 +83,7 @@ function Head({ p, closed = false }: { p: Palette; closed?: boolean }) {
           <path d="M5.5 -14 l-1.2 4" />
         </g>
       )}
-      {p.points && <ellipse cy={5} rx={10.5} ry={8.5} fill={p.points} opacity={0.9} />}
+      {(p.muzzle ?? p.points) && <ellipse cy={5} rx={10.5} ry={8.5} fill={p.muzzle ?? p.points} opacity={0.9} />}
       {closed ? (
         <g fill="none" stroke={p.line} strokeWidth={1.8} strokeLinecap="round">
           <path d="M-10 0 q3 3 6 0" />
@@ -115,13 +121,14 @@ function BodyStripes({ p, d }: { p: Palette; d: string }) {
 }
 
 // Wrapper: positioning (SVG attr) > entrance (CSS) > hover hop (CSS) > pose.
-function Cat({
+export function Cat({
   x,
   y,
   delay,
   meowAt,
   children,
   clip,
+  scale = CAT_SCALE,
 }: {
   x: number;
   y: number;
@@ -129,9 +136,10 @@ function Cat({
   meowAt: [number, number];
   children: ReactNode;
   clip?: string;
+  scale?: number;
 }) {
   return (
-    <g className="cat" transform={`translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(${CAT_SCALE})`} clipPath={clip}>
+    <g className="cat" transform={`translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(${scale})`} clipPath={clip}>
       <g className="cat-enter" style={{ "--d": `${delay}s` } as CSSProperties}>
         <g className="cat-hop">{children}</g>
         <text className="cat-meow" x={meowAt[0]} y={meowAt[1]} textAnchor="middle">
@@ -145,7 +153,7 @@ function Cat({
 // ---------- Poses (local origin documented per pose) ----------
 
 /** Clinging to the left edge of a letter. Origin: letter's left ink edge. */
-function Climber({ p }: { p: Palette }) {
+export function Climber({ p }: { p: Palette }) {
   return (
     <g className="cat-climb">
       <Tail p={p} d="M-18 24 C-34 30 -34 48 -22 56" />
@@ -162,7 +170,7 @@ function Climber({ p }: { p: Palette }) {
 }
 
 /** Sitting on top of a letter, tail dangling. Origin: letter top, centred. */
-function Sitter({ p }: { p: Palette }) {
+export function Sitter({ p }: { p: Palette }) {
   return (
     <g>
       <Tail p={p} d="M9 -4 C24 -2 27 16 21 34" />
@@ -180,7 +188,7 @@ function Sitter({ p }: { p: Palette }) {
 }
 
 /** Peeking over the top of a letter. Origin: letter top, centred. */
-function Peeker({ p }: { p: Palette }) {
+export function Peeker({ p }: { p: Palette }) {
   return (
     <g className="cat-peek">
       <g transform="translate(0 -13)">
@@ -193,7 +201,7 @@ function Peeker({ p }: { p: Palette }) {
 }
 
 /** Hanging from the bottom of a letter. Origin: letter baseline, centred. */
-function Hanger({ p }: { p: Palette }) {
+export function Hanger({ p }: { p: Palette }) {
   return (
     <g className="cat-swing">
       <Tail p={p} d="M8 60 C24 68 26 84 16 92" />
@@ -212,7 +220,7 @@ function Hanger({ p }: { p: Palette }) {
 }
 
 /** Curled up asleep on top of a letter. Origin: letter top, centred. */
-function Sleeper({ p }: { p: Palette }) {
+export function Sleeper({ p }: { p: Palette }) {
   return (
     <g>
       <g className="cat-breathe">
@@ -234,7 +242,7 @@ function Sleeper({ p }: { p: Palette }) {
 }
 
 /** On its hind legs beside a letter, swatting at it. Origin: baseline, right of the letter. */
-function Swatter({ p }: { p: Palette }) {
+export function Swatter({ p }: { p: Palette }) {
   return (
     <g>
       <Tail p={p} d="M9 -8 C26 -14 30 -32 22 -46" />
@@ -289,7 +297,7 @@ function pick(
   return best;
 }
 
-function PeekerClip({ id }: { id: string }) {
+export function PeekerClip({ id }: { id: string }) {
   // Only the part above the letter's top edge shows, so the head can sink
   // "behind" the letter without showing through its counters.
   return (

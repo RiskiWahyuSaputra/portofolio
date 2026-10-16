@@ -151,3 +151,7 @@
   .ctacats--on .ctacats .cat-enter { animation: none !important; }
   .ctacats--on .ctacats .cat-enter { opacity: 1; }
 }
+
+/* Stats numbers are smaller than the CTA heading, so the bubble text is
+   sized up in (scaled) SVG units to stay readable. */
+.stat-cats .cat-meow { font-size: 18px; }

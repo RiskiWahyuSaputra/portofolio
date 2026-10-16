@@ -1,24 +1,27 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, type ReactNode } from "react";
 import { motion, useInView } from "framer-motion";
 import { useLang } from "./LangContext";
+import { StatCats, type StatCatKind } from "./StatCats";
 
-const stats = [
-  { value: 13, suffix: "+", label: { EN: "Projects", ID: "Proyek" } },
-  { value: 20, suffix: "+", label: { EN: "Skills", ID: "Keahlian" } },
-  { value: 1, suffix: "", label: { EN: "Company", ID: "Perusahaan" } },
-  { value: 100, suffix: "%", label: { EN: "Dedication", ID: "Dedikasi" } },
+const stats: { value: number; suffix: string; label: { EN: string; ID: string }; cat: StatCatKind }[] = [
+  { value: 13, suffix: "+", label: { EN: "Projects", ID: "Proyek" }, cat: "projects" },
+  { value: 20, suffix: "+", label: { EN: "Skills", ID: "Keahlian" }, cat: "skills" },
+  { value: 1, suffix: "", label: { EN: "Company", ID: "Perusahaan" }, cat: "company" },
+  { value: 100, suffix: "%", label: { EN: "Dedication", ID: "Dedikasi" }, cat: "dedication" },
 ];
 
 function CountUp({
   target,
   suffix,
   isInView,
+  children,
 }: {
   target: number;
   suffix: string;
   isInView: boolean;
+  children?: ReactNode;
 }) {
   const [count, setCount] = useState(0);
 
@@ -43,9 +46,10 @@ function CountUp({
   }, [isInView, target]);
 
   return (
-    <span className="tabular-nums">
+    <span className="relative tabular-nums">
       {count}
       {suffix}
+      {children}
     </span>
   );
 }
@@ -53,6 +57,8 @@ function CountUp({
 export default function Stats() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
+  // Cats' idle animations only run while the section is on screen
+  const isOnScreen = useInView(ref);
   const { lang } = useLang();
 
   return (
@@ -61,7 +67,9 @@ export default function Stats() {
       className="relative py-24 md:py-32 px-6 md:px-12 lg:px-24 bg-[#0a0a0a] border-y border-white/5"
     >
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+        <div
+          className={`grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-16 md:gap-12 ${isInView ? "ctacats--on" : ""} ${isOnScreen ? "" : "ctacats--paused"}`}
+        >
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label[lang]}
@@ -74,12 +82,14 @@ export default function Stats() {
               }}
               className="text-center"
             >
-              <div className="text-4xl md:text-5xl lg:text-6xl font-semibold leading-none text-white">
+              <div className="text-4xl md:text-5xl lg:text-6xl font-semibold text-white">
                 <CountUp
                   target={stat.value}
                   suffix={stat.suffix}
                   isInView={isInView}
-                />
+                >
+                  <StatCats kind={stat.cat} />
+                </CountUp>
               </div>
               <div className="mt-2 text-sm text-white/40 tracking-wide uppercase">
                 {stat.label[lang]}
