@@ -44,8 +44,8 @@ export default function ChatFab() {
   const { lang } = useLang();
 
   const welcomeMessage = lang === "EN"
-    ? "Hello! I'm Kiyu Assistant. I'm here to share details about Riski — his work as an IT Developer at PT Bandung Eco Sinergi Teknologi, his projects, skills, and contact info. What would you like to know?"
-    : "Halo! Saya Kiyu Assistant. Saya siap berbagi informasi seputar Riski — pekerjaannya sebagai IT Developer di PT Bandung Eco Sinergi Teknologi, proyek, keahlian, dan kontaknya. Ada yang ingin kamu tanyakan?";
+    ? "Hi! I'm QBot 🤖, Riski's AI portfolio assistant. I'm here to share details about Riski — his work as an IT Developer at PT Bandung Eco Sinergi Teknologi, his projects, skills, and contact info. What would you like to know?"
+    : "Halo! Saya QBot 🤖, asisten AI portofolio Riski. Saya siap berbagi informasi seputar Riski — pekerjaannya sebagai IT Developer di PT Bandung Eco Sinergi Teknologi, proyek, keahlian, dan kontaknya. Ada yang ingin kamu tanyakan?";
 
   const suggestionChips = lang === "EN"
     ? [
@@ -145,8 +145,9 @@ export default function ChatFab() {
     await sendChatMessage(input);
   }
 
-  const chatTitle = "Kiyu Assistant";
-  const chatSubtitle = lang === "EN" ? "AI Portfolio Guide" : "Panduan Portofolio AI";
+  const chatTitle = "QBot";
+  const chatSubtitle = lang === "EN" ? "Q-Core Bot · AI Portfolio Guide" : "Q-Core Bot · Asisten Portofolio AI";
+  const onlineLabel = "Online";
   const typingText = lang === "EN" ? "Typing..." : "Mengetik...";
   const inputPlaceholder = lang === "EN" ? "Type a message..." : "Tulis pesan...";
   const closeChatLabel = lang === "EN" ? "Close chat" : "Tutup chat";
@@ -166,20 +167,30 @@ export default function ChatFab() {
           >
             <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
               <div className="flex items-center gap-3.5">
-                <span className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl border border-white/20 bg-white shadow-sm p-1">
+                <span className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-cyan-300/30 bg-[#0b1220] shadow-[0_0_18px_rgba(0,242,254,0.25)]">
                   <Image
-                    src="/images/icon-fab.webp"
-                    alt="Kiyu Assistant"
+                    src="/images/qbot-avatar.png"
+                    alt="QBot"
                     width={40}
                     height={40}
-                    className="h-full w-full object-contain"
+                    className="h-9 w-9 object-contain"
+                  />
+                  <span
+                    aria-hidden
+                    className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-[#0c0c0c] bg-emerald-400"
                   />
                 </span>
                 <div>
-                  <h2 className="text-base font-semibold text-white tracking-tight">
+                  <h2 className="flex items-center gap-2 text-base font-semibold text-white tracking-tight">
                     {chatTitle}
+                    <span className="rounded-full border border-cyan-300/30 bg-cyan-300/10 px-1.5 py-px text-[10px] font-medium uppercase tracking-wider text-cyan-200">
+                      AI
+                    </span>
                   </h2>
-                  <p className="text-xs text-white/50">{chatSubtitle}</p>
+                  <p className="text-xs text-white/50">
+                    {chatSubtitle}
+                    <span className="sr-only"> · {onlineLabel}</span>
+                  </p>
                 </div>
               </div>
               <button
