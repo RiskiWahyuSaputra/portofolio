@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { AnimatePresence, motion } from "framer-motion";
 import { Loader2, Send, X } from "lucide-react";
 import { useLang } from "./LangContext";
@@ -19,6 +20,9 @@ type ChatResponse = {
   error?: string;
 };
 
+// three.js loads in its own chunk, after the page itself
+const QBotFab = dynamic(() => import("./QBotFab"), { ssr: false });
+
 function createMessage(role: ChatRole, content: string): ChatMessage {
   return {
     id: `${role}-${Date.now()}-${Math.random().toString(36).slice(2)}`,
@@ -29,6 +33,8 @@ function createMessage(role: ChatRole, content: string): ChatMessage {
 
 export default function ChatFab() {
   const [isOpen, setIsOpen] = useState(false);
+  const [fabClicks, setFabClicks] = useState(0);
+  const [fabHovered, setFabHovered] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [isSending, setIsSending] = useState(false);
@@ -364,31 +370,29 @@ export default function ChatFab() {
         type="button"
         aria-label={isOpen ? closeChatLabel : openChatLabel}
         aria-expanded={isOpen}
-        onClick={() => setIsOpen((current) => !current)}
-        className="group flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center overflow-hidden rounded-full border border-white/20 bg-white text-black shadow-2xl shadow-black/60 transition-all duration-300 hover:scale-105 hover:border-white/40 hover:shadow-cyan-500/20 active:scale-95"
+        onClick={() => {
+          setIsOpen((current) => !current);
+          setFabClicks((count) => count + 1);
+        }}
+        onPointerEnter={(e) => e.pointerType === "mouse" && setFabHovered(true)}
+        onPointerLeave={() => setFabHovered(false)}
+        onFocus={() => setFabHovered(true)}
+        onBlur={() => setFabHovered(false)}
+        className="relative -mb-3 -mr-3 h-24 w-24 cursor-pointer rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300 sm:h-[120px] sm:w-[120px]"
       >
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.span
-            key={isOpen ? "close" : "open"}
-            initial={{ opacity: 0, rotate: -24, scale: 0.8 }}
-            animate={{ opacity: 1, rotate: 0, scale: 1 }}
-            exit={{ opacity: 0, rotate: 24, scale: 0.8 }}
-            transition={{ duration: 0.18 }}
-            className="flex items-center justify-center w-full h-full"
-          >
-            {isOpen ? (
-              <X size={24} className="text-black" />
-            ) : (
-              <Image
-                src="/images/icon-fab.webp"
-                alt=""
-                width={64}
-                height={64}
-                className="h-full w-full rounded-full object-cover p-0.5 transition-transform duration-300 group-hover:scale-110"
-                priority
-              />
-            )}
-          </motion.span>
+        <QBotFab clickCount={fabClicks} hovered={fabHovered} />
+        <AnimatePresence>
+          {isOpen && (
+            <motion.span
+              initial={{ opacity: 0, scale: 0.6 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.6 }}
+              transition={{ duration: 0.18 }}
+              className="absolute right-3 top-3 flex h-7 w-7 items-center justify-center rounded-full border border-white/20 bg-white text-black shadow-lg shadow-black/50"
+            >
+              <X size={16} />
+            </motion.span>
+          )}
         </AnimatePresence>
       </button>
     </div>
