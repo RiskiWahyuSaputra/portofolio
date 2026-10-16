@@ -42,7 +42,15 @@ async function main() {
   );
 }
 
+// --soft (dipakai saat build): kalau GitHub tidak bisa diakses, pakai data lama
+// yang sudah ada daripada menggagalkan build
+const SOFT = process.argv.includes("--soft");
+
 main().catch((err) => {
+  if (SOFT) {
+    console.warn(`[github] Gagal memperbarui data kontribusi, memakai data lama: ${err.message}`);
+    return;
+  }
   console.error(err);
   process.exit(1);
 });

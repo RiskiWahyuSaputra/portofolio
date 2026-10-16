@@ -55,7 +55,9 @@ export default function GitHubContributions() {
     },
   }[lang];
 
-  // Hitung posisi label bulan sesuai indeks minggu
+  // Hitung posisi label bulan sesuai indeks minggu (seperti GitHub: label
+  // muncul di kolom pertama yang hari Minggunya sudah masuk bulan baru)
+  const weekCount = contributionData.weeks.length;
   const monthLabels: { index: number; name: string }[] = [];
   let currentMonth = -1;
   contributionData.weeks.forEach((week, weekIndex) => {
@@ -68,6 +70,11 @@ export default function GitHubContributions() {
       }
     }
   });
+  // Bulan pertama yang cuma kebagian <2 kolom labelnya bertabrakan dengan
+  // bulan berikutnya, jadi disembunyikan (GitHub melakukan hal yang sama)
+  if (monthLabels.length > 1 && monthLabels[1].index - monthLabels[0].index < 2) {
+    monthLabels.shift();
+  }
 
   return (
     <section
@@ -158,11 +165,12 @@ export default function GitHubContributions() {
           <div className="relative w-full overflow-x-auto pb-4 [scrollbar-width:thin] [scrollbar-color:#30363d_transparent]">
             <div className="w-full min-w-[820px] select-none py-2">
               {/* Header Bulan */}
-              <div className="flex pl-10 mb-3 text-xs font-mono text-[#8b949e] relative h-5">
+              <div className="flex mb-3 text-xs font-mono text-[#8b949e] relative h-5">
                 {monthLabels.map((m) => (
                   <span
                     key={`${m.name}-${m.index}`}
-                    style={{ left: `calc(40px + ${(m.index / 53) * 100}%)` }}
+                    // 48px = kolom label hari (w-10) + gap-2 di baris grid
+                    style={{ left: `calc(48px + (100% - 48px) * ${m.index / weekCount})` }}
                     className="absolute"
                   >
                     {m.name}
@@ -192,6 +200,9 @@ export default function GitHubContributions() {
                           key={day.date}
                           className="aspect-square w-full min-w-[12px] max-w-[17px] rounded-[3px] transition-transform hover:scale-125 hover:z-10 cursor-pointer"
                           style={{
+                            // Baris ditentukan oleh hari (Minggu = baris 1), bukan
+                            // urutan data, supaya minggu yang tidak lengkap tetap pas
+                            gridRow: new Date(`${day.date}T00:00:00Z`).getUTCDay() + 1,
                             backgroundColor:
                               day.level === 0
                                 ? "#161b22"
