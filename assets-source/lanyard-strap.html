@@ -1,0 +1,39 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+html,body{margin:0;width:2048px;height:500px;overflow:hidden}
+.strap{position:relative;width:2048px;height:500px;background:#0c0c0e;overflow:hidden}
+/* woven fabric: 8px tile, divides 2048 so it tiles seamlessly */
+.weave{position:absolute;inset:0;
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 2px, transparent 2px 4px),
+    repeating-linear-gradient(90deg, rgba(0,0,0,.35) 0 2px, transparent 2px 4px);
+}
+.sheen{position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.07),transparent 30%,transparent 70%,rgba(0,0,0,.35))}
+/* hazard stripes, 64px tile -> seamless across the tile edge */
+/* one full-width layer clipped to both ends: horizontal period 64px
+   divides 2048, so the pattern lines up across the repeat seam */
+.stripes{position:absolute;left:0;right:0;top:58px;bottom:58px;
+  background:repeating-linear-gradient(45deg,#e9e9e9 0 22.627px,#0c0c0e 22.627px 45.255px);
+  clip-path:polygon(0 0,140px 0,140px 100%,0 100%,0 0,1908px 0,2048px 0,2048px 100%,1908px 100%,1908px 0);}
+.rail{position:absolute;left:0;right:0;height:10px;background:#f2f2f2}
+.rail.t{top:22px}.rail.b{bottom:22px}
+.stitch{position:absolute;left:0;right:0;height:0;border-top:4px dashed rgba(255,255,255,.45)}
+.stitch.t{top:44px}.stitch.b{bottom:44px}
+.content{position:absolute;left:140px;right:140px;top:58px;bottom:58px;display:flex;align-items:center;justify-content:center;gap:34px;
+  border-left:6px solid #f2f2f2;border-right:6px solid #f2f2f2}
+.code{font-family:"JetBrainsMono NF","JetBrains Mono",monospace;font-weight:800;font-size:120px;color:#0c0c0e;background:#f2f2f2;padding:10px 26px;border-radius:14px;line-height:1}
+.name{font-family:Gabarito;font-weight:900;font-size:200px;letter-spacing:8px;color:#fff;line-height:1}
+.sep{width:22px;height:22px;background:#f2f2f2;transform:rotate(45deg)}
+.role{font-family:"JetBrainsMono NF",monospace;font-weight:700;font-size:72px;letter-spacing:6px;color:#bdbdbd;line-height:1}
+</style></head><body><div class="strap">
+<div class="weave"></div>
+<div class="stripes"></div>
+<div class="content">
+  <span class="code">&lt;/&gt;</span>
+  <span class="name">RISKI</span>
+  <span class="sep"></span>
+  <span class="role">IT&nbsp;DEVELOPER</span>
+</div>
+<div class="rail t"></div><div class="rail b"></div>
+<div class="stitch t"></div><div class="stitch b"></div>
+<div class="sheen"></div>
+</div></body></html>
